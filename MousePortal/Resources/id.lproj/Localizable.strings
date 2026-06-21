@@ -1,0 +1,158 @@
+/* Lokalisasi Bahasa Indonesia */
+
+/* Nama tampilan */
+"display.main" = "Layar Utama";
+"display.external %lld" = "Layar %lld";
+
+/* Legenda */
+"legend.main_display" = "Layar Utama";
+"legend.external_display" = "Layar Eksternal";
+"legend.shared_edge" = "Tepi Geser";
+"legend.portal" = "Portal";
+
+/* Tab */
+
+/* Status */
+"status.hotkey" = "Pintasan";
+"status.portal" = "Portal";
+
+/* Tombol */
+"button.refresh" = "Segarkan";
+"button.cancel" = "Batal";
+"button.create" = "Buat";
+
+/* Jendela */
+"app.title" = "MousePortal";
+
+/* Menu */
+"menu.enable_hotkey" = "Aktifkan lompat pintasan";
+"menu.enable_portal" = "Aktifkan portal";
+"menu.open_window" = "Buka MousePortal...";
+"menu.preferences" = "Preferensi...";
+"menu.quit" = "Keluar MousePortal";
+
+/* Pengaturan - Tab */
+"settings.general" = "Umum";
+"settings.hotkeys" = "Pintasan";
+"settings.portals" = "Portal";
+
+/* Pengaturan - Umum */
+"settings.app_behavior" = "Perilaku Aplikasi";
+"settings.language" = "Bahasa";
+"settings.show_menubar_icon" = "Tampilkan ikon di bilah menu";
+"settings.launch_at_login" = "Jalankan saat login";
+"settings.permissions" = "Izin";
+"settings.accessibility_permission" = "Izin Aksesibilitas";
+"settings.accessibility_description" = "Diperlukan untuk pintasan global dan kontrol mouse";
+"settings.permission_granted" = "Diberikan";
+"settings.grant_permission" = "Berikan Izin";
+
+/* Pengaturan - Pintasan */
+"settings.enable_hotkeys" = "Aktifkan lompat pintasan";
+"settings.display_hotkeys" = "Pintasan Layar";
+"hotkey.recording" = "Merekam...";
+"hotkey.click_to_record" = "Klik untuk merekam";
+"hotkey.not_set" = "Belum diatur";
+
+/* Pengaturan - Portal */
+"settings.trigger_mode" = "Mode Pemicu";
+"settings.trigger_key" = "Trigger Key";
+"settings.no_portals" = "Tidak ada portal yang dikonfigurasi. Tambahkan portal di tab Portal.";
+"settings.portal_list" = "Daftar Portal";
+"settings.portal_hint" = "Edit di tab Portal";
+"trigger.automatic" = "Otomatis";
+"trigger.with_key" = "Tahan Tombol";
+
+/* Pengaturan - Profil */
+
+/* Editor Portal */
+"portal.add" = "Tambah Portal";
+"portal.cancel" = "Batal";
+"portal.instruction_line_a" = "Gambar garis pertama di tepi layar";
+"portal.instruction_line_b" = "Gambar garis kedua di tepi layar lain";
+"portal.instruction_name" = "Beri nama portal Anda";
+"portal.name_title" = "Beri Nama Portal Ini";
+"portal.name_placeholder" = "Masukkan nama portal";
+"portal.default_name %lld" = "Portal %lld";
+
+/* Tepi Portal */
+"edge.top" = "Atas";
+"edge.bottom" = "Bawah";
+"edge.left" = "Kiri";
+"edge.right" = "Kanan";
+
+/* Peringatan */
+"alert.permission_required" = "Izin Aksesibilitas Diperlukan";
+"alert.open_settings" = "Buka Pengaturan Sistem";
+"alert.later" = "Nanti";
+"alert.permission_message" = "MousePortal memerlukan izin Aksesibilitas untuk memantau pintasan global dan mengontrol posisi mouse.\n\nSilakan berikan izin di Pengaturan Sistem.";
+
+/* Bahasa */
+"language.system" = "Default Sistem";
+
+/* Colors */
+"color.orange" = "Orange";
+"color.purple" = "Purple";
+"color.pink" = "Pink";
+"color.teal" = "Teal";
+"color.yellow" = "Yellow";
+"color.red" = "Red";
+
+/* Buttons */
+"button.save" = "Simpan";
+
+/* Display */
+"display.name %lld" = "Layar %lld";
+"display.unknown" = "Tidak diketahui";
+"display.rename" = "Rename Display";
+"display.rename_title" = "Rename Display";
+"display.name_placeholder" = "Enter display name";
+
+/* Display Layout */
+"layout.delete" = "Hapus";
+"layout.cleanup_unused" = "Clean Up Unused Layouts";
+"layout.display_count %lld" = "%lld layar";
+"layout.dual_display" = "Layar Ganda";
+"layout.hint" = "Susunan terdeteksi otomatis berdasarkan pengaturan layar Anda";
+"layout.multi_display %lld" = "%lld Layar";
+"layout.name_placeholder" = "Masukkan nama susunan";
+"layout.none" = "Tidak Ada Susunan";
+"layout.not_current_hint" = "Ini bukan susunan saat ini. Beralih untuk mengedit.";
+"layout.readonly_hint" = "Susunan ini hanya-baca. Beralih ke susunan saat ini untuk mengedit.";
+"layout.rename" = "Ubah Nama";
+"layout.rename_title" = "Ubah Nama Susunan";
+"layout.single_display" = "Layar Tunggal";
+"layout.title" = "Susunan Layar";
+
+/* Menu */
+"menu.about" = "Tentang MousePortal";
+
+/* Portal Management */
+"portal.bidirectional" = "Dua Arah";
+"portal.color" = "Warna";
+"portal.edit_title" = "Edit Portal";
+"portal.empty_hint" = "Belum ada portal. Klik 'Tambah Portal' untuk membuatnya.";
+"portal.enabled" = "Aktif";
+"portal.line_a" = "Garis A";
+"portal.line_b" = "Garis B";
+"portal.name" = "Nama";
+"portal.position" = "Posisi";
+
+/* Profile Management */
+
+/* Settings */
+"settings.enable_portals" = "Aktifkan teleportasi portal";
+"layout.delete_confirm_title %@" = "Hapus \"%@\"?";
+"layout.delete_confirm_message_one" = "Tata letak ini memiliki 1 portal. Tetap hapus?";
+"layout.delete_confirm_message_many %lld" = "Tata letak ini memiliki %lld portal. Tetap hapus?";
+"settings.permission_not_granted" = "Belum diberikan";
+"menu.accessibility_status %@" = "Izin Aksesibilitas: %@";
+
+"layout.lock" = "Lock";
+"layout.unlock" = "Unlock";
+"layout.locked" = "Locked";
+"layout.delete_disabled_locked" = "Locked layouts cannot be deleted";
+"layout.delete_disabled_current" = "Current layout cannot be deleted";
+"layout.delete_disabled_last_remaining" = "At least one layout must remain";
+"portal.edit" = "Edit";
+"portal.delete" = "Delete";

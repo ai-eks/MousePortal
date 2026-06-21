@@ -1,0 +1,158 @@
+/* हिंदी स्थानीयकरण */
+
+/* प्रदर्शन नाम */
+"display.main" = "मुख्य डिस्प्ले";
+"display.external %lld" = "डिस्प्ले %lld";
+
+/* लेजेंड */
+"legend.main_display" = "मुख्य डिस्प्ले";
+"legend.external_display" = "बाहरी डिस्प्ले";
+"legend.shared_edge" = "स्लाइड करने योग्य किनारा";
+"legend.portal" = "पोर्टल";
+
+/* टैब */
+
+/* स्थिति */
+"status.hotkey" = "शॉर्टकट";
+"status.portal" = "पोर्टल";
+
+/* बटन */
+"button.refresh" = "रीफ्रेश";
+"button.cancel" = "रद्द करें";
+"button.create" = "बनाएं";
+
+/* विंडो */
+"app.title" = "MousePortal";
+
+/* मेनू */
+"menu.enable_hotkey" = "शॉर्टकट जंप सक्षम करें";
+"menu.enable_portal" = "पोर्टल सक्षम करें";
+"menu.open_window" = "MousePortal खोलें...";
+"menu.preferences" = "प्राथमिकताएं...";
+"menu.quit" = "MousePortal छोड़ें";
+
+/* सेटिंग्स - टैब */
+"settings.general" = "सामान्य";
+"settings.hotkeys" = "शॉर्टकट";
+"settings.portals" = "पोर्टल";
+
+/* सेटिंग्स - सामान्य */
+"settings.app_behavior" = "ऐप व्यवहार";
+"settings.language" = "भाषा";
+"settings.show_menubar_icon" = "मेनू बार में आइकन दिखाएं";
+"settings.launch_at_login" = "लॉगिन पर लॉन्च करें";
+"settings.permissions" = "अनुमतियां";
+"settings.accessibility_permission" = "एक्सेसिबिलिटी अनुमति";
+"settings.accessibility_description" = "वैश्विक शॉर्टकट और माउस नियंत्रण के लिए आवश्यक";
+"settings.permission_granted" = "दी गई";
+"settings.grant_permission" = "अनुमति दें";
+
+/* सेटिंग्स - शॉर्टकट */
+"settings.enable_hotkeys" = "शॉर्टकट जंप सक्षम करें";
+"settings.display_hotkeys" = "डिस्प्ले शॉर्टकट";
+"hotkey.recording" = "रिकॉर्डिंग...";
+"hotkey.click_to_record" = "रिकॉर्ड करने के लिए क्लिक करें";
+"hotkey.not_set" = "सेट नहीं";
+
+/* सेटिंग्स - पोर्टल */
+"settings.trigger_mode" = "ट्रिगर मोड";
+"settings.trigger_key" = "Trigger Key";
+"settings.no_portals" = "कोई पोर्टल कॉन्फ़िगर नहीं है। पोर्टल टैब में पोर्टल जोड़ें।";
+"settings.portal_list" = "पोर्टल सूची";
+"settings.portal_hint" = "पोर्टल टैब में संपादित करें";
+"trigger.automatic" = "स्वचालित";
+"trigger.with_key" = "कुंजी दबाए रखें";
+
+/* सेटिंग्स - प्रोफ़ाइल */
+
+/* पोर्टल संपादक */
+"portal.add" = "पोर्टल जोड़ें";
+"portal.cancel" = "रद्द करें";
+"portal.instruction_line_a" = "स्क्रीन किनारे पर पहली रेखा बनाएं";
+"portal.instruction_line_b" = "दूसरी स्क्रीन किनारे पर दूसरी रेखा बनाएं";
+"portal.instruction_name" = "अपने पोर्टल का नाम दें";
+"portal.name_title" = "इस पोर्टल का नाम दें";
+"portal.name_placeholder" = "पोर्टल नाम दर्ज करें";
+"portal.default_name %lld" = "पोर्टल %lld";
+
+/* पोर्टल किनारे */
+"edge.top" = "ऊपर";
+"edge.bottom" = "नीचे";
+"edge.left" = "बाएं";
+"edge.right" = "दाएं";
+
+/* अलर्ट */
+"alert.permission_required" = "एक्सेसिबिलिटी अनुमति आवश्यक";
+"alert.open_settings" = "सिस्टम सेटिंग्स खोलें";
+"alert.later" = "बाद में";
+"alert.permission_message" = "MousePortal को वैश्विक शॉर्टकट मॉनिटर करने और माउस स्थिति नियंत्रित करने के लिए एक्सेसिबिलिटी अनुमति चाहिए।\n\nकृपया सिस्टम सेटिंग्स में अनुमति दें।";
+
+/* भाषा */
+"language.system" = "सिस्टम डिफ़ॉल्ट";
+
+/* Colors */
+"color.orange" = "Orange";
+"color.purple" = "Purple";
+"color.pink" = "Pink";
+"color.teal" = "Teal";
+"color.yellow" = "Yellow";
+"color.red" = "Red";
+
+/* Buttons */
+"button.save" = "सहेजें";
+
+/* Display */
+"display.name %lld" = "डिस्प्ले %lld";
+"display.unknown" = "अज्ञात";
+"display.rename" = "Rename Display";
+"display.rename_title" = "Rename Display";
+"display.name_placeholder" = "Enter display name";
+
+/* Display Layout */
+"layout.delete" = "हटाएं";
+"layout.cleanup_unused" = "Clean Up Unused Layouts";
+"layout.display_count %lld" = "%lld डिस्प्ले";
+"layout.dual_display" = "दोहरा डिस्प्ले";
+"layout.hint" = "आपकी डिस्प्ले व्यवस्था के आधार पर व्यवस्थाएं स्वचालित रूप से पता लगाई जाती हैं";
+"layout.multi_display %lld" = "%lld डिस्प्ले";
+"layout.name_placeholder" = "व्यवस्था का नाम दर्ज करें";
+"layout.none" = "कोई व्यवस्था नहीं";
+"layout.not_current_hint" = "यह वर्तमान व्यवस्था नहीं है। संपादित करने के लिए स्विच करें।";
+"layout.readonly_hint" = "यह व्यवस्था केवल-पढ़ने योग्य है। संपादित करने के लिए वर्तमान व्यवस्था पर स्विच करें।";
+"layout.rename" = "नाम बदलें";
+"layout.rename_title" = "व्यवस्था का नाम बदलें";
+"layout.single_display" = "एकल डिस्प्ले";
+"layout.title" = "डिस्प्ले व्यवस्थाएं";
+
+/* Menu */
+"menu.about" = "MousePortal के बारे में";
+
+/* Portal Management */
+"portal.bidirectional" = "द्विदिशात्मक";
+"portal.color" = "रंग";
+"portal.edit_title" = "पोर्टल संपादित करें";
+"portal.empty_hint" = "अभी कोई पोर्टल नहीं। एक बनाने के लिए 'पोर्टल जोड़ें' पर क्लिक करें।";
+"portal.enabled" = "सक्षम";
+"portal.line_a" = "रेखा A";
+"portal.line_b" = "रेखा B";
+"portal.name" = "नाम";
+"portal.position" = "स्थिति";
+
+/* Profile Management */
+
+/* Settings */
+"settings.enable_portals" = "पोर्टल टेलीपोर्टेशन सक्षम करें";
+"layout.delete_confirm_title %@" = "\"%@\" हटाएं?";
+"layout.delete_confirm_message_one" = "इस व्यवस्था में 1 पोर्टल है। फिर भी हटाएं?";
+"layout.delete_confirm_message_many %lld" = "इस व्यवस्था में %lld पोर्टल हैं। फिर भी हटाएं?";
+"settings.permission_not_granted" = "अनुमति नहीं";
+"menu.accessibility_status %@" = "एक्सेसिबिलिटी अनुमति: %@";
+
+"layout.lock" = "Lock";
+"layout.unlock" = "Unlock";
+"layout.locked" = "Locked";
+"layout.delete_disabled_locked" = "Locked layouts cannot be deleted";
+"layout.delete_disabled_current" = "Current layout cannot be deleted";
+"layout.delete_disabled_last_remaining" = "At least one layout must remain";
+"portal.edit" = "Edit";
+"portal.delete" = "Delete";

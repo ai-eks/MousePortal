@@ -1,0 +1,158 @@
+/* Nederlandse lokalisatie */
+
+/* Weergavenamen */
+"display.main" = "Hoofdscherm";
+"display.external %lld" = "Scherm %lld";
+
+/* Legenda */
+"legend.main_display" = "Hoofdscherm";
+"legend.external_display" = "Extern scherm";
+"legend.shared_edge" = "Glijdende rand";
+"legend.portal" = "Portaal";
+
+/* Tabbladen */
+
+/* Status */
+"status.hotkey" = "Sneltoetsen";
+"status.portal" = "Portalen";
+
+/* Knoppen */
+"button.refresh" = "Vernieuwen";
+"button.cancel" = "Annuleren";
+"button.create" = "Aanmaken";
+
+/* Venster */
+"app.title" = "MousePortal";
+
+/* Menu */
+"menu.enable_hotkey" = "Sneltoetssprong inschakelen";
+"menu.enable_portal" = "Portalen inschakelen";
+"menu.open_window" = "Open MousePortal...";
+"menu.preferences" = "Voorkeuren...";
+"menu.quit" = "Stop MousePortal";
+
+/* Instellingen - Tabbladen */
+"settings.general" = "Algemeen";
+"settings.hotkeys" = "Sneltoetsen";
+"settings.portals" = "Portalen";
+
+/* Instellingen - Algemeen */
+"settings.app_behavior" = "App-gedrag";
+"settings.language" = "Taal";
+"settings.show_menubar_icon" = "Toon pictogram in menubalk";
+"settings.launch_at_login" = "Start bij inloggen";
+"settings.permissions" = "Machtigingen";
+"settings.accessibility_permission" = "Toegankelijkheidsmachtiging";
+"settings.accessibility_description" = "Vereist voor globale sneltoetsen en muisbesturing";
+"settings.permission_granted" = "Verleend";
+"settings.grant_permission" = "Machtiging verlenen";
+
+/* Instellingen - Sneltoetsen */
+"settings.enable_hotkeys" = "Sneltoetssprong inschakelen";
+"settings.display_hotkeys" = "Scherm-sneltoetsen";
+"hotkey.recording" = "Opnemen...";
+"hotkey.click_to_record" = "Klik om op te nemen";
+"hotkey.not_set" = "Niet ingesteld";
+
+/* Instellingen - Portalen */
+"settings.trigger_mode" = "Activeringsmodus";
+"settings.trigger_key" = "Trigger Key";
+"settings.no_portals" = "Geen portalen geconfigureerd. Voeg portalen toe in het tabblad Portalen.";
+"settings.portal_list" = "Portalenlijst";
+"settings.portal_hint" = "Bewerken in tabblad Portalen";
+"trigger.automatic" = "Automatisch";
+"trigger.with_key" = "Toets ingedrukt houden";
+
+/* Instellingen - Profielen */
+
+/* Portaal-editor */
+"portal.add" = "Portaal toevoegen";
+"portal.cancel" = "Annuleren";
+"portal.instruction_line_a" = "Teken de eerste lijn op een schermrand";
+"portal.instruction_line_b" = "Teken de tweede lijn op een andere schermrand";
+"portal.instruction_name" = "Geef uw portaal een naam";
+"portal.name_title" = "Dit portaal benoemen";
+"portal.name_placeholder" = "Voer portaalnaam in";
+"portal.default_name %lld" = "Portaal %lld";
+
+/* Portaalranden */
+"edge.top" = "Boven";
+"edge.bottom" = "Onder";
+"edge.left" = "Links";
+"edge.right" = "Rechts";
+
+/* Waarschuwingen */
+"alert.permission_required" = "Toegankelijkheidsmachtiging vereist";
+"alert.open_settings" = "Open Systeeminstellingen";
+"alert.later" = "Later";
+"alert.permission_message" = "MousePortal heeft toegankelijkheidsmachtiging nodig om globale sneltoetsen te monitoren en de muispositie te besturen.\n\nVerleen de machtiging in Systeeminstellingen.";
+
+/* Taal */
+"language.system" = "Systeemstandaard";
+
+/* Colors */
+"color.orange" = "Orange";
+"color.purple" = "Purple";
+"color.pink" = "Pink";
+"color.teal" = "Teal";
+"color.yellow" = "Yellow";
+"color.red" = "Red";
+
+/* Buttons */
+"button.save" = "Opslaan";
+
+/* Display */
+"display.name %lld" = "Scherm %lld";
+"display.unknown" = "Onbekend";
+"display.rename" = "Rename Display";
+"display.rename_title" = "Rename Display";
+"display.name_placeholder" = "Enter display name";
+
+/* Display Layout */
+"layout.delete" = "Verwijderen";
+"layout.cleanup_unused" = "Clean Up Unused Layouts";
+"layout.display_count %lld" = "%lld schermen";
+"layout.dual_display" = "Dubbel scherm";
+"layout.hint" = "Indelingen worden automatisch gedetecteerd op basis van uw schermopstelling";
+"layout.multi_display %lld" = "%lld schermen";
+"layout.name_placeholder" = "Indelingsnaam invoeren";
+"layout.none" = "Geen indeling";
+"layout.not_current_hint" = "Dit is niet de huidige indeling. Schakel over om te bewerken.";
+"layout.readonly_hint" = "Deze indeling is alleen-lezen. Schakel over naar de huidige indeling om te bewerken.";
+"layout.rename" = "Hernoemen";
+"layout.rename_title" = "Indeling hernoemen";
+"layout.single_display" = "Enkel scherm";
+"layout.title" = "Schermindelingen";
+
+/* Menu */
+"menu.about" = "Over MousePortal";
+
+/* Portal Management */
+"portal.bidirectional" = "Bidirectioneel";
+"portal.color" = "Kleur";
+"portal.edit_title" = "Portaal bewerken";
+"portal.empty_hint" = "Nog geen portalen. Klik op 'Portaal toevoegen' om er een te maken.";
+"portal.enabled" = "Ingeschakeld";
+"portal.line_a" = "Lijn A";
+"portal.line_b" = "Lijn B";
+"portal.name" = "Naam";
+"portal.position" = "Positie";
+
+/* Profile Management */
+
+/* Settings */
+"settings.enable_portals" = "Portaalteleportatie inschakelen";
+"layout.delete_confirm_title %@" = "\"%@\" verwijderen?";
+"layout.delete_confirm_message_one" = "Deze indeling bevat 1 portaal. Toch verwijderen?";
+"layout.delete_confirm_message_many %lld" = "Deze indeling bevat %lld portalen. Toch verwijderen?";
+"settings.permission_not_granted" = "Niet verleend";
+"menu.accessibility_status %@" = "Toegankelijkheidstoestemming: %@";
+
+"layout.lock" = "Lock";
+"layout.unlock" = "Unlock";
+"layout.locked" = "Locked";
+"layout.delete_disabled_locked" = "Locked layouts cannot be deleted";
+"layout.delete_disabled_current" = "Current layout cannot be deleted";
+"layout.delete_disabled_last_remaining" = "At least one layout must remain";
+"portal.edit" = "Edit";
+"portal.delete" = "Delete";

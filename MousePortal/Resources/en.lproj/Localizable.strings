@@ -1,0 +1,156 @@
+/* English Localizations */
+
+/* Display names */
+"display.main" = "Main Display";
+"display.external %lld" = "Display %lld";
+
+/* Legend */
+"legend.main_display" = "Main Display";
+"legend.external_display" = "External Display";
+"legend.shared_edge" = "Slidable Edge";
+"legend.portal" = "Portal";
+
+/* Tabs */
+
+/* Status */
+"status.hotkey" = "Hotkeys";
+"status.portal" = "Portals";
+
+/* Buttons */
+"button.refresh" = "Refresh";
+"button.cancel" = "Cancel";
+"button.create" = "Create";
+
+/* Window */
+"app.title" = "MousePortal";
+
+/* Menu */
+"menu.about" = "About MousePortal";
+"menu.enable_hotkey" = "Enable Hotkeys";
+"menu.enable_portal" = "Enable Portals";
+"menu.open_window" = "Open MousePortal...";
+"menu.preferences" = "Preferences...";
+"menu.quit" = "Quit MousePortal";
+
+/* Settings - Tabs */
+"settings.general" = "General";
+"settings.hotkeys" = "Hotkeys";
+"settings.portals" = "Portals";
+
+/* Settings - General */
+"settings.app_behavior" = "App Behavior";
+"settings.language" = "Language";
+"settings.show_menubar_icon" = "Show menu bar icon";
+"settings.launch_at_login" = "Launch at login";
+"settings.permissions" = "Permissions";
+"settings.accessibility_permission" = "Accessibility Permission";
+"settings.accessibility_description" = "Required for global hotkeys and mouse control";
+"settings.permission_granted" = "Granted";
+"settings.grant_permission" = "Grant Permission";
+
+/* Settings - Hotkeys */
+"settings.enable_hotkeys" = "Enable Hotkey Jump";
+"settings.display_hotkeys" = "Display Hotkeys";
+"hotkey.recording" = "Recording...";
+"hotkey.click_to_record" = "Click the shortcut to record again";
+"hotkey.not_set" = "Not Set";
+
+/* Settings - Portals */
+"settings.trigger_mode" = "Trigger Mode";
+"settings.trigger_key" = "Trigger Key";
+"settings.no_portals" = "No portals configured. Use the Portals tab to add portals.";
+"settings.portal_list" = "Portal List";
+"settings.portal_hint" = "Edit in Portals tab";
+"trigger.automatic" = "Automatic";
+"trigger.with_key" = "Hold Key";
+
+/* Settings - Profiles */
+
+/* Portal Editor */
+"portal.add" = "Add Portal";
+"portal.cancel" = "Cancel";
+"portal.instruction_line_a" = "Draw the first line on a screen edge";
+"portal.instruction_line_b" = "Draw the second line on another screen edge";
+"portal.instruction_name" = "Name your portal";
+"portal.name_title" = "Name This Portal";
+"portal.name_placeholder" = "Enter portal name";
+"portal.default_name %lld" = "Portal %lld";
+
+/* Portal Edges */
+"edge.top" = "Top";
+"edge.bottom" = "Bottom";
+"edge.left" = "Left";
+"edge.right" = "Right";
+
+/* Alerts */
+"alert.permission_required" = "Accessibility Permission Required";
+"alert.open_settings" = "Open System Settings";
+"alert.later" = "Later";
+"alert.permission_message" = "MousePortal needs Accessibility permission to monitor global hotkeys and control mouse position.\n\nPlease grant permission in System Settings.";
+
+/* Language */
+"language.system" = "System Default";
+
+/* Portal Management */
+"portal.empty_hint" = "No portals yet. Click 'Add Portal' to create one.";
+"portal.edit_title" = "Edit Portal";
+"portal.name" = "Name";
+"portal.enabled" = "Enabled";
+"portal.bidirectional" = "Bidirectional";
+"portal.color" = "Color";
+"portal.position" = "Position";
+"portal.line_a" = "Line A";
+"portal.line_b" = "Line B";
+"display.unknown" = "Unknown";
+"display.rename" = "Rename Display";
+"display.rename_title" = "Rename Display";
+"display.name_placeholder" = "Enter display name";
+
+/* Profile Management */
+
+/* Buttons */
+"button.save" = "Save";
+
+/* Display Layout */
+"layout.title" = "Display Layouts";
+"layout.hint" = "Layouts are auto-detected based on your display arrangement";
+"layout.none" = "No Layout";
+"layout.rename" = "Rename";
+"layout.delete" = "Delete";
+"layout.cleanup_unused" = "Clean Up Unused Layouts";
+"layout.rename_title" = "Rename Layout";
+"layout.name_placeholder" = "Enter layout name";
+"layout.not_current_hint" = "This is not the current layout. Switch to edit.";
+"layout.readonly_hint" = "This layout is read-only. Switch to current layout to edit.";
+"layout.single_display" = "Single Display";
+"layout.dual_display" = "Dual Display";
+"layout.multi_display %lld" = "%lld Displays";
+"layout.display_count %lld" = "%lld displays";
+
+/* Colors */
+"color.orange" = "Orange";
+"color.purple" = "Purple";
+"color.pink" = "Pink";
+"color.teal" = "Teal";
+"color.yellow" = "Yellow";
+"color.red" = "Red";
+
+/* Display */
+"display.name %lld" = "Display %lld";
+
+/* Settings */
+"settings.enable_portals" = "Enable Portal Teleportation";
+"layout.delete_confirm_title %@" = "Delete \"%@\"?";
+"layout.delete_confirm_message_one" = "This layout contains 1 portal. Delete it anyway?";
+"layout.delete_confirm_message_many %lld" = "This layout contains %lld portals. Delete it anyway?";
+"settings.permission_not_granted" = "Not Granted";
+"menu.accessibility_status %@" = "Accessibility Permission: %@";
+
+"layout.lock" = "Lock";
+"layout.unlock" = "Unlock";
+"layout.locked" = "Locked";
+"layout.delete_disabled_locked" = "Locked layouts cannot be deleted";
+"layout.delete_disabled_current" = "Current layout cannot be deleted";
+"layout.delete_disabled_last_remaining" = "At least one layout must remain";
+"portal.edit" = "Edit";
+"portal.delete" = "Delete";

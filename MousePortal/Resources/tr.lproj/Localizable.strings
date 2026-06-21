@@ -1,0 +1,158 @@
+/* Türkçe yerelleştirme */
+
+/* Ekran adları */
+"display.main" = "Ana Ekran";
+"display.external %lld" = "Ekran %lld";
+
+/* Açıklama */
+"legend.main_display" = "Ana Ekran";
+"legend.external_display" = "Harici Ekran";
+"legend.shared_edge" = "Kayar Kenar";
+"legend.portal" = "Portal";
+
+/* Sekmeler */
+
+/* Durum */
+"status.hotkey" = "Kısayollar";
+"status.portal" = "Portallar";
+
+/* Düğmeler */
+"button.refresh" = "Yenile";
+"button.cancel" = "İptal";
+"button.create" = "Oluştur";
+
+/* Pencere */
+"app.title" = "MousePortal";
+
+/* Menü */
+"menu.enable_hotkey" = "Kısayol atlamayı etkinleştir";
+"menu.enable_portal" = "Portalları etkinleştir";
+"menu.open_window" = "MousePortal'ı Aç...";
+"menu.preferences" = "Tercihler...";
+"menu.quit" = "MousePortal'dan Çık";
+
+/* Ayarlar - Sekmeler */
+"settings.general" = "Genel";
+"settings.hotkeys" = "Kısayollar";
+"settings.portals" = "Portallar";
+
+/* Ayarlar - Genel */
+"settings.app_behavior" = "Uygulama Davranışı";
+"settings.language" = "Dil";
+"settings.show_menubar_icon" = "Menü çubuğunda simge göster";
+"settings.launch_at_login" = "Girişte başlat";
+"settings.permissions" = "İzinler";
+"settings.accessibility_permission" = "Erişilebilirlik İzni";
+"settings.accessibility_description" = "Global kısayollar ve fare kontrolü için gerekli";
+"settings.permission_granted" = "Verildi";
+"settings.grant_permission" = "İzin Ver";
+
+/* Ayarlar - Kısayollar */
+"settings.enable_hotkeys" = "Kısayol atlamayı etkinleştir";
+"settings.display_hotkeys" = "Ekran Kısayolları";
+"hotkey.recording" = "Kaydediliyor...";
+"hotkey.click_to_record" = "Kaydetmek için tıkla";
+"hotkey.not_set" = "Ayarlanmadı";
+
+/* Ayarlar - Portallar */
+"settings.trigger_mode" = "Tetikleme Modu";
+"settings.trigger_key" = "Trigger Key";
+"settings.no_portals" = "Yapılandırılmış portal yok. Portallar sekmesinden portal ekleyin.";
+"settings.portal_list" = "Portal Listesi";
+"settings.portal_hint" = "Portallar sekmesinde düzenle";
+"trigger.automatic" = "Otomatik";
+"trigger.with_key" = "Tuşu Basılı Tut";
+
+/* Ayarlar - Profiller */
+
+/* Portal Düzenleyici */
+"portal.add" = "Portal Ekle";
+"portal.cancel" = "İptal";
+"portal.instruction_line_a" = "Ekran kenarına ilk çizgiyi çizin";
+"portal.instruction_line_b" = "Başka bir ekran kenarına ikinci çizgiyi çizin";
+"portal.instruction_name" = "Portalınıza ad verin";
+"portal.name_title" = "Bu Portalı Adlandır";
+"portal.name_placeholder" = "Portal adını girin";
+"portal.default_name %lld" = "Portal %lld";
+
+/* Portal Kenarları */
+"edge.top" = "Üst";
+"edge.bottom" = "Alt";
+"edge.left" = "Sol";
+"edge.right" = "Sağ";
+
+/* Uyarılar */
+"alert.permission_required" = "Erişilebilirlik İzni Gerekli";
+"alert.open_settings" = "Sistem Ayarlarını Aç";
+"alert.later" = "Daha Sonra";
+"alert.permission_message" = "MousePortal, global kısayolları izlemek ve fare konumunu kontrol etmek için Erişilebilirlik iznine ihtiyaç duyar.\n\nLütfen Sistem Ayarları'nda izin verin.";
+
+/* Dil */
+"language.system" = "Sistem Varsayılanı";
+
+/* Colors */
+"color.orange" = "Orange";
+"color.purple" = "Purple";
+"color.pink" = "Pink";
+"color.teal" = "Teal";
+"color.yellow" = "Yellow";
+"color.red" = "Red";
+
+/* Buttons */
+"button.save" = "Kaydet";
+
+/* Display */
+"display.name %lld" = "Ekran %lld";
+"display.unknown" = "Bilinmiyor";
+"display.rename" = "Rename Display";
+"display.rename_title" = "Rename Display";
+"display.name_placeholder" = "Enter display name";
+
+/* Display Layout */
+"layout.delete" = "Sil";
+"layout.cleanup_unused" = "Clean Up Unused Layouts";
+"layout.display_count %lld" = "%lld ekran";
+"layout.dual_display" = "Çift Ekran";
+"layout.hint" = "Düzenler ekran düzeninize göre otomatik olarak algılanır";
+"layout.multi_display %lld" = "%lld Ekran";
+"layout.name_placeholder" = "Düzen adı girin";
+"layout.none" = "Düzen Yok";
+"layout.not_current_hint" = "Bu geçerli düzen değil. Düzenlemek için geçiş yapın.";
+"layout.readonly_hint" = "Bu düzen salt okunurdur. Düzenlemek için geçerli düzene geçin.";
+"layout.rename" = "Yeniden Adlandır";
+"layout.rename_title" = "Düzeni Yeniden Adlandır";
+"layout.single_display" = "Tek Ekran";
+"layout.title" = "Ekran Düzenleri";
+
+/* Menu */
+"menu.about" = "MousePortal Hakkında";
+
+/* Portal Management */
+"portal.bidirectional" = "Çift Yönlü";
+"portal.color" = "Renk";
+"portal.edit_title" = "Portalı Düzenle";
+"portal.empty_hint" = "Henüz portal yok. Oluşturmak için 'Portal Ekle'ye tıklayın.";
+"portal.enabled" = "Etkin";
+"portal.line_a" = "Çizgi A";
+"portal.line_b" = "Çizgi B";
+"portal.name" = "Ad";
+"portal.position" = "Konum";
+
+/* Profile Management */
+
+/* Settings */
+"settings.enable_portals" = "Portal ışınlamayı etkinleştir";
+"layout.delete_confirm_title %@" = "\"%@\" silinsin mi?";
+"layout.delete_confirm_message_one" = "Bu düzen 1 portal içeriyor. Yine de silinsin mi?";
+"layout.delete_confirm_message_many %lld" = "Bu düzen %lld portal içeriyor. Yine de silinsin mi?";
+"settings.permission_not_granted" = "Verilmedi";
+"menu.accessibility_status %@" = "Erisilebilirlik izni: %@";
+
+"layout.lock" = "Lock";
+"layout.unlock" = "Unlock";
+"layout.locked" = "Locked";
+"layout.delete_disabled_locked" = "Locked layouts cannot be deleted";
+"layout.delete_disabled_current" = "Current layout cannot be deleted";
+"layout.delete_disabled_last_remaining" = "At least one layout must remain";
+"portal.edit" = "Edit";
+"portal.delete" = "Delete";

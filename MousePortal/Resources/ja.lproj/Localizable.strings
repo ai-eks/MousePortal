@@ -1,0 +1,156 @@
+/* 日本語ローカライズ */
+
+/* ディスプレイ名 */
+"display.main" = "メインディスプレイ";
+"display.external %lld" = "ディスプレイ %lld";
+
+/* 凡例 */
+"legend.main_display" = "メインディスプレイ";
+"legend.external_display" = "外部ディスプレイ";
+"legend.shared_edge" = "スライド可能な境界";
+"legend.portal" = "ポータル";
+
+/* タブ */
+
+/* ステータス */
+"status.hotkey" = "ホットキー";
+"status.portal" = "ポータル";
+
+/* ボタン */
+"button.refresh" = "更新";
+"button.cancel" = "キャンセル";
+"button.create" = "作成";
+
+/* ウィンドウ */
+"app.title" = "MousePortal";
+
+/* メニュー */
+"menu.about" = "MousePortal について";
+"menu.enable_hotkey" = "ホットキージャンプを有効化";
+"menu.enable_portal" = "ポータルを有効化";
+"menu.open_window" = "MousePortalを開く...";
+"menu.preferences" = "環境設定...";
+"menu.quit" = "MousePortalを終了";
+
+/* 設定 - タブ */
+"settings.general" = "一般";
+"settings.hotkeys" = "ホットキー";
+"settings.portals" = "ポータル";
+
+/* 設定 - 一般 */
+"settings.app_behavior" = "アプリの動作";
+"settings.language" = "言語";
+"settings.show_menubar_icon" = "メニューバーにアイコンを表示";
+"settings.launch_at_login" = "ログイン時に起動";
+"settings.permissions" = "権限";
+"settings.accessibility_permission" = "アクセシビリティ権限";
+"settings.accessibility_description" = "グローバルホットキーとマウス制御に必要";
+"settings.permission_granted" = "許可済み";
+"settings.grant_permission" = "権限を付与";
+
+/* 設定 - ホットキー */
+"settings.enable_hotkeys" = "ホットキージャンプを有効化";
+"settings.display_hotkeys" = "ディスプレイホットキー";
+"hotkey.recording" = "記録中...";
+"hotkey.click_to_record" = "クリックして記録";
+"hotkey.not_set" = "未設定";
+
+/* 設定 - ポータル */
+"settings.trigger_mode" = "トリガーモード";
+"settings.trigger_key" = "Trigger Key";
+"settings.no_portals" = "ポータルがありません。ポータルタブで追加してください。";
+"settings.portal_list" = "ポータル一覧";
+"settings.portal_hint" = "ポータルタブで編集";
+"trigger.automatic" = "自動";
+"trigger.with_key" = "キー押下時";
+
+/* 設定 - プロファイル */
+
+/* ポータルエディタ */
+"portal.add" = "ポータルを追加";
+"portal.cancel" = "キャンセル";
+"portal.instruction_line_a" = "画面の端に最初の線を描画";
+"portal.instruction_line_b" = "別の画面の端に2本目の線を描画";
+"portal.instruction_name" = "ポータルに名前を付ける";
+"portal.name_title" = "ポータルに名前を付ける";
+"portal.name_placeholder" = "ポータル名を入力";
+"portal.default_name %lld" = "ポータル %lld";
+
+/* ポータルの端 */
+"edge.top" = "上端";
+"edge.bottom" = "下端";
+"edge.left" = "左端";
+"edge.right" = "右端";
+
+/* アラート */
+"alert.permission_required" = "アクセシビリティ権限が必要";
+"alert.open_settings" = "システム設定を開く";
+"alert.later" = "後で";
+"alert.permission_message" = "MousePortalはグローバルホットキーの監視とマウス位置の制御にアクセシビリティ権限が必要です。\n\nシステム設定で権限を付与してください。";
+
+/* 言語 */
+"language.system" = "システムに従う";
+
+/* 色 */
+"color.orange" = "オレンジ";
+"color.purple" = "パープル";
+"color.pink" = "ピンク";
+"color.teal" = "ティール";
+"color.yellow" = "イエロー";
+"color.red" = "レッド";
+
+/* Buttons */
+"button.save" = "保存";
+
+/* Display */
+"display.name %lld" = "ディスプレイ %lld";
+"display.unknown" = "不明";
+"display.rename" = "Rename Display";
+"display.rename_title" = "Rename Display";
+"display.name_placeholder" = "Enter display name";
+
+/* Display Layout */
+"layout.delete" = "削除";
+"layout.cleanup_unused" = "Clean Up Unused Layouts";
+"layout.display_count %lld" = "%lld ディスプレイ";
+"layout.dual_display" = "デュアルディスプレイ";
+"layout.hint" = "ディスプレイの配置に基づいて自動検出されます";
+"layout.multi_display %lld" = "%lld ディスプレイ";
+"layout.name_placeholder" = "配置名を入力";
+"layout.none" = "配置なし";
+"layout.not_current_hint" = "これは現在の配置ではありません。編集するには切り替えてください。";
+"layout.readonly_hint" = "この配置は読み取り専用です。編集するには現在の配置に切り替えてください。";
+"layout.rename" = "名前を変更";
+"layout.rename_title" = "配置の名前を変更";
+"layout.single_display" = "シングルディスプレイ";
+"layout.title" = "ディスプレイ配置";
+
+/* Portal Management */
+"portal.bidirectional" = "双方向";
+"portal.color" = "色";
+"portal.edit_title" = "ポータルを編集";
+"portal.empty_hint" = "ポータルがまだありません。「ポータルを追加」をクリックして作成してください。";
+"portal.enabled" = "有効";
+"portal.line_a" = "ライン A";
+"portal.line_b" = "ライン B";
+"portal.name" = "名前";
+"portal.position" = "位置";
+
+/* Profile Management */
+
+/* Settings */
+"settings.enable_portals" = "ポータルテレポートを有効化";
+"layout.delete_confirm_title %@" = "「%@」を削除しますか？";
+"layout.delete_confirm_message_one" = "この配置にはポータルが1件含まれています。それでも削除しますか？";
+"layout.delete_confirm_message_many %lld" = "この配置にはポータルが%lld件含まれています。それでも削除しますか？";
+"settings.permission_not_granted" = "未許可";
+"menu.accessibility_status %@" = "アクセシビリティ権限: %@";
+
+"layout.lock" = "Lock";
+"layout.unlock" = "Unlock";
+"layout.locked" = "Locked";
+"layout.delete_disabled_locked" = "Locked layouts cannot be deleted";
+"layout.delete_disabled_current" = "Current layout cannot be deleted";
+"layout.delete_disabled_last_remaining" = "At least one layout must remain";
+"portal.edit" = "Edit";
+"portal.delete" = "Delete";

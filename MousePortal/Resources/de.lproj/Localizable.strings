@@ -1,0 +1,156 @@
+/* Deutsche Lokalisierung */
+
+/* Anzeigenamen */
+"display.main" = "Hauptbildschirm";
+"display.external %lld" = "Bildschirm %lld";
+
+/* Legende */
+"legend.main_display" = "Hauptbildschirm";
+"legend.external_display" = "Externer Bildschirm";
+"legend.shared_edge" = "Gleitfähige Kante";
+"legend.portal" = "Portal";
+
+/* Tabs */
+
+/* Status */
+"status.hotkey" = "Tastenkürzel";
+"status.portal" = "Portale";
+
+/* Schaltflächen */
+"button.refresh" = "Aktualisieren";
+"button.cancel" = "Abbrechen";
+"button.create" = "Erstellen";
+
+/* Fenster */
+"app.title" = "MousePortal";
+
+/* Menü */
+"menu.about" = "Über MousePortal";
+"menu.enable_hotkey" = "Tastenkürzel-Sprung aktivieren";
+"menu.enable_portal" = "Portale aktivieren";
+"menu.open_window" = "MousePortal öffnen...";
+"menu.preferences" = "Einstellungen...";
+"menu.quit" = "MousePortal beenden";
+
+/* Einstellungen - Tabs */
+"settings.general" = "Allgemein";
+"settings.hotkeys" = "Tastenkürzel";
+"settings.portals" = "Portale";
+
+/* Einstellungen - Allgemein */
+"settings.app_behavior" = "App-Verhalten";
+"settings.language" = "Sprache";
+"settings.show_menubar_icon" = "Symbol in Menüleiste anzeigen";
+"settings.launch_at_login" = "Bei Anmeldung starten";
+"settings.permissions" = "Berechtigungen";
+"settings.accessibility_permission" = "Bedienungshilfen-Berechtigung";
+"settings.accessibility_description" = "Erforderlich für globale Tastenkürzel und Maussteuerung";
+"settings.permission_granted" = "Erteilt";
+"settings.grant_permission" = "Berechtigung erteilen";
+
+/* Einstellungen - Tastenkürzel */
+"settings.enable_hotkeys" = "Tastenkürzel-Sprung aktivieren";
+"settings.display_hotkeys" = "Bildschirm-Tastenkürzel";
+"hotkey.recording" = "Aufnahme...";
+"hotkey.click_to_record" = "Klicken zum Aufnehmen";
+"hotkey.not_set" = "Nicht festgelegt";
+
+/* Einstellungen - Portale */
+"settings.trigger_mode" = "Auslösemodus";
+"settings.trigger_key" = "Trigger Key";
+"settings.no_portals" = "Keine Portale konfiguriert. Fügen Sie Portale im Portale-Tab hinzu.";
+"settings.portal_list" = "Portal-Liste";
+"settings.portal_hint" = "Im Portale-Tab bearbeiten";
+"trigger.automatic" = "Automatisch";
+"trigger.with_key" = "Taste halten";
+
+/* Einstellungen - Profile */
+
+/* Portal-Editor */
+"portal.add" = "Portal hinzufügen";
+"portal.cancel" = "Abbrechen";
+"portal.instruction_line_a" = "Zeichnen Sie die erste Linie an einer Bildschirmkante";
+"portal.instruction_line_b" = "Zeichnen Sie die zweite Linie an einer anderen Bildschirmkante";
+"portal.instruction_name" = "Benennen Sie Ihr Portal";
+"portal.name_title" = "Portal benennen";
+"portal.name_placeholder" = "Portalnamen eingeben";
+"portal.default_name %lld" = "Portal %lld";
+
+/* Portal-Kanten */
+"edge.top" = "Oben";
+"edge.bottom" = "Unten";
+"edge.left" = "Links";
+"edge.right" = "Rechts";
+
+/* Warnungen */
+"alert.permission_required" = "Bedienungshilfen-Berechtigung erforderlich";
+"alert.open_settings" = "Systemeinstellungen öffnen";
+"alert.later" = "Später";
+"alert.permission_message" = "MousePortal benötigt die Bedienungshilfen-Berechtigung, um globale Tastenkürzel zu überwachen und die Mausposition zu steuern.\n\nBitte erteilen Sie die Berechtigung in den Systemeinstellungen.";
+
+/* Sprache */
+"language.system" = "Systemstandard";
+
+/* Farben */
+"color.orange" = "Orange";
+"color.purple" = "Lila";
+"color.pink" = "Pink";
+"color.teal" = "Blaugrün";
+"color.yellow" = "Gelb";
+"color.red" = "Rot";
+
+/* Buttons */
+"button.save" = "Speichern";
+
+/* Display */
+"display.name %lld" = "Display %lld";
+"display.unknown" = "Unbekannt";
+"display.rename" = "Rename Display";
+"display.rename_title" = "Rename Display";
+"display.name_placeholder" = "Enter display name";
+
+/* Display Layout */
+"layout.delete" = "Löschen";
+"layout.cleanup_unused" = "Clean Up Unused Layouts";
+"layout.display_count %lld" = "%lld Displays";
+"layout.dual_display" = "Dual-Display";
+"layout.hint" = "Anordnungen werden automatisch basierend auf Ihrer Display-Anordnung erkannt";
+"layout.multi_display %lld" = "%lld Displays";
+"layout.name_placeholder" = "Anordnungsname eingeben";
+"layout.none" = "Keine Anordnung";
+"layout.not_current_hint" = "Dies ist nicht die aktuelle Anordnung. Wechseln Sie zum Bearbeiten.";
+"layout.readonly_hint" = "Diese Anordnung ist schreibgeschützt. Wechseln Sie zur aktuellen Anordnung zum Bearbeiten.";
+"layout.rename" = "Umbenennen";
+"layout.rename_title" = "Anordnung umbenennen";
+"layout.single_display" = "Einzeldisplay";
+"layout.title" = "Display-Anordnungen";
+
+/* Portal Management */
+"portal.bidirectional" = "Bidirektional";
+"portal.color" = "Farbe";
+"portal.edit_title" = "Portal bearbeiten";
+"portal.empty_hint" = "Noch keine Portale. Klicken Sie auf 'Portal hinzufügen', um eines zu erstellen.";
+"portal.enabled" = "Aktiviert";
+"portal.line_a" = "Linie A";
+"portal.line_b" = "Linie B";
+"portal.name" = "Name";
+"portal.position" = "Position";
+
+/* Profile Management */
+
+/* Settings */
+"settings.enable_portals" = "Portal-Teleportation aktivieren";
+"layout.delete_confirm_title %@" = "\"%@\" löschen?";
+"layout.delete_confirm_message_one" = "Diese Anordnung enthält 1 Portal. Trotzdem löschen?";
+"layout.delete_confirm_message_many %lld" = "Diese Anordnung enthält %lld Portale. Trotzdem löschen?";
+"settings.permission_not_granted" = "Nicht gewährt";
+"menu.accessibility_status %@" = "Bedienungshilfen-Berechtigung: %@";
+
+"layout.lock" = "Lock";
+"layout.unlock" = "Unlock";
+"layout.locked" = "Locked";
+"layout.delete_disabled_locked" = "Locked layouts cannot be deleted";
+"layout.delete_disabled_current" = "Current layout cannot be deleted";
+"layout.delete_disabled_last_remaining" = "At least one layout must remain";
+"portal.edit" = "Edit";
+"portal.delete" = "Delete";

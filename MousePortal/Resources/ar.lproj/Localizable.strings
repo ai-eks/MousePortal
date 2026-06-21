@@ -1,0 +1,158 @@
+/* التعريب العربي */
+
+/* أسماء الشاشات */
+"display.main" = "الشاشة الرئيسية";
+"display.external %lld" = "الشاشة %lld";
+
+/* وسيلة الإيضاح */
+"legend.main_display" = "الشاشة الرئيسية";
+"legend.external_display" = "شاشة خارجية";
+"legend.shared_edge" = "حافة منزلقة";
+"legend.portal" = "بوابة";
+
+/* علامات التبويب */
+
+/* الحالة */
+"status.hotkey" = "الاختصارات";
+"status.portal" = "البوابات";
+
+/* الأزرار */
+"button.refresh" = "تحديث";
+"button.cancel" = "إلغاء";
+"button.create" = "إنشاء";
+
+/* النافذة */
+"app.title" = "MousePortal";
+
+/* القائمة */
+"menu.enable_hotkey" = "تفعيل القفز بالاختصارات";
+"menu.enable_portal" = "تفعيل البوابات";
+"menu.open_window" = "فتح MousePortal...";
+"menu.preferences" = "التفضيلات...";
+"menu.quit" = "إنهاء MousePortal";
+
+/* الإعدادات - علامات التبويب */
+"settings.general" = "عام";
+"settings.hotkeys" = "الاختصارات";
+"settings.portals" = "البوابات";
+
+/* الإعدادات - عام */
+"settings.app_behavior" = "سلوك التطبيق";
+"settings.language" = "اللغة";
+"settings.show_menubar_icon" = "إظهار الأيقونة في شريط القوائم";
+"settings.launch_at_login" = "التشغيل عند تسجيل الدخول";
+"settings.permissions" = "الأذونات";
+"settings.accessibility_permission" = "إذن إمكانية الوصول";
+"settings.accessibility_description" = "مطلوب للاختصارات العامة والتحكم بالماوس";
+"settings.permission_granted" = "ممنوح";
+"settings.grant_permission" = "منح الإذن";
+
+/* الإعدادات - الاختصارات */
+"settings.enable_hotkeys" = "تفعيل القفز بالاختصارات";
+"settings.display_hotkeys" = "اختصارات الشاشة";
+"hotkey.recording" = "جارٍ التسجيل...";
+"hotkey.click_to_record" = "انقر للتسجيل";
+"hotkey.not_set" = "غير محدد";
+
+/* الإعدادات - البوابات */
+"settings.trigger_mode" = "وضع التشغيل";
+"settings.trigger_key" = "Trigger Key";
+"settings.no_portals" = "لا توجد بوابات مهيأة. أضف بوابات في علامة تبويب البوابات.";
+"settings.portal_list" = "قائمة البوابات";
+"settings.portal_hint" = "التعديل في علامة تبويب البوابات";
+"trigger.automatic" = "تلقائي";
+"trigger.with_key" = "الضغط المستمر على مفتاح";
+
+/* الإعدادات - الملفات الشخصية */
+
+/* محرر البوابة */
+"portal.add" = "إضافة بوابة";
+"portal.cancel" = "إلغاء";
+"portal.instruction_line_a" = "ارسم الخط الأول على حافة الشاشة";
+"portal.instruction_line_b" = "ارسم الخط الثاني على حافة شاشة أخرى";
+"portal.instruction_name" = "سمِّ بوابتك";
+"portal.name_title" = "تسمية هذه البوابة";
+"portal.name_placeholder" = "أدخل اسم البوابة";
+"portal.default_name %lld" = "بوابة %lld";
+
+/* حواف البوابة */
+"edge.top" = "أعلى";
+"edge.bottom" = "أسفل";
+"edge.left" = "يسار";
+"edge.right" = "يمين";
+
+/* التنبيهات */
+"alert.permission_required" = "إذن إمكانية الوصول مطلوب";
+"alert.open_settings" = "فتح إعدادات النظام";
+"alert.later" = "لاحقاً";
+"alert.permission_message" = "يحتاج MousePortal إلى إذن إمكانية الوصول لمراقبة الاختصارات العامة والتحكم في موضع الماوس.\n\nيرجى منح الإذن في إعدادات النظام.";
+
+/* اللغة */
+"language.system" = "الافتراضي للنظام";
+
+/* Colors */
+"color.orange" = "Orange";
+"color.purple" = "Purple";
+"color.pink" = "Pink";
+"color.teal" = "Teal";
+"color.yellow" = "Yellow";
+"color.red" = "Red";
+
+/* Buttons */
+"button.save" = "حفظ";
+
+/* Display */
+"display.name %lld" = "شاشة %lld";
+"display.unknown" = "غير معروف";
+"display.rename" = "Rename Display";
+"display.rename_title" = "Rename Display";
+"display.name_placeholder" = "Enter display name";
+
+/* Display Layout */
+"layout.delete" = "حذف";
+"layout.cleanup_unused" = "Clean Up Unused Layouts";
+"layout.display_count %lld" = "%lld شاشات";
+"layout.dual_display" = "شاشتان";
+"layout.hint" = "يتم الكشف عن الترتيبات تلقائيًا بناءً على ترتيب شاشاتك";
+"layout.multi_display %lld" = "%lld شاشات";
+"layout.name_placeholder" = "أدخل اسم الترتيب";
+"layout.none" = "بدون ترتيب";
+"layout.not_current_hint" = "هذا ليس الترتيب الحالي. قم بالتبديل للتعديل.";
+"layout.readonly_hint" = "هذا الترتيب للقراءة فقط. قم بالتبديل إلى الترتيب الحالي للتعديل.";
+"layout.rename" = "إعادة تسمية";
+"layout.rename_title" = "إعادة تسمية الترتيب";
+"layout.single_display" = "شاشة واحدة";
+"layout.title" = "ترتيبات الشاشات";
+
+/* Menu */
+"menu.about" = "حول MousePortal";
+
+/* Portal Management */
+"portal.bidirectional" = "ثنائي الاتجاه";
+"portal.color" = "اللون";
+"portal.edit_title" = "تعديل البوابة";
+"portal.empty_hint" = "لا توجد بوابات بعد. انقر على 'إضافة بوابة' لإنشاء واحدة.";
+"portal.enabled" = "مفعّل";
+"portal.line_a" = "الخط أ";
+"portal.line_b" = "الخط ب";
+"portal.name" = "الاسم";
+"portal.position" = "الموضع";
+
+/* Profile Management */
+
+/* Settings */
+"settings.enable_portals" = "تفعيل النقل الفوري";
+"layout.delete_confirm_title %@" = "حذف \"%@\"؟";
+"layout.delete_confirm_message_one" = "يحتوي هذا الترتيب على بوابة واحدة. هل تريد حذفه رغم ذلك؟";
+"layout.delete_confirm_message_many %lld" = "يحتوي هذا الترتيب على %lld بوابات. هل تريد حذفه رغم ذلك؟";
+"settings.permission_not_granted" = "غير ممنوح";
+"menu.accessibility_status %@" = "إذن تسهيلات الاستخدام: %@";
+
+"layout.lock" = "Lock";
+"layout.unlock" = "Unlock";
+"layout.locked" = "Locked";
+"layout.delete_disabled_locked" = "Locked layouts cannot be deleted";
+"layout.delete_disabled_current" = "Current layout cannot be deleted";
+"layout.delete_disabled_last_remaining" = "At least one layout must remain";
+"portal.edit" = "Edit";
+"portal.delete" = "Delete";

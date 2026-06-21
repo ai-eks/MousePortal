@@ -1,0 +1,156 @@
+/* 繁體中文本地化 */
+
+/* 顯示器名稱 */
+"display.main" = "主顯示器";
+"display.external %lld" = "顯示器 %lld";
+
+/* 圖例 */
+"legend.main_display" = "主顯示器";
+"legend.external_display" = "外接顯示器";
+"legend.shared_edge" = "可滑動邊緣";
+"legend.portal" = "傳送門";
+
+/* 標籤頁 */
+
+/* 狀態 */
+"status.hotkey" = "快捷鍵";
+"status.portal" = "傳送門";
+
+/* 按鈕 */
+"button.refresh" = "重新整理";
+"button.cancel" = "取消";
+"button.create" = "建立";
+
+/* 視窗 */
+"app.title" = "MousePortal";
+
+/* 選單 */
+"menu.about" = "關於 MousePortal";
+"menu.enable_hotkey" = "啟用快捷鍵跳屏";
+"menu.enable_portal" = "啟用傳送門";
+"menu.open_window" = "打開 MousePortal...";
+"menu.preferences" = "偏好設定...";
+"menu.quit" = "結束 MousePortal";
+
+/* 設定 - 標籤頁 */
+"settings.general" = "一般";
+"settings.hotkeys" = "快捷鍵";
+"settings.portals" = "傳送門";
+
+/* 設定 - 一般 */
+"settings.app_behavior" = "應用程式行為";
+"settings.language" = "語言";
+"settings.show_menubar_icon" = "在選單列顯示圖示";
+"settings.launch_at_login" = "登入時啟動";
+"settings.permissions" = "權限";
+"settings.accessibility_permission" = "輔助使用權限";
+"settings.accessibility_description" = "用於全域快捷鍵和滑鼠控制";
+"settings.permission_granted" = "已授權";
+"settings.grant_permission" = "授予權限";
+
+/* 設定 - 快捷鍵 */
+"settings.enable_hotkeys" = "啟用快捷鍵跳屏";
+"settings.display_hotkeys" = "顯示器快捷鍵";
+"hotkey.recording" = "錄製中...";
+"hotkey.click_to_record" = "點擊錄製";
+"hotkey.not_set" = "未設定";
+
+/* 設定 - 傳送門 */
+"settings.trigger_mode" = "觸發模式";
+"settings.trigger_key" = "觸發按鍵";
+"settings.no_portals" = "尚無傳送門。請在「傳送門」標籤頁中新增。";
+"settings.portal_list" = "傳送門列表";
+"settings.portal_hint" = "在「傳送門」標籤頁中編輯";
+"trigger.automatic" = "自動觸發";
+"trigger.with_key" = "按鍵觸發";
+
+/* 設定 - 設定方案 */
+
+/* 傳送門編輯器 */
+"portal.add" = "新增傳送門";
+"portal.cancel" = "取消";
+"portal.instruction_line_a" = "在螢幕邊緣拖曳繪製第一條線";
+"portal.instruction_line_b" = "在另一個螢幕邊緣拖曳繪製第二條線";
+"portal.instruction_name" = "為傳送門命名";
+"portal.name_title" = "命名傳送門";
+"portal.name_placeholder" = "輸入傳送門名稱";
+"portal.default_name %lld" = "傳送門 %lld";
+
+/* 傳送門邊緣 */
+"edge.top" = "上邊緣";
+"edge.bottom" = "下邊緣";
+"edge.left" = "左邊緣";
+"edge.right" = "右邊緣";
+
+/* 警告 */
+"alert.permission_required" = "需要輔助使用權限";
+"alert.open_settings" = "打開系統設定";
+"alert.later" = "稍後再說";
+"alert.permission_message" = "MousePortal 需要輔助使用權限來監聽全域快捷鍵和控制滑鼠位置。\n\n請在系統設定中授予權限。";
+
+/* 語言 */
+"language.system" = "跟隨系統";
+
+/* 顏色 */
+"color.orange" = "橙色";
+"color.purple" = "紫色";
+"color.pink" = "粉色";
+"color.teal" = "青色";
+"color.yellow" = "黃色";
+"color.red" = "紅色";
+
+/* Buttons */
+"button.save" = "儲存";
+
+/* Display */
+"display.name %lld" = "顯示器 %lld";
+"display.unknown" = "未知";
+"display.rename" = "重新命名顯示器";
+"display.rename_title" = "重新命名顯示器";
+"display.name_placeholder" = "輸入顯示器名稱";
+
+/* Display Layout */
+"layout.delete" = "刪除";
+"layout.cleanup_unused" = "清理未使用排列";
+"layout.display_count %lld" = "%lld 個顯示器";
+"layout.dual_display" = "雙顯示器";
+"layout.hint" = "排列會根據你的顯示器佈局自動偵測";
+"layout.multi_display %lld" = "%lld 個顯示器";
+"layout.name_placeholder" = "輸入排列名稱";
+"layout.none" = "無排列";
+"layout.not_current_hint" = "這不是當前排列，無法編輯";
+"layout.readonly_hint" = "此排列為唯讀，請切換到當前排列以編輯";
+"layout.rename" = "重新命名";
+"layout.rename_title" = "重新命名排列";
+"layout.single_display" = "單顯示器";
+"layout.title" = "顯示器排列";
+
+/* Portal Management */
+"portal.bidirectional" = "雙向傳送";
+"portal.color" = "顏色";
+"portal.edit_title" = "編輯傳送門";
+"portal.empty_hint" = "尚無傳送門，點選「新增傳送門」建立一個";
+"portal.enabled" = "啟用";
+"portal.line_a" = "線條 A";
+"portal.line_b" = "線條 B";
+"portal.name" = "名稱";
+"portal.position" = "位置";
+
+/* Profile Management */
+
+/* Settings */
+"settings.enable_portals" = "啟用傳送門傳送";
+"layout.delete_confirm_title %@" = "刪除「%@」？";
+"layout.delete_confirm_message_one" = "此排列包含 1 個傳送門，仍要刪除嗎？";
+"layout.delete_confirm_message_many %lld" = "此排列包含 %lld 個傳送門，仍要刪除嗎？";
+"settings.permission_not_granted" = "未授權";
+"menu.accessibility_status %@" = "輔助使用權限：%@";
+
+"layout.lock" = "鎖定";
+"layout.unlock" = "解除鎖定";
+"layout.locked" = "已鎖定";
+"layout.delete_disabled_locked" = "已鎖定的排列無法刪除";
+"layout.delete_disabled_current" = "目前排列無法刪除";
+"layout.delete_disabled_last_remaining" = "至少要保留一個排列";
+"portal.edit" = "編輯";
+"portal.delete" = "刪除";

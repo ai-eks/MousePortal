@@ -1,0 +1,158 @@
+/* การแปลภาษาไทย */
+
+/* ชื่อจอแสดงผล */
+"display.main" = "จอหลัก";
+"display.external %lld" = "จอแสดงผล %lld";
+
+/* คำอธิบาย */
+"legend.main_display" = "จอหลัก";
+"legend.external_display" = "จอภายนอก";
+"legend.shared_edge" = "ขอบเลื่อนได้";
+"legend.portal" = "พอร์ทัล";
+
+/* แท็บ */
+
+/* สถานะ */
+"status.hotkey" = "ปุ่มลัด";
+"status.portal" = "พอร์ทัล";
+
+/* ปุ่ม */
+"button.refresh" = "รีเฟรช";
+"button.cancel" = "ยกเลิก";
+"button.create" = "สร้าง";
+
+/* หน้าต่าง */
+"app.title" = "MousePortal";
+
+/* เมนู */
+"menu.enable_hotkey" = "เปิดใช้การกระโดดด้วยปุ่มลัด";
+"menu.enable_portal" = "เปิดใช้พอร์ทัล";
+"menu.open_window" = "เปิด MousePortal...";
+"menu.preferences" = "การตั้งค่า...";
+"menu.quit" = "ออกจาก MousePortal";
+
+/* การตั้งค่า - แท็บ */
+"settings.general" = "ทั่วไป";
+"settings.hotkeys" = "ปุ่มลัด";
+"settings.portals" = "พอร์ทัล";
+
+/* การตั้งค่า - ทั่วไป */
+"settings.app_behavior" = "พฤติกรรมแอป";
+"settings.language" = "ภาษา";
+"settings.show_menubar_icon" = "แสดงไอคอนในแถบเมนู";
+"settings.launch_at_login" = "เปิดเมื่อเข้าสู่ระบบ";
+"settings.permissions" = "สิทธิ์";
+"settings.accessibility_permission" = "สิทธิ์การเข้าถึง";
+"settings.accessibility_description" = "จำเป็นสำหรับปุ่มลัดทั่วไปและการควบคุมเมาส์";
+"settings.permission_granted" = "อนุญาตแล้ว";
+"settings.grant_permission" = "ให้สิทธิ์";
+
+/* การตั้งค่า - ปุ่มลัด */
+"settings.enable_hotkeys" = "เปิดใช้การกระโดดด้วยปุ่มลัด";
+"settings.display_hotkeys" = "ปุ่มลัดจอแสดงผล";
+"hotkey.recording" = "กำลังบันทึก...";
+"hotkey.click_to_record" = "คลิกเพื่อบันทึก";
+"hotkey.not_set" = "ไม่ได้ตั้งค่า";
+
+/* การตั้งค่า - พอร์ทัล */
+"settings.trigger_mode" = "โหมดทริกเกอร์";
+"settings.trigger_key" = "Trigger Key";
+"settings.no_portals" = "ไม่มีพอร์ทัลที่กำหนดค่า เพิ่มพอร์ทัลในแท็บพอร์ทัล";
+"settings.portal_list" = "รายการพอร์ทัล";
+"settings.portal_hint" = "แก้ไขในแท็บพอร์ทัล";
+"trigger.automatic" = "อัตโนมัติ";
+"trigger.with_key" = "กดปุ่มค้างไว้";
+
+/* การตั้งค่า - โปรไฟล์ */
+
+/* ตัวแก้ไขพอร์ทัล */
+"portal.add" = "เพิ่มพอร์ทัล";
+"portal.cancel" = "ยกเลิก";
+"portal.instruction_line_a" = "วาดเส้นแรกบนขอบหน้าจอ";
+"portal.instruction_line_b" = "วาดเส้นที่สองบนขอบหน้าจออื่น";
+"portal.instruction_name" = "ตั้งชื่อพอร์ทัลของคุณ";
+"portal.name_title" = "ตั้งชื่อพอร์ทัลนี้";
+"portal.name_placeholder" = "ป้อนชื่อพอร์ทัล";
+"portal.default_name %lld" = "พอร์ทัล %lld";
+
+/* ขอบพอร์ทัล */
+"edge.top" = "บน";
+"edge.bottom" = "ล่าง";
+"edge.left" = "ซ้าย";
+"edge.right" = "ขวา";
+
+/* การแจ้งเตือน */
+"alert.permission_required" = "ต้องการสิทธิ์การเข้าถึง";
+"alert.open_settings" = "เปิดการตั้งค่าระบบ";
+"alert.later" = "ภายหลัง";
+"alert.permission_message" = "MousePortal ต้องการสิทธิ์การเข้าถึงเพื่อตรวจสอบปุ่มลัดทั่วไปและควบคุมตำแหน่งเมาส์\n\nกรุณาให้สิทธิ์ในการตั้งค่าระบบ";
+
+/* ภาษา */
+"language.system" = "ค่าเริ่มต้นของระบบ";
+
+/* Colors */
+"color.orange" = "Orange";
+"color.purple" = "Purple";
+"color.pink" = "Pink";
+"color.teal" = "Teal";
+"color.yellow" = "Yellow";
+"color.red" = "Red";
+
+/* Buttons */
+"button.save" = "บันทึก";
+
+/* Display */
+"display.name %lld" = "จอ %lld";
+"display.unknown" = "ไม่ทราบ";
+"display.rename" = "Rename Display";
+"display.rename_title" = "Rename Display";
+"display.name_placeholder" = "Enter display name";
+
+/* Display Layout */
+"layout.delete" = "ลบ";
+"layout.cleanup_unused" = "Clean Up Unused Layouts";
+"layout.display_count %lld" = "%lld จอ";
+"layout.dual_display" = "จอคู่";
+"layout.hint" = "การจัดเรียงจะถูกตรวจจับโดยอัตโนมัติตามการจัดวางจอแสดงผลของคุณ";
+"layout.multi_display %lld" = "%lld จอ";
+"layout.name_placeholder" = "ป้อนชื่อการจัดเรียง";
+"layout.none" = "ไม่มีการจัดเรียง";
+"layout.not_current_hint" = "นี่ไม่ใช่การจัดเรียงปัจจุบัน สลับเพื่อแก้ไข";
+"layout.readonly_hint" = "การจัดเรียงนี้เป็นแบบอ่านอย่างเดียว สลับไปยังการจัดเรียงปัจจุบันเพื่อแก้ไข";
+"layout.rename" = "เปลี่ยนชื่อ";
+"layout.rename_title" = "เปลี่ยนชื่อการจัดเรียง";
+"layout.single_display" = "จอเดียว";
+"layout.title" = "การจัดเรียงจอแสดงผล";
+
+/* Menu */
+"menu.about" = "เกี่ยวกับ MousePortal";
+
+/* Portal Management */
+"portal.bidirectional" = "สองทิศทาง";
+"portal.color" = "สี";
+"portal.edit_title" = "แก้ไขพอร์ทัล";
+"portal.empty_hint" = "ยังไม่มีพอร์ทัล คลิก 'เพิ่มพอร์ทัล' เพื่อสร้าง";
+"portal.enabled" = "เปิดใช้งาน";
+"portal.line_a" = "เส้น A";
+"portal.line_b" = "เส้น B";
+"portal.name" = "ชื่อ";
+"portal.position" = "ตำแหน่ง";
+
+/* Profile Management */
+
+/* Settings */
+"settings.enable_portals" = "เปิดใช้งานการเทเลพอร์ตผ่านพอร์ทัล";
+"layout.delete_confirm_title %@" = "ลบ \"%@\" หรือไม่?";
+"layout.delete_confirm_message_one" = "เลย์เอาต์นี้มีพอร์ทัล 1 รายการ ต้องการลบต่อหรือไม่?";
+"layout.delete_confirm_message_many %lld" = "เลย์เอาต์นี้มีพอร์ทัล %lld รายการ ต้องการลบต่อหรือไม่?";
+"settings.permission_not_granted" = "ยังไม่ได้รับสิทธิ์";
+"menu.accessibility_status %@" = "สิทธิ์การช่วยการเข้าถึง: %@";
+
+"layout.lock" = "Lock";
+"layout.unlock" = "Unlock";
+"layout.locked" = "Locked";
+"layout.delete_disabled_locked" = "Locked layouts cannot be deleted";
+"layout.delete_disabled_current" = "Current layout cannot be deleted";
+"layout.delete_disabled_last_remaining" = "At least one layout must remain";
+"portal.edit" = "Edit";
+"portal.delete" = "Delete";

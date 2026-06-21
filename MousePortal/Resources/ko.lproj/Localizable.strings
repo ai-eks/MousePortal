@@ -1,0 +1,156 @@
+/* 한국어 로컬라이제이션 */
+
+/* 디스플레이 이름 */
+"display.main" = "메인 디스플레이";
+"display.external %lld" = "디스플레이 %lld";
+
+/* 범례 */
+"legend.main_display" = "메인 디스플레이";
+"legend.external_display" = "외부 디스플레이";
+"legend.shared_edge" = "슬라이드 가능 경계";
+"legend.portal" = "포털";
+
+/* 탭 */
+
+/* 상태 */
+"status.hotkey" = "단축키";
+"status.portal" = "포털";
+
+/* 버튼 */
+"button.refresh" = "새로고침";
+"button.cancel" = "취소";
+"button.create" = "생성";
+
+/* 윈도우 */
+"app.title" = "MousePortal";
+
+/* 메뉴 */
+"menu.about" = "MousePortal 정보";
+"menu.enable_hotkey" = "단축키 점프 활성화";
+"menu.enable_portal" = "포털 활성화";
+"menu.open_window" = "MousePortal 열기...";
+"menu.preferences" = "환경설정...";
+"menu.quit" = "MousePortal 종료";
+
+/* 설정 - 탭 */
+"settings.general" = "일반";
+"settings.hotkeys" = "단축키";
+"settings.portals" = "포털";
+
+/* 설정 - 일반 */
+"settings.app_behavior" = "앱 동작";
+"settings.language" = "언어";
+"settings.show_menubar_icon" = "메뉴 막대에 아이콘 표시";
+"settings.launch_at_login" = "로그인 시 시작";
+"settings.permissions" = "권한";
+"settings.accessibility_permission" = "손쉬운 사용 권한";
+"settings.accessibility_description" = "전역 단축키 및 마우스 제어에 필요";
+"settings.permission_granted" = "허용됨";
+"settings.grant_permission" = "권한 허용";
+
+/* 설정 - 단축키 */
+"settings.enable_hotkeys" = "단축키 점프 활성화";
+"settings.display_hotkeys" = "디스플레이 단축키";
+"hotkey.recording" = "기록 중...";
+"hotkey.click_to_record" = "클릭하여 기록";
+"hotkey.not_set" = "설정 안 됨";
+
+/* 설정 - 포털 */
+"settings.trigger_mode" = "트리거 모드";
+"settings.trigger_key" = "Trigger Key";
+"settings.no_portals" = "포털이 없습니다. 포털 탭에서 추가하세요.";
+"settings.portal_list" = "포털 목록";
+"settings.portal_hint" = "포털 탭에서 편집";
+"trigger.automatic" = "자동";
+"trigger.with_key" = "키 누름";
+
+/* 설정 - 프로필 */
+
+/* 포털 편집기 */
+"portal.add" = "포털 추가";
+"portal.cancel" = "취소";
+"portal.instruction_line_a" = "화면 가장자리에 첫 번째 선 그리기";
+"portal.instruction_line_b" = "다른 화면 가장자리에 두 번째 선 그리기";
+"portal.instruction_name" = "포털 이름 지정";
+"portal.name_title" = "포털 이름 지정";
+"portal.name_placeholder" = "포털 이름 입력";
+"portal.default_name %lld" = "포털 %lld";
+
+/* 포털 가장자리 */
+"edge.top" = "위쪽";
+"edge.bottom" = "아래쪽";
+"edge.left" = "왼쪽";
+"edge.right" = "오른쪽";
+
+/* 알림 */
+"alert.permission_required" = "손쉬운 사용 권한 필요";
+"alert.open_settings" = "시스템 설정 열기";
+"alert.later" = "나중에";
+"alert.permission_message" = "MousePortal은 전역 단축키 모니터링 및 마우스 위치 제어를 위해 손쉬운 사용 권한이 필요합니다.\n\n시스템 설정에서 권한을 허용하세요.";
+
+/* 언어 */
+"language.system" = "시스템 기본값";
+
+/* 색상 */
+"color.orange" = "주황색";
+"color.purple" = "보라색";
+"color.pink" = "분홍색";
+"color.teal" = "청록색";
+"color.yellow" = "노란색";
+"color.red" = "빨간색";
+
+/* Buttons */
+"button.save" = "저장";
+
+/* Display */
+"display.name %lld" = "디스플레이 %lld";
+"display.unknown" = "알 수 없음";
+"display.rename" = "Rename Display";
+"display.rename_title" = "Rename Display";
+"display.name_placeholder" = "Enter display name";
+
+/* Display Layout */
+"layout.delete" = "삭제";
+"layout.cleanup_unused" = "Clean Up Unused Layouts";
+"layout.display_count %lld" = "%lld 디스플레이";
+"layout.dual_display" = "듀얼 디스플레이";
+"layout.hint" = "디스플레이 배치에 따라 자동 감지됩니다";
+"layout.multi_display %lld" = "%lld 디스플레이";
+"layout.name_placeholder" = "배치 이름 입력";
+"layout.none" = "배치 없음";
+"layout.not_current_hint" = "현재 배치가 아닙니다. 편집하려면 전환하세요.";
+"layout.readonly_hint" = "이 배치는 읽기 전용입니다. 편집하려면 현재 배치로 전환하세요.";
+"layout.rename" = "이름 변경";
+"layout.rename_title" = "배치 이름 변경";
+"layout.single_display" = "단일 디스플레이";
+"layout.title" = "디스플레이 배치";
+
+/* Portal Management */
+"portal.bidirectional" = "양방향";
+"portal.color" = "색상";
+"portal.edit_title" = "포털 편집";
+"portal.empty_hint" = "아직 포털이 없습니다. '포털 추가'를 클릭하여 생성하세요.";
+"portal.enabled" = "활성화됨";
+"portal.line_a" = "라인 A";
+"portal.line_b" = "라인 B";
+"portal.name" = "이름";
+"portal.position" = "위치";
+
+/* Profile Management */
+
+/* Settings */
+"settings.enable_portals" = "포털 텔레포트 활성화";
+"layout.delete_confirm_title %@" = "\"%@\"을(를) 삭제할까요?";
+"layout.delete_confirm_message_one" = "이 배열에는 포털 1개가 있습니다. 그래도 삭제할까요?";
+"layout.delete_confirm_message_many %lld" = "이 배열에는 포털 %lld개가 있습니다. 그래도 삭제할까요?";
+"settings.permission_not_granted" = "미허용";
+"menu.accessibility_status %@" = "손쉬운 사용 권한: %@";
+
+"layout.lock" = "Lock";
+"layout.unlock" = "Unlock";
+"layout.locked" = "Locked";
+"layout.delete_disabled_locked" = "Locked layouts cannot be deleted";
+"layout.delete_disabled_current" = "Current layout cannot be deleted";
+"layout.delete_disabled_last_remaining" = "At least one layout must remain";
+"portal.edit" = "Edit";
+"portal.delete" = "Delete";

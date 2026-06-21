@@ -1,0 +1,158 @@
+/* Bản địa hóa tiếng Việt */
+
+/* Tên màn hình */
+"display.main" = "Màn hình chính";
+"display.external %lld" = "Màn hình %lld";
+
+/* Chú thích */
+"legend.main_display" = "Màn hình chính";
+"legend.external_display" = "Màn hình ngoài";
+"legend.shared_edge" = "Cạnh trượt";
+"legend.portal" = "Cổng dịch chuyển";
+
+/* Tab */
+
+/* Trạng thái */
+"status.hotkey" = "Phím tắt";
+"status.portal" = "Cổng";
+
+/* Nút */
+"button.refresh" = "Làm mới";
+"button.cancel" = "Hủy";
+"button.create" = "Tạo";
+
+/* Cửa sổ */
+"app.title" = "MousePortal";
+
+/* Menu */
+"menu.enable_hotkey" = "Bật nhảy bằng phím tắt";
+"menu.enable_portal" = "Bật cổng dịch chuyển";
+"menu.open_window" = "Mở MousePortal...";
+"menu.preferences" = "Tùy chọn...";
+"menu.quit" = "Thoát MousePortal";
+
+/* Cài đặt - Tab */
+"settings.general" = "Chung";
+"settings.hotkeys" = "Phím tắt";
+"settings.portals" = "Cổng";
+
+/* Cài đặt - Chung */
+"settings.app_behavior" = "Hành vi ứng dụng";
+"settings.language" = "Ngôn ngữ";
+"settings.show_menubar_icon" = "Hiển thị biểu tượng trên thanh menu";
+"settings.launch_at_login" = "Khởi chạy khi đăng nhập";
+"settings.permissions" = "Quyền";
+"settings.accessibility_permission" = "Quyền trợ năng";
+"settings.accessibility_description" = "Cần thiết cho phím tắt toàn cục và điều khiển chuột";
+"settings.permission_granted" = "Đã cấp";
+"settings.grant_permission" = "Cấp quyền";
+
+/* Cài đặt - Phím tắt */
+"settings.enable_hotkeys" = "Bật nhảy bằng phím tắt";
+"settings.display_hotkeys" = "Phím tắt màn hình";
+"hotkey.recording" = "Đang ghi...";
+"hotkey.click_to_record" = "Nhấp để ghi";
+"hotkey.not_set" = "Chưa đặt";
+
+/* Cài đặt - Cổng */
+"settings.trigger_mode" = "Chế độ kích hoạt";
+"settings.trigger_key" = "Trigger Key";
+"settings.no_portals" = "Chưa có cổng nào được cấu hình. Thêm cổng trong tab Cổng.";
+"settings.portal_list" = "Danh sách cổng";
+"settings.portal_hint" = "Chỉnh sửa trong tab Cổng";
+"trigger.automatic" = "Tự động";
+"trigger.with_key" = "Giữ phím";
+
+/* Cài đặt - Hồ sơ */
+
+/* Trình chỉnh sửa cổng */
+"portal.add" = "Thêm cổng";
+"portal.cancel" = "Hủy";
+"portal.instruction_line_a" = "Vẽ đường đầu tiên trên cạnh màn hình";
+"portal.instruction_line_b" = "Vẽ đường thứ hai trên cạnh màn hình khác";
+"portal.instruction_name" = "Đặt tên cho cổng của bạn";
+"portal.name_title" = "Đặt tên cổng này";
+"portal.name_placeholder" = "Nhập tên cổng";
+"portal.default_name %lld" = "Cổng %lld";
+
+/* Cạnh cổng */
+"edge.top" = "Trên";
+"edge.bottom" = "Dưới";
+"edge.left" = "Trái";
+"edge.right" = "Phải";
+
+/* Cảnh báo */
+"alert.permission_required" = "Cần quyền trợ năng";
+"alert.open_settings" = "Mở Cài đặt Hệ thống";
+"alert.later" = "Để sau";
+"alert.permission_message" = "MousePortal cần quyền trợ năng để theo dõi phím tắt toàn cục và điều khiển vị trí chuột.\n\nVui lòng cấp quyền trong Cài đặt Hệ thống.";
+
+/* Ngôn ngữ */
+"language.system" = "Mặc định hệ thống";
+
+/* Colors */
+"color.orange" = "Orange";
+"color.purple" = "Purple";
+"color.pink" = "Pink";
+"color.teal" = "Teal";
+"color.yellow" = "Yellow";
+"color.red" = "Red";
+
+/* Buttons */
+"button.save" = "Lưu";
+
+/* Display */
+"display.name %lld" = "Màn hình %lld";
+"display.unknown" = "Không rõ";
+"display.rename" = "Rename Display";
+"display.rename_title" = "Rename Display";
+"display.name_placeholder" = "Enter display name";
+
+/* Display Layout */
+"layout.delete" = "Xóa";
+"layout.cleanup_unused" = "Clean Up Unused Layouts";
+"layout.display_count %lld" = "%lld màn hình";
+"layout.dual_display" = "Hai màn hình";
+"layout.hint" = "Bố cục được phát hiện tự động dựa trên sắp xếp màn hình của bạn";
+"layout.multi_display %lld" = "%lld màn hình";
+"layout.name_placeholder" = "Nhập tên bố cục";
+"layout.none" = "Không có bố cục";
+"layout.not_current_hint" = "Đây không phải bố cục hiện tại. Chuyển đổi để chỉnh sửa.";
+"layout.readonly_hint" = "Bố cục này chỉ đọc. Chuyển sang bố cục hiện tại để chỉnh sửa.";
+"layout.rename" = "Đổi tên";
+"layout.rename_title" = "Đổi tên bố cục";
+"layout.single_display" = "Một màn hình";
+"layout.title" = "Bố cục Màn hình";
+
+/* Menu */
+"menu.about" = "Về MousePortal";
+
+/* Portal Management */
+"portal.bidirectional" = "Hai chiều";
+"portal.color" = "Màu sắc";
+"portal.edit_title" = "Chỉnh sửa Cổng";
+"portal.empty_hint" = "Chưa có cổng nào. Nhấp 'Thêm Cổng' để tạo cổng mới.";
+"portal.enabled" = "Đã bật";
+"portal.line_a" = "Đường A";
+"portal.line_b" = "Đường B";
+"portal.name" = "Tên";
+"portal.position" = "Vị trí";
+
+/* Profile Management */
+
+/* Settings */
+"settings.enable_portals" = "Bật dịch chuyển cổng";
+"layout.delete_confirm_title %@" = "Xóa \"%@\"?";
+"layout.delete_confirm_message_one" = "Bố cục này chứa 1 cổng dịch chuyển. Vẫn xóa?";
+"layout.delete_confirm_message_many %lld" = "Bố cục này chứa %lld cổng dịch chuyển. Vẫn xóa?";
+"settings.permission_not_granted" = "Chưa cấp";
+"menu.accessibility_status %@" = "Quyền Trợ năng: %@";
+
+"layout.lock" = "Lock";
+"layout.unlock" = "Unlock";
+"layout.locked" = "Locked";
+"layout.delete_disabled_locked" = "Locked layouts cannot be deleted";
+"layout.delete_disabled_current" = "Current layout cannot be deleted";
+"layout.delete_disabled_last_remaining" = "At least one layout must remain";
+"portal.edit" = "Edit";
+"portal.delete" = "Delete";

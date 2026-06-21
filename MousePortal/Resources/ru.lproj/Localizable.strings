@@ -1,0 +1,156 @@
+/* Русская локализация */
+
+/* Названия дисплеев */
+"display.main" = "Основной дисплей";
+"display.external %lld" = "Дисплей %lld";
+
+/* Легенда */
+"legend.main_display" = "Основной дисплей";
+"legend.external_display" = "Внешний дисплей";
+"legend.shared_edge" = "Скользящая граница";
+"legend.portal" = "Портал";
+
+/* Вкладки */
+
+/* Статус */
+"status.hotkey" = "Горячие клавиши";
+"status.portal" = "Порталы";
+
+/* Кнопки */
+"button.refresh" = "Обновить";
+"button.cancel" = "Отмена";
+"button.create" = "Создать";
+
+/* Окно */
+"app.title" = "MousePortal";
+
+/* Меню */
+"menu.about" = "О программе MousePortal";
+"menu.enable_hotkey" = "Включить переход по горячим клавишам";
+"menu.enable_portal" = "Включить порталы";
+"menu.open_window" = "Открыть MousePortal...";
+"menu.preferences" = "Настройки...";
+"menu.quit" = "Завершить MousePortal";
+
+/* Настройки - Вкладки */
+"settings.general" = "Основные";
+"settings.hotkeys" = "Горячие клавиши";
+"settings.portals" = "Порталы";
+
+/* Настройки - Основные */
+"settings.app_behavior" = "Поведение приложения";
+"settings.language" = "Язык";
+"settings.show_menubar_icon" = "Показывать значок в строке меню";
+"settings.launch_at_login" = "Запускать при входе";
+"settings.permissions" = "Разрешения";
+"settings.accessibility_permission" = "Разрешение универсального доступа";
+"settings.accessibility_description" = "Требуется для глобальных горячих клавиш и управления мышью";
+"settings.permission_granted" = "Предоставлено";
+"settings.grant_permission" = "Предоставить разрешение";
+
+/* Настройки - Горячие клавиши */
+"settings.enable_hotkeys" = "Включить переход по горячим клавишам";
+"settings.display_hotkeys" = "Горячие клавиши дисплеев";
+"hotkey.recording" = "Запись...";
+"hotkey.click_to_record" = "Нажмите для записи";
+"hotkey.not_set" = "Не задано";
+
+/* Настройки - Порталы */
+"settings.trigger_mode" = "Режим активации";
+"settings.trigger_key" = "Trigger Key";
+"settings.no_portals" = "Порталы не настроены. Добавьте порталы на вкладке Порталы.";
+"settings.portal_list" = "Список порталов";
+"settings.portal_hint" = "Редактировать на вкладке Порталы";
+"trigger.automatic" = "Автоматически";
+"trigger.with_key" = "Удерживать клавишу";
+
+/* Настройки - Профили */
+
+/* Редактор порталов */
+"portal.add" = "Добавить портал";
+"portal.cancel" = "Отмена";
+"portal.instruction_line_a" = "Нарисуйте первую линию на краю экрана";
+"portal.instruction_line_b" = "Нарисуйте вторую линию на краю другого экрана";
+"portal.instruction_name" = "Назовите ваш портал";
+"portal.name_title" = "Назвать этот портал";
+"portal.name_placeholder" = "Введите название портала";
+"portal.default_name %lld" = "Портал %lld";
+
+/* Края портала */
+"edge.top" = "Верх";
+"edge.bottom" = "Низ";
+"edge.left" = "Лево";
+"edge.right" = "Право";
+
+/* Предупреждения */
+"alert.permission_required" = "Требуется разрешение универсального доступа";
+"alert.open_settings" = "Открыть Системные настройки";
+"alert.later" = "Позже";
+"alert.permission_message" = "MousePortal требуется разрешение универсального доступа для отслеживания глобальных горячих клавиш и управления положением мыши.\n\nПожалуйста, предоставьте разрешение в Системных настройках.";
+
+/* Язык */
+"language.system" = "Системный";
+
+/* Цвета */
+"color.orange" = "Оранжевый";
+"color.purple" = "Фиолетовый";
+"color.pink" = "Розовый";
+"color.teal" = "Бирюзовый";
+"color.yellow" = "Жёлтый";
+"color.red" = "Красный";
+
+/* Buttons */
+"button.save" = "Сохранить";
+
+/* Display */
+"display.name %lld" = "Дисплей %lld";
+"display.unknown" = "Неизвестно";
+"display.rename" = "Rename Display";
+"display.rename_title" = "Rename Display";
+"display.name_placeholder" = "Enter display name";
+
+/* Display Layout */
+"layout.delete" = "Удалить";
+"layout.cleanup_unused" = "Clean Up Unused Layouts";
+"layout.display_count %lld" = "%lld дисплеев";
+"layout.dual_display" = "Два дисплея";
+"layout.hint" = "Расположения определяются автоматически в зависимости от расположения ваших дисплеев";
+"layout.multi_display %lld" = "%lld дисплеев";
+"layout.name_placeholder" = "Введите название расположения";
+"layout.none" = "Нет расположения";
+"layout.not_current_hint" = "Это не текущее расположение. Переключитесь для редактирования.";
+"layout.readonly_hint" = "Это расположение только для чтения. Переключитесь на текущее расположение для редактирования.";
+"layout.rename" = "Переименовать";
+"layout.rename_title" = "Переименовать расположение";
+"layout.single_display" = "Один дисплей";
+"layout.title" = "Расположения дисплеев";
+
+/* Portal Management */
+"portal.bidirectional" = "Двунаправленный";
+"portal.color" = "Цвет";
+"portal.edit_title" = "Редактировать портал";
+"portal.empty_hint" = "Порталов пока нет. Нажмите «Добавить портал», чтобы создать.";
+"portal.enabled" = "Включён";
+"portal.line_a" = "Линия A";
+"portal.line_b" = "Линия B";
+"portal.name" = "Имя";
+"portal.position" = "Позиция";
+
+/* Profile Management */
+
+/* Settings */
+"settings.enable_portals" = "Включить телепортацию через порталы";
+"layout.delete_confirm_title %@" = "Удалить «%@»?";
+"layout.delete_confirm_message_one" = "Этот макет содержит 1 портал. Все равно удалить?";
+"layout.delete_confirm_message_many %lld" = "Этот макет содержит %lld порталов. Все равно удалить?";
+"settings.permission_not_granted" = "Не выдано";
+"menu.accessibility_status %@" = "Разрешение универсального доступа: %@";
+
+"layout.lock" = "Lock";
+"layout.unlock" = "Unlock";
+"layout.locked" = "Locked";
+"layout.delete_disabled_locked" = "Locked layouts cannot be deleted";
+"layout.delete_disabled_current" = "Current layout cannot be deleted";
+"layout.delete_disabled_last_remaining" = "At least one layout must remain";
+"portal.edit" = "Edit";
+"portal.delete" = "Delete";

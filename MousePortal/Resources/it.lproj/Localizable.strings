@@ -1,0 +1,158 @@
+/* Localizzazione italiana */
+
+/* Nomi display */
+"display.main" = "Display principale";
+"display.external %lld" = "Display %lld";
+
+/* Legenda */
+"legend.main_display" = "Display principale";
+"legend.external_display" = "Display esterno";
+"legend.shared_edge" = "Bordo scorrevole";
+"legend.portal" = "Portale";
+
+/* Schede */
+
+/* Stato */
+"status.hotkey" = "Scorciatoie";
+"status.portal" = "Portali";
+
+/* Pulsanti */
+"button.refresh" = "Aggiorna";
+"button.cancel" = "Annulla";
+"button.create" = "Crea";
+
+/* Finestra */
+"app.title" = "MousePortal";
+
+/* Menu */
+"menu.enable_hotkey" = "Abilita salto con scorciatoie";
+"menu.enable_portal" = "Abilita portali";
+"menu.open_window" = "Apri MousePortal...";
+"menu.preferences" = "Preferenze...";
+"menu.quit" = "Esci da MousePortal";
+
+/* Impostazioni - Schede */
+"settings.general" = "Generali";
+"settings.hotkeys" = "Scorciatoie";
+"settings.portals" = "Portali";
+
+/* Impostazioni - Generali */
+"settings.app_behavior" = "Comportamento app";
+"settings.language" = "Lingua";
+"settings.show_menubar_icon" = "Mostra icona nella barra dei menu";
+"settings.launch_at_login" = "Avvia al login";
+"settings.permissions" = "Permessi";
+"settings.accessibility_permission" = "Permesso accessibilità";
+"settings.accessibility_description" = "Richiesto per scorciatoie globali e controllo mouse";
+"settings.permission_granted" = "Concesso";
+"settings.grant_permission" = "Concedi permesso";
+
+/* Impostazioni - Scorciatoie */
+"settings.enable_hotkeys" = "Abilita salto con scorciatoie";
+"settings.display_hotkeys" = "Scorciatoie display";
+"hotkey.recording" = "Registrazione...";
+"hotkey.click_to_record" = "Clicca per registrare";
+"hotkey.not_set" = "Non impostato";
+
+/* Impostazioni - Portali */
+"settings.trigger_mode" = "Modalità attivazione";
+"settings.trigger_key" = "Trigger Key";
+"settings.no_portals" = "Nessun portale configurato. Aggiungi portali nella scheda Portali.";
+"settings.portal_list" = "Elenco portali";
+"settings.portal_hint" = "Modifica nella scheda Portali";
+"trigger.automatic" = "Automatico";
+"trigger.with_key" = "Tieni premuto tasto";
+
+/* Impostazioni - Profili */
+
+/* Editor portale */
+"portal.add" = "Aggiungi portale";
+"portal.cancel" = "Annulla";
+"portal.instruction_line_a" = "Disegna la prima linea sul bordo dello schermo";
+"portal.instruction_line_b" = "Disegna la seconda linea sul bordo di un altro schermo";
+"portal.instruction_name" = "Dai un nome al portale";
+"portal.name_title" = "Nomina questo portale";
+"portal.name_placeholder" = "Inserisci nome portale";
+"portal.default_name %lld" = "Portale %lld";
+
+/* Bordi portale */
+"edge.top" = "Alto";
+"edge.bottom" = "Basso";
+"edge.left" = "Sinistra";
+"edge.right" = "Destra";
+
+/* Avvisi */
+"alert.permission_required" = "Permesso accessibilità richiesto";
+"alert.open_settings" = "Apri Impostazioni di Sistema";
+"alert.later" = "Più tardi";
+"alert.permission_message" = "MousePortal necessita del permesso di accessibilità per monitorare le scorciatoie globali e controllare la posizione del mouse.\n\nConcedi il permesso nelle Impostazioni di Sistema.";
+
+/* Lingua */
+"language.system" = "Predefinito di sistema";
+
+/* Colors */
+"color.orange" = "Orange";
+"color.purple" = "Purple";
+"color.pink" = "Pink";
+"color.teal" = "Teal";
+"color.yellow" = "Yellow";
+"color.red" = "Red";
+
+/* Buttons */
+"button.save" = "Salva";
+
+/* Display */
+"display.name %lld" = "Schermo %lld";
+"display.unknown" = "Sconosciuto";
+"display.rename" = "Rename Display";
+"display.rename_title" = "Rename Display";
+"display.name_placeholder" = "Enter display name";
+
+/* Display Layout */
+"layout.delete" = "Elimina";
+"layout.cleanup_unused" = "Clean Up Unused Layouts";
+"layout.display_count %lld" = "%lld schermi";
+"layout.dual_display" = "Doppio schermo";
+"layout.hint" = "Le disposizioni vengono rilevate automaticamente in base alla disposizione dei tuoi schermi";
+"layout.multi_display %lld" = "%lld schermi";
+"layout.name_placeholder" = "Inserisci nome disposizione";
+"layout.none" = "Nessuna disposizione";
+"layout.not_current_hint" = "Questa non è la disposizione attuale. Passa per modificare.";
+"layout.readonly_hint" = "Questa disposizione è di sola lettura. Passa alla disposizione attuale per modificare.";
+"layout.rename" = "Rinomina";
+"layout.rename_title" = "Rinomina disposizione";
+"layout.single_display" = "Schermo singolo";
+"layout.title" = "Disposizioni schermo";
+
+/* Menu */
+"menu.about" = "Informazioni su MousePortal";
+
+/* Portal Management */
+"portal.bidirectional" = "Bidirezionale";
+"portal.color" = "Colore";
+"portal.edit_title" = "Modifica portale";
+"portal.empty_hint" = "Nessun portale. Fai clic su 'Aggiungi portale' per crearne uno.";
+"portal.enabled" = "Abilitato";
+"portal.line_a" = "Linea A";
+"portal.line_b" = "Linea B";
+"portal.name" = "Nome";
+"portal.position" = "Posizione";
+
+/* Profile Management */
+
+/* Settings */
+"settings.enable_portals" = "Abilita teletrasporto portale";
+"layout.delete_confirm_title %@" = "Eliminare \"%@\"?";
+"layout.delete_confirm_message_one" = "Questa disposizione contiene 1 portale. Eliminarla comunque?";
+"layout.delete_confirm_message_many %lld" = "Questa disposizione contiene %lld portali. Eliminarla comunque?";
+"settings.permission_not_granted" = "Non concessa";
+"menu.accessibility_status %@" = "Permesso Accessibilità: %@";
+
+"layout.lock" = "Lock";
+"layout.unlock" = "Unlock";
+"layout.locked" = "Locked";
+"layout.delete_disabled_locked" = "Locked layouts cannot be deleted";
+"layout.delete_disabled_current" = "Current layout cannot be deleted";
+"layout.delete_disabled_last_remaining" = "At least one layout must remain";
+"portal.edit" = "Edit";
+"portal.delete" = "Delete";

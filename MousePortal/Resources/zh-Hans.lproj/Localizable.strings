@@ -1,0 +1,156 @@
+/* 简体中文本地化 */
+
+/* 显示器名称 */
+"display.main" = "主显示器";
+"display.external %lld" = "显示器 %lld";
+
+/* 图例 */
+"legend.main_display" = "主显示器";
+"legend.external_display" = "外接显示器";
+"legend.shared_edge" = "可滑动边缘";
+"legend.portal" = "传送门";
+
+/* 标签页 */
+
+/* 状态 */
+"status.hotkey" = "快捷键";
+"status.portal" = "传送门";
+
+/* 按钮 */
+"button.refresh" = "刷新";
+"button.cancel" = "取消";
+"button.create" = "创建";
+
+/* 窗口 */
+"app.title" = "MousePortal";
+
+/* 菜单 */
+"menu.about" = "关于 MousePortal";
+"menu.enable_hotkey" = "启用快捷键跳屏";
+"menu.enable_portal" = "启用传送门";
+"menu.open_window" = "打开 MousePortal...";
+"menu.preferences" = "偏好设置...";
+"menu.quit" = "退出 MousePortal";
+
+/* 设置 - 标签页 */
+"settings.general" = "通用";
+"settings.hotkeys" = "快捷键";
+"settings.portals" = "传送门";
+
+/* 设置 - 通用 */
+"settings.app_behavior" = "应用行为";
+"settings.language" = "语言";
+"settings.show_menubar_icon" = "在菜单栏显示图标";
+"settings.launch_at_login" = "登录时启动";
+"settings.permissions" = "权限";
+"settings.accessibility_permission" = "辅助功能权限";
+"settings.accessibility_description" = "用于全局快捷键和鼠标控制";
+"settings.permission_granted" = "已授权";
+"settings.grant_permission" = "授予权限";
+
+/* 设置 - 快捷键 */
+"settings.enable_hotkeys" = "启用快捷键跳屏";
+"settings.display_hotkeys" = "显示器快捷键";
+"hotkey.recording" = "录制中...";
+"hotkey.click_to_record" = "点击对应的快捷键重新录制";
+"hotkey.not_set" = "未设置";
+
+/* 设置 - 传送门 */
+"settings.trigger_mode" = "触发模式";
+"settings.trigger_key" = "触发按键";
+"settings.no_portals" = "暂无传送门。请在「传送门」标签页中添加。";
+"settings.portal_list" = "传送门列表";
+"settings.portal_hint" = "在「传送门」标签页中编辑";
+"trigger.automatic" = "自动触发";
+"trigger.with_key" = "按键触发";
+
+/* 设置 - 配置方案 */
+
+/* 传送门编辑器 */
+"portal.add" = "添加传送门";
+"portal.cancel" = "取消";
+"portal.instruction_line_a" = "在屏幕边缘拖拽绘制第一条线";
+"portal.instruction_line_b" = "在另一个屏幕边缘拖拽绘制第二条线";
+"portal.instruction_name" = "为传送门命名";
+"portal.name_title" = "命名传送门";
+"portal.name_placeholder" = "输入传送门名称";
+"portal.default_name %lld" = "传送门 %lld";
+
+/* 传送门边缘 */
+"edge.top" = "上边缘";
+"edge.bottom" = "下边缘";
+"edge.left" = "左边缘";
+"edge.right" = "右边缘";
+
+/* 警告 */
+"alert.permission_required" = "需要辅助功能权限";
+"alert.open_settings" = "打开系统设置";
+"alert.later" = "稍后再说";
+"alert.permission_message" = "MousePortal 需要辅助功能权限来监听全局快捷键和控制鼠标位置。\n\n请在系统设置中授予权限。";
+
+/* 语言 */
+"language.system" = "跟随系统";
+
+/* 传送门管理 */
+"portal.empty_hint" = "暂无传送门，点击「添加传送门」创建一个";
+"portal.edit_title" = "编辑传送门";
+"portal.name" = "名称";
+"portal.enabled" = "启用";
+"portal.bidirectional" = "双向传送";
+"portal.color" = "颜色";
+"portal.position" = "位置";
+"portal.line_a" = "线条 A";
+"portal.line_b" = "线条 B";
+"display.unknown" = "未知";
+"display.rename" = "重命名显示器";
+"display.rename_title" = "重命名显示器";
+"display.name_placeholder" = "输入显示器名称";
+
+/* 配置方案管理 */
+
+/* 按钮 */
+"button.save" = "保存";
+
+/* 显示器排列 */
+"layout.title" = "显示器排列";
+"layout.hint" = "排列会根据你的显示器布局自动检测";
+"layout.none" = "无排列";
+"layout.rename" = "重命名";
+"layout.delete" = "删除";
+"layout.cleanup_unused" = "清理未使用排列";
+"layout.rename_title" = "重命名排列";
+"layout.name_placeholder" = "输入排列名称";
+"layout.not_current_hint" = "这不是当前排列，无法编辑";
+"layout.readonly_hint" = "此排列为只读，请切换到当前排列以编辑";
+"layout.single_display" = "单显示器";
+"layout.dual_display" = "双显示器";
+"layout.multi_display %lld" = "%lld 个显示器";
+"layout.display_count %lld" = "%lld 个显示器";
+
+/* 颜色 */
+"color.orange" = "橙色";
+"color.purple" = "紫色";
+"color.pink" = "粉色";
+"color.teal" = "青色";
+"color.yellow" = "黄色";
+"color.red" = "红色";
+
+/* Display */
+"display.name %lld" = "显示器 %lld";
+
+/* Settings */
+"settings.enable_portals" = "启用传送门传送";
+"layout.delete_confirm_title %@" = "删除“%@”？";
+"layout.delete_confirm_message_one" = "此排列包含 1 个传送门，仍要删除吗？";
+"layout.delete_confirm_message_many %lld" = "此排列包含 %lld 个传送门，仍要删除吗？";
+"settings.permission_not_granted" = "未授权";
+"menu.accessibility_status %@" = "辅助功能权限：%@";
+
+"layout.lock" = "锁定";
+"layout.unlock" = "取消锁定";
+"layout.locked" = "已锁定";
+"layout.delete_disabled_locked" = "已锁定的排列不能删除";
+"layout.delete_disabled_current" = "当前排列不能删除";
+"layout.delete_disabled_last_remaining" = "至少要保留一个排列";
+"portal.edit" = "编辑";
+"portal.delete" = "删除";
