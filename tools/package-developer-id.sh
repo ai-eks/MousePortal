@@ -13,6 +13,7 @@ APP_SIGN_IDENTITY="${APP_SIGN_IDENTITY:-}"
 ENTITLEMENTS_PATH="${ENTITLEMENTS_PATH:-$REPO_ROOT/Distribution/DeveloperID.entitlements}"
 NOTARY_PROFILE="${NOTARY_PROFILE:-mouseportal-notary}"
 SKIP_NOTARIZE="${SKIP_NOTARIZE:-0}"
+ARCHS="${ARCHS:-arm64 x86_64}"
 STAGING_DIR="$(mktemp -d "${TMPDIR:-/tmp}/${APP_NAME}.developer-id.XXXXXX")"
 trap 'rm -rf "$STAGING_DIR"' EXIT
 
@@ -31,8 +32,19 @@ if [[ -z "$VERSION" || -z "$BUILD_NUMBER" ]]; then
   exit 1
 fi
 
-swift build -c "$CONFIGURATION"
-BIN_PATH="$(swift build -c "$CONFIGURATION" --show-bin-path)"
+read -r -a BUILD_ARCHS <<< "$ARCHS"
+if [[ "${#BUILD_ARCHS[@]}" -eq 0 ]]; then
+  echo "ARCHS must contain at least one architecture" >&2
+  exit 1
+fi
+
+BUILD_ARGS=(-c "$CONFIGURATION")
+for arch in "${BUILD_ARCHS[@]}"; do
+  BUILD_ARGS+=(--arch "$arch")
+done
+
+swift build "${BUILD_ARGS[@]}"
+BIN_PATH="$(swift build "${BUILD_ARGS[@]}" --show-bin-path)"
 
 APP_PATH="$STAGING_DIR/$APP_NAME.app"
 DMG_ROOT="$STAGING_DIR/dmg-root"
@@ -46,6 +58,14 @@ rm -f "$DMG_PATH" "$DMG_PATH.sha256"
 mkdir -p "$APP_PATH/Contents/MacOS" "$APP_PATH/Contents/Resources"
 
 install -m 755 "$BIN_PATH/$APP_NAME" "$APP_PATH/Contents/MacOS/$APP_NAME"
+BINARY_ARCHS="$(lipo -archs "$APP_PATH/Contents/MacOS/$APP_NAME")"
+for arch in "${BUILD_ARCHS[@]}"; do
+  if [[ " $BINARY_ARCHS " != *" $arch "* ]]; then
+    echo "Built binary is missing required architecture '$arch': $BINARY_ARCHS" >&2
+    exit 1
+  fi
+done
+echo "Built $APP_NAME for architectures: $BINARY_ARCHS"
 
 if [[ ! -d "$RESOURCE_BUNDLE" ]]; then
   echo "Missing SwiftPM resource bundle: $RESOURCE_BUNDLE" >&2

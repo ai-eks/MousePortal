@@ -65,6 +65,7 @@ jobs:
         env:
           APP_SIGN_IDENTITY: ${{ secrets.DEVELOPER_ID_APP_IDENTITY }}
           NOTARY_PROFILE: mouseportal-notary
+          ARCHS: arm64 x86_64
         run: |
           if [[ -z "${APP_SIGN_IDENTITY:-}" ]]; then
             echo "::error::Missing DEVELOPER_ID_APP_IDENTITY secret."
