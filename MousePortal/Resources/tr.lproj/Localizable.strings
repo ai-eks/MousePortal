@@ -82,10 +82,6 @@
 "edge.right" = "Sağ";
 
 /* Uyarılar */
-"alert.permission_required" = "Erişilebilirlik İzni Gerekli";
-"alert.open_settings" = "Sistem Ayarlarını Aç";
-"alert.later" = "Daha Sonra";
-"alert.permission_message" = "MousePortal, global kısayolları izlemek ve fare konumunu kontrol etmek için Erişilebilirlik iznine ihtiyaç duyar.\n\nLütfen Sistem Ayarları'nda izin verin.";
 
 /* Dil */
 "language.system" = "Sistem Varsayılanı";

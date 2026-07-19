@@ -82,10 +82,6 @@
 "edge.right" = "يمين";
 
 /* التنبيهات */
-"alert.permission_required" = "إذن إمكانية الوصول مطلوب";
-"alert.open_settings" = "فتح إعدادات النظام";
-"alert.later" = "لاحقاً";
-"alert.permission_message" = "يحتاج MousePortal إلى إذن إمكانية الوصول لمراقبة الاختصارات العامة والتحكم في موضع الماوس.\n\nيرجى منح الإذن في إعدادات النظام.";
 
 /* اللغة */
 "language.system" = "الافتراضي للنظام";

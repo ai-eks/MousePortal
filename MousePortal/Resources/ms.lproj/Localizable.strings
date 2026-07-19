@@ -82,10 +82,6 @@
 "edge.right" = "Kanan";
 
 /* Amaran */
-"alert.permission_required" = "Kebenaran Kebolehcapaian Diperlukan";
-"alert.open_settings" = "Buka Tetapan Sistem";
-"alert.later" = "Kemudian";
-"alert.permission_message" = "MousePortal memerlukan kebenaran Kebolehcapaian untuk memantau pintasan global dan mengawal kedudukan tetikus.\n\nSila berikan kebenaran dalam Tetapan Sistem.";
 
 /* Bahasa */
 "language.system" = "Lalai Sistem";

@@ -82,10 +82,6 @@
 "edge.right" = "Prawo";
 
 /* Alerty */
-"alert.permission_required" = "Wymagane uprawnienie dostępności";
-"alert.open_settings" = "Otwórz Ustawienia systemowe";
-"alert.later" = "Później";
-"alert.permission_message" = "MousePortal wymaga uprawnienia dostępności do monitorowania globalnych skrótów i sterowania pozycją myszy.\n\nPrzyznaj uprawnienie w Ustawieniach systemowych.";
 
 /* Język */
 "language.system" = "Domyślny systemowy";

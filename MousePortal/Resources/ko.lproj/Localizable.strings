@@ -83,10 +83,6 @@
 "edge.right" = "오른쪽";
 
 /* 알림 */
-"alert.permission_required" = "손쉬운 사용 권한 필요";
-"alert.open_settings" = "시스템 설정 열기";
-"alert.later" = "나중에";
-"alert.permission_message" = "MousePortal은 전역 단축키 모니터링 및 마우스 위치 제어를 위해 손쉬운 사용 권한이 필요합니다.\n\n시스템 설정에서 권한을 허용하세요.";
 
 /* 언어 */
 "language.system" = "시스템 기본값";

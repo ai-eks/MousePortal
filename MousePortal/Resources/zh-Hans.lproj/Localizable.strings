@@ -83,10 +83,6 @@
 "edge.right" = "右边缘";
 
 /* 警告 */
-"alert.permission_required" = "需要辅助功能权限";
-"alert.open_settings" = "打开系统设置";
-"alert.later" = "稍后再说";
-"alert.permission_message" = "MousePortal 需要辅助功能权限来监听全局快捷键和控制鼠标位置。\n\n请在系统设置中授予权限。";
 
 /* 语言 */
 "language.system" = "跟随系统";

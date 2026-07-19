@@ -83,10 +83,6 @@
 "edge.right" = "Derecha";
 
 /* Alertas */
-"alert.permission_required" = "Permiso de accesibilidad requerido";
-"alert.open_settings" = "Abrir Ajustes del Sistema";
-"alert.later" = "Más tarde";
-"alert.permission_message" = "MousePortal necesita el permiso de accesibilidad para monitorear atajos globales y controlar la posición del ratón.\n\nPor favor, conceda el permiso en Ajustes del Sistema.";
 
 /* Idioma */
 "language.system" = "Predeterminado del sistema";

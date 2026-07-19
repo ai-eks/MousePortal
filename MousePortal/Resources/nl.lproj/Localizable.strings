@@ -82,10 +82,6 @@
 "edge.right" = "Rechts";
 
 /* Waarschuwingen */
-"alert.permission_required" = "Toegankelijkheidsmachtiging vereist";
-"alert.open_settings" = "Open Systeeminstellingen";
-"alert.later" = "Later";
-"alert.permission_message" = "MousePortal heeft toegankelijkheidsmachtiging nodig om globale sneltoetsen te monitoren en de muispositie te besturen.\n\nVerleen de machtiging in Systeeminstellingen.";
 
 /* Taal */
 "language.system" = "Systeemstandaard";

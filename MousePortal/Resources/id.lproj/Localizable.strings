@@ -82,10 +82,6 @@
 "edge.right" = "Kanan";
 
 /* Peringatan */
-"alert.permission_required" = "Izin Aksesibilitas Diperlukan";
-"alert.open_settings" = "Buka Pengaturan Sistem";
-"alert.later" = "Nanti";
-"alert.permission_message" = "MousePortal memerlukan izin Aksesibilitas untuk memantau pintasan global dan mengontrol posisi mouse.\n\nSilakan berikan izin di Pengaturan Sistem.";
 
 /* Bahasa */
 "language.system" = "Default Sistem";
