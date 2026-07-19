@@ -83,10 +83,6 @@
 "edge.right" = "Droite";
 
 /* Alertes */
-"alert.permission_required" = "Autorisation d'accessibilité requise";
-"alert.open_settings" = "Ouvrir les Réglages Système";
-"alert.later" = "Plus tard";
-"alert.permission_message" = "MousePortal a besoin de l'autorisation d'accessibilité pour surveiller les raccourcis globaux et contrôler la position de la souris.\n\nVeuillez accorder l'autorisation dans les Réglages Système.";
 
 /* Langue */
 "language.system" = "Par défaut du système";

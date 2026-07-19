@@ -24,7 +24,7 @@ MousePortal is a macOS utility for managing mouse cursor movement between multip
 2. **Portals** - Custom edge-to-edge teleportation zones that warp the cursor when crossing defined screen boundaries
 
 <p align="center">
-  <img src="docs/images/mouseportal-en.png" alt="MousePortal screenshot" width="900">
+  <img src="docs/images/mouseportal-readme-preview.gif" alt="MousePortal preview" width="900">
 </p>
 
 ## Features

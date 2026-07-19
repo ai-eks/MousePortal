@@ -83,10 +83,6 @@
 "edge.right" = "Right";
 
 /* Alerts */
-"alert.permission_required" = "Accessibility Permission Required";
-"alert.open_settings" = "Open System Settings";
-"alert.later" = "Later";
-"alert.permission_message" = "MousePortal needs Accessibility permission to monitor global hotkeys and control mouse position.\n\nPlease grant permission in System Settings.";
 
 /* Language */
 "language.system" = "System Default";

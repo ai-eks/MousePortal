@@ -83,10 +83,6 @@
 "edge.right" = "右邊緣";
 
 /* 警告 */
-"alert.permission_required" = "需要輔助使用權限";
-"alert.open_settings" = "打開系統設定";
-"alert.later" = "稍後再說";
-"alert.permission_message" = "MousePortal 需要輔助使用權限來監聽全域快捷鍵和控制滑鼠位置。\n\n請在系統設定中授予權限。";
 
 /* 語言 */
 "language.system" = "跟隨系統";

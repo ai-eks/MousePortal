@@ -15,7 +15,6 @@ struct ContentView: View {
     @ObservedObject private var layoutService = DisplayLayoutService.shared
     @ObservedObject private var languageService = LanguageService.shared
 
-    @State private var showingPermissionAlert = false
     @State private var selectedLayoutID: UUID?
     @State private var showingRenameSheet = false
     @State private var pendingDeleteLayout: DisplayLayout?
@@ -267,7 +266,7 @@ struct ContentView: View {
                             get: { hotkeyConfigStore.globalEnabled },
                             set: { newValue in
                                 if newValue && !permissionService.isAccessibilityGranted {
-                                    showingPermissionAlert = true
+                                    permissionService.requestAccessibility()
                                 } else {
                                     hotkeyConfigStore.globalEnabled = newValue
                                     hotkeyConfigStore.save()
@@ -322,14 +321,6 @@ struct ContentView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .languageDidChange)) { _ in
             refreshHotkeyDisplayNames()
-        }
-        .alert(L("alert.permission_required"), isPresented: $showingPermissionAlert) {
-            Button(L("alert.open_settings")) {
-                permissionService.requestAccessibility()
-            }
-            Button(L("alert.later"), role: .cancel) {}
-        } message: {
-            Text(L("alert.permission_message"))
         }
         .alert(
             "",
@@ -633,7 +624,7 @@ struct ContentView: View {
     private func checkPermissionOnLaunch() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             if !permissionService.checkAccessibility() {
-                showingPermissionAlert = true
+                permissionService.requestAccessibility()
             }
         }
     }

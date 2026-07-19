@@ -82,10 +82,6 @@
 "edge.right" = "Phải";
 
 /* Cảnh báo */
-"alert.permission_required" = "Cần quyền trợ năng";
-"alert.open_settings" = "Mở Cài đặt Hệ thống";
-"alert.later" = "Để sau";
-"alert.permission_message" = "MousePortal cần quyền trợ năng để theo dõi phím tắt toàn cục và điều khiển vị trí chuột.\n\nVui lòng cấp quyền trong Cài đặt Hệ thống.";
 
 /* Ngôn ngữ */
 "language.system" = "Mặc định hệ thống";

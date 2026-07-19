@@ -83,10 +83,6 @@
 "edge.right" = "右端";
 
 /* アラート */
-"alert.permission_required" = "アクセシビリティ権限が必要";
-"alert.open_settings" = "システム設定を開く";
-"alert.later" = "後で";
-"alert.permission_message" = "MousePortalはグローバルホットキーの監視とマウス位置の制御にアクセシビリティ権限が必要です。\n\nシステム設定で権限を付与してください。";
 
 /* 言語 */
 "language.system" = "システムに従う";

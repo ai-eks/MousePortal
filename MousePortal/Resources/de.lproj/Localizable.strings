@@ -83,10 +83,6 @@
 "edge.right" = "Rechts";
 
 /* Warnungen */
-"alert.permission_required" = "Bedienungshilfen-Berechtigung erforderlich";
-"alert.open_settings" = "Systemeinstellungen öffnen";
-"alert.later" = "Später";
-"alert.permission_message" = "MousePortal benötigt die Bedienungshilfen-Berechtigung, um globale Tastenkürzel zu überwachen und die Mausposition zu steuern.\n\nBitte erteilen Sie die Berechtigung in den Systemeinstellungen.";
 
 /* Sprache */
 "language.system" = "Systemstandard";

@@ -83,10 +83,6 @@
 "edge.right" = "Direita";
 
 /* Alertas */
-"alert.permission_required" = "Permissão de acessibilidade necessária";
-"alert.open_settings" = "Abrir Ajustes do Sistema";
-"alert.later" = "Mais tarde";
-"alert.permission_message" = "MousePortal precisa da permissão de acessibilidade para monitorar atalhos globais e controlar a posição do mouse.\n\nPor favor, conceda a permissão nos Ajustes do Sistema.";
 
 /* Idioma */
 "language.system" = "Padrão do sistema";
