@@ -24,7 +24,7 @@ MousePortal 是一个 macOS 实用工具，用于在多个显示器之间管理�
 2. **传送门** - 自定义的边缘到边缘传送区域，当光标跨越定义的屏幕边界时自动传送
 
 <p align="center">
-  <img src="docs/images/mouseportal-zh.png" alt="MousePortal 界面截图" width="900">
+  <img src="docs/images/mouseportal-readme-preview.gif" alt="MousePortal 预览" width="900">
 </p>
 
 ## 功能特性
