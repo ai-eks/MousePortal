@@ -49,7 +49,8 @@ BIN_PATH="$(swift build "${BUILD_ARGS[@]}" --show-bin-path)"
 APP_PATH="$STAGING_DIR/$APP_NAME.app"
 DMG_ROOT="$STAGING_DIR/dmg-root"
 RW_DMG="$STAGING_DIR/$APP_NAME-$VERSION-rw.dmg"
-DMG_PATH="$DIST_DIR/$APP_NAME-$VERSION.dmg"
+DMG_NAME="$APP_NAME-$VERSION.dmg"
+DMG_PATH="$DIST_DIR/$DMG_NAME"
 RESOURCE_BUNDLE="$BIN_PATH/${APP_NAME}_${APP_NAME}.bundle"
 ICON_SOURCE="$SOURCE_ROOT/MousePortal/Resources/Assets.xcassets/AppIcon.appiconset/icon_1024x1024.png"
 
@@ -187,7 +188,10 @@ if [[ "$SKIP_NOTARIZE" != "1" ]]; then
   xcrun stapler validate "$DMG_PATH"
 fi
 
-shasum -a 256 "$DMG_PATH" > "$DMG_PATH.sha256"
+(
+  cd "$DIST_DIR"
+  shasum -a 256 "$DMG_NAME" > "$DMG_NAME.sha256"
+)
 
 echo "Created:"
 echo "  $DMG_PATH"
