@@ -71,6 +71,7 @@
 "portal.instruction_line_a" = "Vẽ đường đầu tiên trên cạnh màn hình";
 "portal.instruction_line_b" = "Vẽ đường thứ hai trên cạnh màn hình khác";
 "portal.instruction_name" = "Đặt tên cho cổng của bạn";
+"portal.error_lines_overlap" = "Hai đường cổng không được chồng lấn hoặc chạm nhau trên cùng một cạnh màn hình. Hãy vẽ lại đường thứ hai.";
 "portal.name_title" = "Đặt tên cổng này";
 "portal.name_placeholder" = "Nhập tên cổng";
 "portal.default_name %lld" = "Cổng %lld";

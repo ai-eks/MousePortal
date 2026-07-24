@@ -72,6 +72,7 @@
 "portal.instruction_line_a" = "在屏幕边缘拖拽绘制第一条线";
 "portal.instruction_line_b" = "在另一个屏幕边缘拖拽绘制第二条线";
 "portal.instruction_name" = "为传送门命名";
+"portal.error_lines_overlap" = "传送门的两条线不能在同一显示器边缘重叠或相接，请重新绘制第二条线";
 "portal.name_title" = "命名传送门";
 "portal.name_placeholder" = "输入传送门名称";
 "portal.default_name %lld" = "传送门 %lld";

@@ -72,6 +72,7 @@
 "portal.instruction_line_a" = "Draw the first line on a screen edge";
 "portal.instruction_line_b" = "Draw the second line on another screen edge";
 "portal.instruction_name" = "Name your portal";
+"portal.error_lines_overlap" = "Portal lines cannot overlap or touch on the same display edge. Redraw the second line.";
 "portal.name_title" = "Name This Portal";
 "portal.name_placeholder" = "Enter portal name";
 "portal.default_name %lld" = "Portal %lld";

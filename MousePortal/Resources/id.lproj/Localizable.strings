@@ -71,6 +71,7 @@
 "portal.instruction_line_a" = "Gambar garis pertama di tepi layar";
 "portal.instruction_line_b" = "Gambar garis kedua di tepi layar lain";
 "portal.instruction_name" = "Beri nama portal Anda";
+"portal.error_lines_overlap" = "Garis portal tidak boleh tumpang tindih atau bersentuhan pada tepi layar yang sama. Gambar ulang garis kedua.";
 "portal.name_title" = "Beri Nama Portal Ini";
 "portal.name_placeholder" = "Masukkan nama portal";
 "portal.default_name %lld" = "Portal %lld";

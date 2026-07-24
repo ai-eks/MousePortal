@@ -71,6 +71,7 @@
 "portal.instruction_line_a" = "ارسم الخط الأول على حافة الشاشة";
 "portal.instruction_line_b" = "ارسم الخط الثاني على حافة شاشة أخرى";
 "portal.instruction_name" = "سمِّ بوابتك";
+"portal.error_lines_overlap" = "لا يمكن أن يتداخل خطا البوابة أو يتلامسا على حافة الشاشة نفسها. أعد رسم الخط الثاني.";
 "portal.name_title" = "تسمية هذه البوابة";
 "portal.name_placeholder" = "أدخل اسم البوابة";
 "portal.default_name %lld" = "بوابة %lld";

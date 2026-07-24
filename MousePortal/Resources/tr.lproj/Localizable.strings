@@ -71,6 +71,7 @@
 "portal.instruction_line_a" = "Ekran kenarına ilk çizgiyi çizin";
 "portal.instruction_line_b" = "Başka bir ekran kenarına ikinci çizgiyi çizin";
 "portal.instruction_name" = "Portalınıza ad verin";
+"portal.error_lines_overlap" = "Portal çizgileri aynı ekran kenarında çakışamaz veya birbirine değemez. İkinci çizgiyi yeniden çizin.";
 "portal.name_title" = "Bu Portalı Adlandır";
 "portal.name_placeholder" = "Portal adını girin";
 "portal.default_name %lld" = "Portal %lld";

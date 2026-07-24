@@ -71,6 +71,7 @@
 "portal.instruction_line_a" = "स्क्रीन किनारे पर पहली रेखा बनाएं";
 "portal.instruction_line_b" = "दूसरी स्क्रीन किनारे पर दूसरी रेखा बनाएं";
 "portal.instruction_name" = "अपने पोर्टल का नाम दें";
+"portal.error_lines_overlap" = "पोर्टल की रेखाएँ एक ही स्क्रीन किनारे पर ओवरलैप या स्पर्श नहीं कर सकतीं। दूसरी रेखा फिर से बनाएँ।";
 "portal.name_title" = "इस पोर्टल का नाम दें";
 "portal.name_placeholder" = "पोर्टल नाम दर्ज करें";
 "portal.default_name %lld" = "पोर्टल %lld";

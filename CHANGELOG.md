@@ -14,6 +14,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Improved portal visual editor
 - Configuration profile import/export
 
+## [1.0.1] - 2026-07-24
+
+### Fixed
+- Prevented a portal's two lines from overlapping or sharing an endpoint on the same display edge.
+
 ## [0.1.2] - 2026-06-15
 
 ### Changed

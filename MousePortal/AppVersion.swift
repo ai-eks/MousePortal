@@ -1,8 +1,8 @@
 import Foundation
 
 enum AppVersion {
-    static let current = "1.0.0"
-    static let build = "1"
+    static let current = "1.0.1"
+    static let build = "2"
 
     static var displayVersion: String {
         if let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String,
