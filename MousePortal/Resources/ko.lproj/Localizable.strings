@@ -72,6 +72,7 @@
 "portal.instruction_line_a" = "화면 가장자리에 첫 번째 선 그리기";
 "portal.instruction_line_b" = "다른 화면 가장자리에 두 번째 선 그리기";
 "portal.instruction_name" = "포털 이름 지정";
+"portal.error_lines_overlap" = "포털의 두 선은 같은 화면 가장자리에서 겹치거나 맞닿을 수 없습니다. 두 번째 선을 다시 그리세요.";
 "portal.name_title" = "포털 이름 지정";
 "portal.name_placeholder" = "포털 이름 입력";
 "portal.default_name %lld" = "포털 %lld";

@@ -71,6 +71,7 @@
 "portal.instruction_line_a" = "วาดเส้นแรกบนขอบหน้าจอ";
 "portal.instruction_line_b" = "วาดเส้นที่สองบนขอบหน้าจออื่น";
 "portal.instruction_name" = "ตั้งชื่อพอร์ทัลของคุณ";
+"portal.error_lines_overlap" = "เส้นพอร์ทัลต้องไม่ทับหรือแตะกันบนขอบหน้าจอเดียวกัน โปรดวาดเส้นที่สองใหม่";
 "portal.name_title" = "ตั้งชื่อพอร์ทัลนี้";
 "portal.name_placeholder" = "ป้อนชื่อพอร์ทัล";
 "portal.default_name %lld" = "พอร์ทัล %lld";

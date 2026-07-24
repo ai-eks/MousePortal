@@ -71,6 +71,7 @@
 "portal.instruction_line_a" = "Teken de eerste lijn op een schermrand";
 "portal.instruction_line_b" = "Teken de tweede lijn op een andere schermrand";
 "portal.instruction_name" = "Geef uw portaal een naam";
+"portal.error_lines_overlap" = "Portaallijnen mogen elkaar niet overlappen of raken op dezelfde schermrand. Teken de tweede lijn opnieuw.";
 "portal.name_title" = "Dit portaal benoemen";
 "portal.name_placeholder" = "Voer portaalnaam in";
 "portal.default_name %lld" = "Portaal %lld";

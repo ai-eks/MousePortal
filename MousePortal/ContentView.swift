@@ -116,7 +116,7 @@ struct ContentView: View {
                     if drawingSession.isDrawingMode {
                         Text(drawingSession.stepInstructions)
                             .font(.callout)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(drawingSession.hasValidationError ? .red : .secondary)
 
                         Button(action: {
                             drawingSession.cancelDrawing()

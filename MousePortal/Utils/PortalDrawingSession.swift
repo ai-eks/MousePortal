@@ -23,16 +23,22 @@ struct PortalDrawingSession {
     var dragEnd: CGPoint?
     var portalName = ""
     var defaultPortalName = ""
+    var hasValidationError = false
 
     var isNamingPortal: Bool {
         currentStep == .naming
     }
 
     var canCreatePortal: Bool {
-        tempLineA != nil && tempLineB != nil && !trimmedPortalName.isEmpty
+        guard let lineA = tempLineA, let lineB = tempLineB else { return false }
+        return !Self.linesOverlap(lineA, lineB) && !trimmedPortalName.isEmpty
     }
 
     var stepInstructions: String {
+        if hasValidationError {
+            return L("portal.error_lines_overlap")
+        }
+
         switch currentStep {
         case .idle:
             return ""
@@ -54,6 +60,7 @@ struct PortalDrawingSession {
         dragEnd = nil
         portalName = ""
         defaultPortalName = ""
+        hasValidationError = false
     }
 
     mutating func cancelDrawing() {
@@ -64,10 +71,12 @@ struct PortalDrawingSession {
         dragStart = nil
         dragEnd = nil
         portalName = ""
+        hasValidationError = false
     }
 
     mutating func handleDragChanged(start: CGPoint, end: CGPoint) {
         guard isDrawingMode else { return }
+        hasValidationError = false
         dragStart = start
         dragEnd = end
     }
@@ -100,6 +109,11 @@ struct PortalDrawingSession {
                 tempLineA = line
                 currentStep = .drawingLineB
             case .drawingLineB:
+                guard let lineA = tempLineA, !Self.linesOverlap(lineA, line) else {
+                    hasValidationError = true
+                    break
+                }
+                hasValidationError = false
                 tempLineB = line
                 currentStep = .naming
                 portalName = nextPortalName
@@ -134,5 +148,17 @@ struct PortalDrawingSession {
 
     private var trimmedPortalName: String {
         portalName.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    private static func linesOverlap(_ lineA: PortalLine, _ lineB: PortalLine) -> Bool {
+        guard let displayLayoutKey = lineA.displayLayoutKey,
+              displayLayoutKey == lineB.displayLayoutKey,
+              lineA.edge == lineB.edge else {
+            return false
+        }
+
+        let overlapStart = max(min(lineA.startOffset, lineA.endOffset), min(lineB.startOffset, lineB.endOffset))
+        let overlapEnd = min(max(lineA.startOffset, lineA.endOffset), max(lineB.startOffset, lineB.endOffset))
+        return overlapStart <= overlapEnd
     }
 }

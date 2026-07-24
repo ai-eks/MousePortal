@@ -71,6 +71,7 @@
 "portal.instruction_line_a" = "Narysuj pierwszą linię na krawędzi ekranu";
 "portal.instruction_line_b" = "Narysuj drugą linię na krawędzi innego ekranu";
 "portal.instruction_name" = "Nazwij swój portal";
+"portal.error_lines_overlap" = "Linie portalu nie mogą nakładać się ani stykać na tej samej krawędzi ekranu. Narysuj ponownie drugą linię.";
 "portal.name_title" = "Nazwij ten portal";
 "portal.name_placeholder" = "Wprowadź nazwę portalu";
 "portal.default_name %lld" = "Portal %lld";

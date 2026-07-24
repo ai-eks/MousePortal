@@ -72,6 +72,7 @@
 "portal.instruction_line_a" = "Dibuje la primera línea en un borde de pantalla";
 "portal.instruction_line_b" = "Dibuje la segunda línea en otro borde de pantalla";
 "portal.instruction_name" = "Nombre su portal";
+"portal.error_lines_overlap" = "Las líneas del portal no pueden superponerse ni tocarse en el mismo borde de pantalla. Vuelva a dibujar la segunda línea.";
 "portal.name_title" = "Nombrar este portal";
 "portal.name_placeholder" = "Introduzca el nombre del portal";
 "portal.default_name %lld" = "Portal %lld";

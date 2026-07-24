@@ -72,6 +72,7 @@
 "portal.instruction_line_a" = "Zeichnen Sie die erste Linie an einer Bildschirmkante";
 "portal.instruction_line_b" = "Zeichnen Sie die zweite Linie an einer anderen Bildschirmkante";
 "portal.instruction_name" = "Benennen Sie Ihr Portal";
+"portal.error_lines_overlap" = "Portal-Linien dürfen sich an derselben Bildschirmkante weder überlappen noch berühren. Zeichnen Sie die zweite Linie neu.";
 "portal.name_title" = "Portal benennen";
 "portal.name_placeholder" = "Portalnamen eingeben";
 "portal.default_name %lld" = "Portal %lld";

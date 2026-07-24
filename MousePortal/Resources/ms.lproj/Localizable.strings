@@ -71,6 +71,7 @@
 "portal.instruction_line_a" = "Lukis garisan pertama di tepi skrin";
 "portal.instruction_line_b" = "Lukis garisan kedua di tepi skrin lain";
 "portal.instruction_name" = "Namakan portal anda";
+"portal.error_lines_overlap" = "Garisan portal tidak boleh bertindih atau bersentuhan pada tepi skrin yang sama. Lukis semula garisan kedua.";
 "portal.name_title" = "Namakan Portal Ini";
 "portal.name_placeholder" = "Masukkan nama portal";
 "portal.default_name %lld" = "Portal %lld";

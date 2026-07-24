@@ -72,6 +72,7 @@
 "portal.instruction_line_a" = "Dessinez la première ligne sur un bord d'écran";
 "portal.instruction_line_b" = "Dessinez la deuxième ligne sur un autre bord d'écran";
 "portal.instruction_name" = "Nommez votre portail";
+"portal.error_lines_overlap" = "Les lignes du portail ne peuvent pas se chevaucher ni se toucher sur le même bord d’écran. Redessinez la deuxième ligne.";
 "portal.name_title" = "Nommer ce portail";
 "portal.name_placeholder" = "Entrez le nom du portail";
 "portal.default_name %lld" = "Portail %lld";

@@ -72,6 +72,7 @@
 "portal.instruction_line_a" = "Нарисуйте первую линию на краю экрана";
 "portal.instruction_line_b" = "Нарисуйте вторую линию на краю другого экрана";
 "portal.instruction_name" = "Назовите ваш портал";
+"portal.error_lines_overlap" = "Линии портала не могут перекрываться или соприкасаться на одном краю экрана. Перерисуйте вторую линию.";
 "portal.name_title" = "Назвать этот портал";
 "portal.name_placeholder" = "Введите название портала";
 "portal.default_name %lld" = "Портал %lld";

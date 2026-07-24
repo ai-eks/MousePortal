@@ -71,6 +71,7 @@
 "portal.instruction_line_a" = "Disegna la prima linea sul bordo dello schermo";
 "portal.instruction_line_b" = "Disegna la seconda linea sul bordo di un altro schermo";
 "portal.instruction_name" = "Dai un nome al portale";
+"portal.error_lines_overlap" = "Le linee del portale non possono sovrapporsi o toccarsi sullo stesso bordo dello schermo. Ridisegna la seconda linea.";
 "portal.name_title" = "Nomina questo portale";
 "portal.name_placeholder" = "Inserisci nome portale";
 "portal.default_name %lld" = "Portale %lld";

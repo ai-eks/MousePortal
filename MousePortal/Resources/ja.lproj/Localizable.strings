@@ -72,6 +72,7 @@
 "portal.instruction_line_a" = "画面の端に最初の線を描画";
 "portal.instruction_line_b" = "別の画面の端に2本目の線を描画";
 "portal.instruction_name" = "ポータルに名前を付ける";
+"portal.error_lines_overlap" = "ポータルの2本の線は同じ画面端で重ねたり接触させたりできません。2本目を描き直してください";
 "portal.name_title" = "ポータルに名前を付ける";
 "portal.name_placeholder" = "ポータル名を入力";
 "portal.default_name %lld" = "ポータル %lld";
