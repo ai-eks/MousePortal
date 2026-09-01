@@ -670,8 +670,9 @@ final class WindowLayoutService: ObservableObject {
             withTimeInterval: stabilityCheckInterval,
             repeats: true
         ) { [weak self] _ in
-            Task { @MainActor in
-                self?.sampleDisplayTopology()
+            guard let service = self else { return }
+            Task { @MainActor [service] in
+                service.sampleDisplayTopology()
             }
         }
     }
