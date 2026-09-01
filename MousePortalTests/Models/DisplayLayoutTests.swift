@@ -371,6 +371,22 @@ final class DisplayLayoutTests: XCTestCase {
         XCTAssertEqual(service.currentLayoutID, current.id)
     }
 
+    func testDeleteLayoutPreservesLayoutWithWindowSnapshots() {
+        let service = DisplayLayoutService.shared
+        let current = DisplayLayout(name: "Current", displays: sampleSingleDisplay())
+        let withWindowSnapshot = DisplayLayout(name: "Saved Windows", displays: sampleDualDisplays())
+        service.layouts = [current, withWindowSnapshot]
+        service.currentLayoutID = current.id
+        service.save()
+
+        service.deleteLayout(
+            withWindowSnapshot,
+            preserving: Set([withWindowSnapshot.signature])
+        )
+
+        XCTAssertEqual(service.layouts.map(\.id), [current.id, withWindowSnapshot.id])
+    }
+
     func testDeleteLockedLayoutIsIgnored() {
         let service = DisplayLayoutService.shared
         var locked = DisplayLayout(name: "Locked", displays: sampleSingleDisplay())

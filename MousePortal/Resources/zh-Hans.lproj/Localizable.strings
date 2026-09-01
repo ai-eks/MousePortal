@@ -149,6 +149,7 @@
 "layout.delete_disabled_locked" = "已锁定的排列不能删除";
 "layout.delete_disabled_current" = "当前排列不能删除";
 "layout.delete_disabled_last_remaining" = "至少要保留一个排列";
+"layout.delete_disabled_window_snapshots" = "请先删除该排列下保存的窗口布局";
 "portal.edit" = "编辑";
 "portal.delete" = "删除";
 

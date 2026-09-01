@@ -105,8 +105,9 @@ struct ContentView: View {
                 // 排列列表
                 List {
                     ForEach(layoutService.layouts) { layout in
+                        let savedSnapshots = windowLayoutService.snapshots(matching: layout.signature)
                         let snapshots = windowLayoutService.isEnabled
-                            ? windowLayoutService.snapshots(matching: layout.signature)
+                            ? savedSnapshots
                             : []
 
                         VStack(alignment: .leading, spacing: 3) {
@@ -118,12 +119,14 @@ struct ContentView: View {
                                     layoutCount: layoutService.layouts.count,
                                     currentLayoutID: layoutService.currentLayoutID,
                                     targetLayoutID: layout.id,
+                                    windowSnapshotCount: savedSnapshots.count,
                                     isLocked: layout.isLocked
                                 ),
                                 deleteHelpText: LayoutSidebarRules.deleteDisabledHelpText(
                                     layoutCount: layoutService.layouts.count,
                                     currentLayoutID: layoutService.currentLayoutID,
                                     targetLayoutID: layout.id,
+                                    windowSnapshotCount: savedSnapshots.count,
                                     isLocked: layout.isLocked
                                 ),
                                 onToggleLock: {
@@ -843,11 +846,15 @@ struct ContentView: View {
     }
 
     private func requestDeleteLayoutFromSidebar(_ layout: DisplayLayout) {
+        let windowSnapshotCount = windowLayoutService
+            .snapshots(matching: layout.signature)
+            .count
         switch LayoutSidebarRules.deletionAction(
             layoutCount: layoutService.layouts.count,
             currentLayoutID: layoutService.currentLayoutID,
             targetLayoutID: layout.id,
             portalCount: layout.portals.count,
+            windowSnapshotCount: windowSnapshotCount,
             isLocked: layout.isLocked
         ) {
         case .unavailable:
@@ -867,7 +874,10 @@ struct ContentView: View {
             currentSelectionID: selectedLayoutID,
             orderedLayoutIDs: layoutService.layouts.map(\.id)
         )
-        layoutService.deleteLayout(layout)
+        layoutService.deleteLayout(
+            layout,
+            preserving: savedWindowLayoutSignatures
+        )
 
         if selectedLayoutID == layout.id {
             selectedLayoutID = remainingSelection

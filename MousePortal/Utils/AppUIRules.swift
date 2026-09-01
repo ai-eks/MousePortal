@@ -12,11 +12,13 @@ enum LayoutSidebarRules {
         currentLayoutID: UUID?,
         targetLayoutID: UUID,
         portalCount: Int,
+        windowSnapshotCount: Int = 0,
         isLocked: Bool
     ) -> LayoutDeletionAction {
         guard layoutCount > 1 else { return .unavailable }
         guard currentLayoutID != targetLayoutID else { return .unavailable }
         guard !isLocked else { return .unavailable }
+        guard windowSnapshotCount == 0 else { return .unavailable }
         return portalCount == 0 ? .deleteImmediately : .requireConfirmation
     }
 
@@ -24,6 +26,7 @@ enum LayoutSidebarRules {
         layoutCount: Int,
         currentLayoutID: UUID?,
         targetLayoutID: UUID,
+        windowSnapshotCount: Int = 0,
         isLocked: Bool
     ) -> Bool {
         deletionAction(
@@ -31,6 +34,7 @@ enum LayoutSidebarRules {
             currentLayoutID: currentLayoutID,
             targetLayoutID: targetLayoutID,
             portalCount: 0,
+            windowSnapshotCount: windowSnapshotCount,
             isLocked: isLocked
         ) != .unavailable
     }
@@ -39,6 +43,7 @@ enum LayoutSidebarRules {
         layoutCount: Int,
         currentLayoutID: UUID?,
         targetLayoutID: UUID,
+        windowSnapshotCount: Int = 0,
         isLocked: Bool
     ) -> String {
         if isLocked {
@@ -49,6 +54,9 @@ enum LayoutSidebarRules {
         }
         if layoutCount <= 1 {
             return L("layout.delete_disabled_last_remaining")
+        }
+        if windowSnapshotCount > 0 {
+            return L("layout.delete_disabled_window_snapshots")
         }
         return L("layout.delete")
     }

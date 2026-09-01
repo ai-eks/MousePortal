@@ -497,12 +497,16 @@ class DisplayLayoutService: ObservableObject {
     }
 
     /// 删除排列
-    func deleteLayout(_ layout: DisplayLayout) {
+    func deleteLayout(
+        _ layout: DisplayLayout,
+        preserving displayLayoutSignatures: Set<String> = []
+    ) {
         guard let existingLayout = layouts.first(where: { $0.id == layout.id }) else { return }
         guard LayoutSidebarRules.canDeleteLayout(
             layoutCount: layouts.count,
             currentLayoutID: currentLayoutID,
             targetLayoutID: existingLayout.id,
+            windowSnapshotCount: displayLayoutSignatures.contains(existingLayout.signature) ? 1 : 0,
             isLocked: existingLayout.isLocked
         ) else {
             return

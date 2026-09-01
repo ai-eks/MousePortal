@@ -61,6 +61,42 @@ final class AppUIRulesTests: XCTestCase {
         XCTAssertFalse(canDelete)
     }
 
+    func testDeletionIsUnavailableWhenLayoutHasWindowSnapshots() {
+        let currentID = UUID()
+        let targetID = UUID()
+
+        XCTAssertEqual(
+            LayoutSidebarRules.deletionAction(
+                layoutCount: 2,
+                currentLayoutID: currentID,
+                targetLayoutID: targetID,
+                portalCount: 0,
+                windowSnapshotCount: 1,
+                isLocked: false
+            ),
+            .unavailable
+        )
+        XCTAssertFalse(
+            LayoutSidebarRules.canDeleteLayout(
+                layoutCount: 2,
+                currentLayoutID: currentID,
+                targetLayoutID: targetID,
+                windowSnapshotCount: 1,
+                isLocked: false
+            )
+        )
+        XCTAssertEqual(
+            LayoutSidebarRules.deleteDisabledHelpText(
+                layoutCount: 2,
+                currentLayoutID: currentID,
+                targetLayoutID: targetID,
+                windowSnapshotCount: 1,
+                isLocked: false
+            ),
+            L("layout.delete_disabled_window_snapshots")
+        )
+    }
+
     func testDeleteDisabledHelpTextPrefersLockedReason() {
         let targetID = UUID()
 

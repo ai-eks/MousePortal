@@ -149,6 +149,7 @@
 "layout.delete_disabled_locked" = "已鎖定的排列無法刪除";
 "layout.delete_disabled_current" = "目前排列無法刪除";
 "layout.delete_disabled_last_remaining" = "至少要保留一個排列";
+"layout.delete_disabled_window_snapshots" = "請先刪除該排列下已儲存的視窗佈局";
 "portal.edit" = "編輯";
 "portal.delete" = "刪除";
 

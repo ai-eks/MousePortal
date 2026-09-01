@@ -285,6 +285,30 @@ final class WindowLayoutServiceTests: XCTestCase {
         XCTAssertEqual(system.lastIgnoredBundleIdentifiers, ["com.example.Chat"])
     }
 
+    func testRefreshAvailableApplicationsIncludesUnavailableIgnoredApplications() {
+        defaults.set(["com.example.Chat"], forKey: "windowRecoveryIgnoredApplications")
+        let system = MockWindowLayoutSystemProvider()
+        let service = makeService(system: system)
+
+        service.refreshAvailableApplications()
+
+        XCTAssertEqual(
+            service.availableApplications,
+            [WindowApplicationOption(bundleIdentifier: "com.example.Chat", name: "com.example.Chat")]
+        )
+    }
+
+    func testUnignoringUnavailableApplicationRemovesItFromOptions() {
+        defaults.set(["com.example.Chat"], forKey: "windowRecoveryIgnoredApplications")
+        let system = MockWindowLayoutSystemProvider()
+        let service = makeService(system: system)
+        service.refreshAvailableApplications()
+
+        service.setApplicationIgnored("com.example.Chat", ignored: false)
+
+        XCTAssertTrue(service.availableApplications.isEmpty)
+    }
+
     func testRestoreUsesCurrentDisplayWithMatchingStableIdentity() {
         let system = MockWindowLayoutSystemProvider()
         system.displays = [display(identity: "external")]

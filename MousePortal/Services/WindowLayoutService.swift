@@ -525,10 +525,37 @@ final class WindowLayoutService: ObservableObject {
             ignoredBundleIdentifiers.remove(bundleIdentifier)
         }
         defaults.set(Array(ignoredBundleIdentifiers).sorted(), forKey: ignoredApplicationsKey)
+        refreshAvailableApplications()
     }
 
     func refreshAvailableApplications() {
-        availableApplications = system.runningApplications()
+        let previousApplications = Dictionary(
+            uniqueKeysWithValues: availableApplications.map { ($0.bundleIdentifier, $0) }
+        )
+        let savedApplicationNames = snapshots
+            .flatMap(\.windows)
+            .reduce(into: [String: String]()) { names, placement in
+                if names[placement.bundleIdentifier] == nil {
+                    names[placement.bundleIdentifier] = placement.applicationName
+                }
+            }
+        var applicationsByIdentifier = Dictionary(
+            uniqueKeysWithValues: system.runningApplications().map { ($0.bundleIdentifier, $0) }
+        )
+
+        for bundleIdentifier in ignoredBundleIdentifiers
+        where applicationsByIdentifier[bundleIdentifier] == nil {
+            applicationsByIdentifier[bundleIdentifier] = WindowApplicationOption(
+                bundleIdentifier: bundleIdentifier,
+                name: previousApplications[bundleIdentifier]?.name
+                    ?? savedApplicationNames[bundleIdentifier]
+                    ?? bundleIdentifier
+            )
+        }
+
+        availableApplications = applicationsByIdentifier.values.sorted {
+            $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
+        }
     }
 
     @discardableResult

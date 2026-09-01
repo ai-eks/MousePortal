@@ -149,6 +149,7 @@
 "layout.delete_disabled_locked" = "Locked layouts cannot be deleted";
 "layout.delete_disabled_current" = "Current layout cannot be deleted";
 "layout.delete_disabled_last_remaining" = "At least one layout must remain";
+"layout.delete_disabled_window_snapshots" = "Сначала удалите сохранённые раскладки окон";
 "portal.edit" = "Edit";
 "portal.delete" = "Delete";
 
