@@ -84,11 +84,29 @@ enum WindowLayoutEngine {
             .filter { !usedIndices.contains($0) }
             .filter {
                 candidates[$0].role == placement.role &&
-                candidates[$0].subrole == placement.subrole
+                candidates[$0].subrole == placement.subrole &&
+                hasMeaningfulIdentityMatch(placement, candidates[$0])
             }
             .max { lhs, rhs in
                 matchScore(placement, candidates[lhs]) < matchScore(placement, candidates[rhs])
             }
+    }
+
+    private static func hasMeaningfulIdentityMatch(
+        _ placement: WindowPlacement,
+        _ candidate: WindowMatchCandidate
+    ) -> Bool {
+        exactNonEmptyMatch(placement.documentURL, candidate.documentURL) ||
+            exactNonEmptyMatch(placement.windowIdentifier, candidate.windowIdentifier) ||
+            exactNonEmptyMatch(placement.windowTitle, candidate.windowTitle)
+    }
+
+    private static func exactNonEmptyMatch(_ saved: String?, _ current: String?) -> Bool {
+        guard let saved,
+              !saved.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            return false
+        }
+        return saved == current
     }
 
     private static func matchScore(_ placement: WindowPlacement, _ candidate: WindowMatchCandidate) -> Double {

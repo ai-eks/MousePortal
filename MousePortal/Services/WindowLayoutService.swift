@@ -537,7 +537,7 @@ final class WindowLayoutService: ObservableObject {
         snapshots.append(newSnapshot)
         persistSnapshots()
         lastRestoreResult = nil
-        state = .normal
+        resetRecoveryState()
         return newSnapshot
     }
 

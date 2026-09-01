@@ -176,6 +176,48 @@ final class WindowLayoutEngineTests: XCTestCase {
         ))
     }
 
+    func testWindowMatchingRejectsUnrelatedFallbackWindow() {
+        let placement = placement(
+            documentURL: "file:///project/README.md",
+            windowIndex: 0
+        )
+        let candidates = [WindowMatchCandidate(
+            windowTitle: "Other",
+            documentURL: "file:///project/Other.md",
+            windowIdentifier: "other-window",
+            role: "AXWindow",
+            subrole: "AXStandardWindow",
+            windowIndex: 0,
+            frame: CGRect(x: 0, y: 0, width: 800, height: 600)
+        )]
+
+        XCTAssertNil(WindowLayoutEngine.bestMatchIndex(
+            for: placement,
+            candidates: candidates,
+            excluding: []
+        ))
+    }
+
+    func testWindowMatchingAllowsRetainedRuntimeWindowWithoutMetadataMatch() {
+        let placement = placement(documentURL: "file:///project/README.md")
+        let candidates = [WindowMatchCandidate(
+            windowTitle: "Other",
+            documentURL: "file:///project/Other.md",
+            windowIdentifier: "other-window",
+            role: "AXWindow",
+            subrole: "AXStandardWindow",
+            windowIndex: 1,
+            frame: CGRect(x: 300, y: 200, width: 500, height: 400)
+        )]
+
+        XCTAssertEqual(WindowLayoutEngine.bestMatchIndex(
+            for: placement,
+            candidates: candidates,
+            excluding: [],
+            preferredIndex: 0
+        ), 0)
+    }
+
     func testSnapshotCodableRoundTripPreservesStableDisplayIdentity() throws {
         let targetDisplay = display(identity: "uuid-123", frame: CGRect(x: 0, y: 0, width: 1920, height: 1080))
         let snapshot = WindowLayoutSnapshot(
