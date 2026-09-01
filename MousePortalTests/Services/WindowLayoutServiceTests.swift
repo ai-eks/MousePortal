@@ -80,6 +80,38 @@ final class WindowLayoutServiceTests: XCTestCase {
         XCTAssertEqual(recoveryTimer?.isValid, false)
     }
 
+    func testExplicitRestoreInvalidatesPendingRecoveryTimer() {
+        let system = MockWindowLayoutSystemProvider()
+        system.displays = [display(identity: "main")]
+        system.windows = [placement(displayIdentity: WindowDisplayIdentity(rawValue: "main"))]
+        let service = makeService(system: system)
+        service.setEnabled(true)
+        service.setAutomaticRestoreEnabled(true)
+        service.startMonitoring()
+        defer { service.stopMonitoring() }
+
+        NSWorkspace.shared.notificationCenter.post(
+            name: NSWorkspace.sessionDidResignActiveNotification,
+            object: nil
+        )
+        let snapshotID = service.snapshot!.id
+        system.displays = []
+        NSWorkspace.shared.notificationCenter.post(
+            name: NSWorkspace.sessionDidBecomeActiveNotification,
+            object: nil
+        )
+
+        XCTAssertEqual(service.state, .waitingForDisplays)
+        let recoveryTimer = privateTimer(named: "stabilityTimer", in: service)
+        XCTAssertEqual(recoveryTimer?.isValid, true)
+
+        system.displays = [display(identity: "main")]
+        XCTAssertNotNil(service.restoreSavedLayout(snapshotID: snapshotID))
+
+        XCTAssertEqual(service.state, .normal)
+        XCTAssertEqual(recoveryTimer?.isValid, false)
+    }
+
     func testAutomaticSnapshotReplacesPreviousSnapshotForSameDisplayLayout() {
         let system = MockWindowLayoutSystemProvider()
         system.displays = [display(identity: "main")]

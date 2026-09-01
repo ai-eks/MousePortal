@@ -103,12 +103,12 @@ final class SystemWindowLayoutProvider: WindowLayoutSystemProviding {
             currentDisplays.map { ($0.identity, $0) },
             uniquingKeysWith: { first, _ in first }
         )
-        let applicationsByBundleIdentifier = Dictionary(
-            restorableApplications().compactMap { application in
-                application.bundleIdentifier.map { ($0, application) }
-            },
-            uniquingKeysWith: { first, _ in first }
-        )
+        let applicationsByBundleIdentifier = restorableApplications().reduce(
+            into: [String: [NSRunningApplication]]()
+        ) { applicationsByIdentifier, application in
+            guard let bundleIdentifier = application.bundleIdentifier else { return }
+            applicationsByIdentifier[bundleIdentifier, default: []].append(application)
+        }
 
         var restoredCount = 0
         var skippedCount = 0
@@ -126,12 +126,12 @@ final class SystemWindowLayoutProvider: WindowLayoutSystemProviding {
         )
 
         for (bundleIdentifier, indexedPlacements) in placementsByBundleIdentifier {
-            guard let application = applicationsByBundleIdentifier[bundleIdentifier] else {
+            guard let applications = applicationsByBundleIdentifier[bundleIdentifier] else {
                 skippedCount += indexedPlacements.count
                 continue
             }
 
-            let windows = accessibleWindows(for: application)
+            let windows = applications.flatMap { accessibleWindows(for: $0) }
             let candidates = windows.map(\.candidate)
             var usedIndices = Set<Int>()
 
@@ -593,8 +593,7 @@ final class WindowLayoutService: ObservableObject {
         state = .restoring
         let result = system.restoreWindows(from: targetSnapshot, currentDisplays: currentDisplays)
         lastRestoreResult = result
-        recoverySnapshotID = nil
-        state = .normal
+        resetRecoveryState()
         return result
     }
 
