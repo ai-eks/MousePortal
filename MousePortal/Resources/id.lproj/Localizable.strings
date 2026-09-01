@@ -153,3 +153,28 @@
 "layout.delete_disabled_last_remaining" = "At least one layout must remain";
 "portal.edit" = "Edit";
 "portal.delete" = "Delete";
+
+/* Window Recovery */
+"settings.window_recovery" = "Pemulihan jendela";
+"window_recovery.enabled" = "Aktifkan pemulihan jendela";
+"window_recovery.remember_before_sleep" = "Ingat jendela sebelum tidur atau terkunci";
+"window_recovery.automatic" = "Pulihkan otomatis setelah layar aktif";
+"window_recovery.behavior" = "Pemulihan setelah aktif";
+"window_recovery.save" = "Simpan tata letak saat ini";
+"window_recovery.ignored_apps" = "Aplikasi yang diabaikan";
+"window_recovery.search_apps" = "Cari aplikasi";
+"window_recovery.ignored_apps_description" = "Aktifkan aplikasi untuk mengecualikannya dari cuplikan berikutnya.";
+"window_recovery.limitations" = "Hanya jendela standar yang tidak diminimalkan dan tidak layar penuh yang didukung. Split View, grup Stage Manager, dan Spaces tidak dipulihkan.";
+"window_layout.show" = "Tampilkan tata letak jendela";
+"window_layout.show_help" = "Tampilkan jendela tersimpan di atas susunan layar.";
+"window_layout.no_saved" = "Belum ada tata letak jendela tersimpan untuk susunan layar ini.";
+"window_layout.automatic_before_lock" = "Sebelum terkunci";
+"window_layout.saved %lld" = "Tata letak %lld";
+"window_layout.kind.automatic" = "Otomatis";
+"window_layout.kind.manual" = "Manual";
+"window_layout.promote_to_manual" = "Jadikan tata letak manual";
+"window_layout.apply" = "Beralih ke tata letak ini";
+"window_layout.rename_title" = "Ubah nama tata letak jendela";
+"window_layout.name_placeholder" = "Masukkan nama tata letak jendela";
+"window_recovery.enable_in_settings" = "Aktifkan Pemulihan Jendela di Pengaturan terlebih dahulu.";
+"window_recovery.save_help" = "Simpan posisi jendela saat ini.";

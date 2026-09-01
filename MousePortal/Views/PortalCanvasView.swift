@@ -7,6 +7,9 @@ struct PortalCanvasView: View {
     let portals: [PortalPair]
     let drawingSession: PortalDrawingSession
     let tempPortalColor: PortalColor
+    var windowSnapshot: WindowLayoutSnapshot? = nil
+    var hotkeyConfigs: Binding<[HotkeyConfig]>? = nil
+    var onHotkeySave: (() -> Void)? = nil
     var selectedPortalID: UUID?
     var onPortalTap: ((PortalPair) -> Void)? = nil
     var onCanvasTap: (() -> Void)? = nil
@@ -23,6 +26,8 @@ struct PortalCanvasView: View {
                 ForEach(displays) { display in
                     DisplayRectView(
                         display: display,
+                        hotkeyConfig: hotkeyConfigBinding(for: display),
+                        onHotkeySave: onHotkeySave,
                         onRename: onDisplayRename.map { rename in
                             { rename(display) }
                         }
@@ -35,6 +40,22 @@ struct PortalCanvasView: View {
                             x: (display.frame.midX - totalBounds.minX) * scale + offset.x,
                             y: (display.frame.midY - totalBounds.minY) * scale + offset.y
                         )
+                }
+
+                if let windowSnapshot {
+                    ForEach(Array(windowSnapshot.windows.enumerated()), id: \.offset) { _, placement in
+                        if let display = windowSnapshot.displays.first(where: {
+                            $0.identity == placement.displayIdentity
+                        }) {
+                            WindowPlacementOverlayView(
+                                placement: placement,
+                                frame: WindowLayoutEngine.savedFrame(for: placement, on: display),
+                                totalBounds: totalBounds,
+                                scale: scale,
+                                offset: offset
+                            )
+                        }
+                    }
                 }
 
                 ForEach(sharedEdges) { edge in
@@ -123,6 +144,52 @@ struct PortalCanvasView: View {
             return displays.first { $0.id == legacyDisplayID }
         }
         return nil
+    }
+
+    private func hotkeyConfigBinding(for display: DisplayInfo) -> Binding<HotkeyConfig>? {
+        guard let hotkeyConfigs,
+              let index = hotkeyConfigs.wrappedValue.firstIndex(where: { config in
+                  if let layoutKey = config.displayLayoutKey {
+                      return layoutKey == display.layoutKey
+                  }
+                  return config.legacyDisplayID == display.id
+              }) else {
+            return nil
+        }
+        return hotkeyConfigs[index]
+    }
+}
+
+private struct WindowPlacementOverlayView: View {
+    let placement: WindowPlacement
+    let frame: CGRect
+    let totalBounds: CGRect
+    let scale: CGFloat
+    let offset: CGPoint
+
+    var body: some View {
+        ZStack(alignment: .topLeading) {
+            RoundedRectangle(cornerRadius: 4)
+                .fill(Color.accentColor.opacity(0.18))
+            RoundedRectangle(cornerRadius: 4)
+                .stroke(Color.accentColor.opacity(0.7), lineWidth: 1)
+            Text(placement.applicationName)
+                .font(.system(size: 9, weight: .medium))
+                .lineLimit(1)
+                .foregroundColor(.primary.opacity(0.75))
+                .padding(4)
+        }
+        .frame(
+            width: max(frame.width * scale, 2),
+            height: max(frame.height * scale, 2)
+        )
+        .clipped()
+        .position(
+            x: (frame.midX - totalBounds.minX) * scale + offset.x,
+            y: (frame.midY - totalBounds.minY) * scale + offset.y
+        )
+        .allowsHitTesting(false)
+        .accessibilityHidden(true)
     }
 }
 

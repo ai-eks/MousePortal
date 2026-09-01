@@ -6,6 +6,49 @@ private enum HomeSurface {
     static let separator = Color.primary.opacity(0.08)
 }
 
+private struct SidebarResizeHandle: View {
+    @Binding var width: Double
+    let onResizeEnded: (Double) -> Void
+    @State private var dragStartWidth: Double?
+    @State private var isHovered = false
+    @State private var isDragging = false
+
+    var body: some View {
+        Rectangle()
+            .fill(isHovered || isDragging ? Color.accentColor.opacity(0.28) : HomeSurface.separator)
+            .frame(width: 1)
+            .overlay {
+                Color.clear
+                    .frame(width: 7)
+                    .contentShape(Rectangle())
+                    .gesture(
+                        DragGesture(minimumDistance: 0, coordinateSpace: .global)
+                            .onChanged { value in
+                                if dragStartWidth == nil {
+                                    dragStartWidth = width
+                                    isDragging = true
+                                    NSCursor.resizeLeftRight.set()
+                                }
+                                let initialWidth = dragStartWidth ?? width
+                                width = min(max(initialWidth + Double(value.translation.width), 220), 360)
+                            }
+                            .onEnded { _ in
+                                dragStartWidth = nil
+                                isDragging = false
+                                onResizeEnded(width)
+                                (isHovered ? NSCursor.resizeLeftRight : NSCursor.arrow).set()
+                            }
+                    )
+                    .onHover { hovering in
+                        isHovered = hovering
+                        if !isDragging {
+                            (hovering ? NSCursor.resizeLeftRight : NSCursor.arrow).set()
+                        }
+                    }
+            }
+    }
+}
+
 struct ContentView: View {
     @ObservedObject private var displayService = DisplayService.shared
     @ObservedObject private var portalService = PortalService.shared
@@ -13,6 +56,7 @@ struct ContentView: View {
     @ObservedObject private var permissionService = PermissionService.shared
     @ObservedObject private var hotkeyConfigStore = HotkeyConfigStore.shared
     @ObservedObject private var layoutService = DisplayLayoutService.shared
+    @ObservedObject private var windowLayoutService = WindowLayoutService.shared
     @ObservedObject private var languageService = LanguageService.shared
 
     @State private var selectedLayoutID: UUID?
@@ -22,16 +66,22 @@ struct ContentView: View {
     @State private var renamingDisplayKey: DisplayLayoutKey?
     @State private var displayRenameText = ""
     @State private var editingPortal: PortalPair?
+    @State private var selectedWindowSnapshotID: UUID?
+    @State private var showsWindowLayout = false
+    @State private var renamingWindowSnapshot: WindowLayoutSnapshot?
+    @State private var windowSnapshotRenameText = ""
+    @State private var sidebarWidth =
+        (UserDefaults.standard.object(forKey: "mainSidebarWidth") as? NSNumber)?.doubleValue ?? 220.0
 
     // 绘制状态
     @State private var drawingSession = PortalDrawingSession()
 
     private let portalColors: [PortalColor] = PortalColor.allCases
-    private let topBarHeight: CGFloat = 64
+    private let topBarHeight: CGFloat = 92
     @State private var nextColorIndex = 0
 
     var body: some View {
-        HSplitView {
+        HStack(spacing: 0) {
             // 左侧：显示器排列列表
             VStack(alignment: .leading, spacing: 0) {
                 // 标题栏
@@ -51,38 +101,74 @@ struct ContentView: View {
                 .frame(height: topBarHeight)
 
                 // 排列列表
-                List(selection: $selectedLayoutID) {
+                List {
                     ForEach(layoutService.layouts) { layout in
-                        LayoutRowView(
-                            layout: layout,
-                            isSelected: selectedLayoutID == layout.id,
-                            isCurrent: layoutService.currentLayoutID == layout.id,
-                            canDelete: LayoutSidebarRules.canDeleteLayout(
-                                layoutCount: layoutService.layouts.count,
-                                currentLayoutID: layoutService.currentLayoutID,
-                                targetLayoutID: layout.id,
-                                isLocked: layout.isLocked
-                            ),
-                            deleteHelpText: LayoutSidebarRules.deleteDisabledHelpText(
-                                layoutCount: layoutService.layouts.count,
-                                currentLayoutID: layoutService.currentLayoutID,
-                                targetLayoutID: layout.id,
-                                isLocked: layout.isLocked
-                            ),
-                            onToggleLock: {
-                                layoutService.toggleLayoutLock(layout)
-                            },
-                            onRename: {
-                                openRenameSheet(for: layout)
-                            },
-                            onDelete: {
-                                requestDeleteLayoutFromSidebar(layout)
+                        let snapshots = windowLayoutService.isEnabled
+                            ? windowLayoutService.snapshots(matching: layout.signature)
+                            : []
+
+                        VStack(alignment: .leading, spacing: 3) {
+                            LayoutRowView(
+                                layout: layout,
+                                isSelected: selectedLayoutID == layout.id,
+                                isCurrent: layoutService.currentLayoutID == layout.id,
+                                canDelete: LayoutSidebarRules.canDeleteLayout(
+                                    layoutCount: layoutService.layouts.count,
+                                    currentLayoutID: layoutService.currentLayoutID,
+                                    targetLayoutID: layout.id,
+                                    isLocked: layout.isLocked
+                                ),
+                                deleteHelpText: LayoutSidebarRules.deleteDisabledHelpText(
+                                    layoutCount: layoutService.layouts.count,
+                                    currentLayoutID: layoutService.currentLayoutID,
+                                    targetLayoutID: layout.id,
+                                    isLocked: layout.isLocked
+                                ),
+                                onToggleLock: {
+                                    layoutService.toggleLayoutLock(layout)
+                                },
+                                onRename: {
+                                    openRenameSheet(for: layout)
+                                },
+                                onDelete: {
+                                    requestDeleteLayoutFromSidebar(layout)
+                                },
+                                onSelect: {
+                                    selectedLayoutID = layout.id
+                                }
+                            )
+
+                            ForEach(snapshots) { snapshot in
+                                WindowLayoutSnapshotSidebarRow(
+                                    title: windowSnapshotTitle(for: snapshot, in: snapshots),
+                                    snapshot: snapshot,
+                                    isSelected: selectedWindowSnapshotID == snapshot.id,
+                                    onSelect: {
+                                        selectWindowSnapshot(snapshot, in: layout)
+                                    },
+                                    onPromote: {
+                                        promoteWindowSnapshot(snapshot, in: layout)
+                                    },
+                                    onRestore: {
+                                        restoreWindowSnapshot(snapshot, in: layout)
+                                    },
+                                    onRename: {
+                                        openRenameWindowSnapshot(
+                                            snapshot,
+                                            in: layout,
+                                            matching: snapshots
+                                        )
+                                    },
+                                    onDelete: {
+                                        deleteWindowSnapshot(snapshot)
+                                    }
+                                )
                             }
-                        )
-                        .tag(layout.id)
+                        }
+                        .listRowInsets(EdgeInsets(top: 3, leading: 0, bottom: 3, trailing: 0))
                     }
                 }
-                .listStyle(.sidebar)
+                .listStyle(.plain)
                 .scrollContentBackground(.hidden)
 
                 Divider()
@@ -94,79 +180,115 @@ struct ContentView: View {
                     .foregroundColor(.secondary)
                     .padding(8)
             }
-            .frame(minWidth: 180, maxWidth: 250)
+            .frame(width: CGFloat(min(max(sidebarWidth, 220), 360)))
             .background(HomeSurface.background.overlay(HomeSurface.sidebarOverlay))
+
+            SidebarResizeHandle(width: $sidebarWidth) { finalWidth in
+                UserDefaults.standard.set(finalWidth, forKey: "mainSidebarWidth")
+            }
 
             // 右侧：主内容区域
             VStack(spacing: 0) {
                 // 顶部工具栏
-                HStack {
-                // 左侧：排列信息和绘制按钮
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(selectedLayout?.displayName ?? L("layout.none"))
-                            .font(.headline)
-                        Text(selectedLayout?.layoutDescription ?? "")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
-
-                    Spacer()
-
-                    // 绘制模式指示
-                    if drawingSession.isDrawingMode {
-                        Text(drawingSession.stepInstructions)
-                            .font(.callout)
-                            .foregroundColor(drawingSession.hasValidationError ? .red : .secondary)
-
-                        Button(action: {
-                            drawingSession.cancelDrawing()
-                        }) {
-                            Label(L("button.cancel"), systemImage: "xmark.circle")
+                VStack(spacing: 8) {
+                    HStack(alignment: .center, spacing: 12) {
+                        // 左侧：排列信息和绘制按钮
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(selectedLayout?.displayName ?? L("layout.none"))
+                                .font(.headline)
+                            Text(selectedLayout?.layoutDescription ?? "")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
                         }
-                        .buttonStyle(.borderedProminent)
-                        .tint(.red)
-                    } else if isCurrentLayout {
-                        Button(action: {
-                            drawingSession.startDrawing()
-                        }) {
-                            Label(L("portal.add"), systemImage: "plus.circle")
+
+                        Spacer(minLength: 12)
+
+                        // 绘制模式指示
+                        if drawingSession.isDrawingMode {
+                            Text(drawingSession.stepInstructions)
+                                .font(.callout)
+                                .foregroundColor(drawingSession.hasValidationError ? .red : .secondary)
+
+                            Button(action: {
+                                drawingSession.cancelDrawing()
+                            }) {
+                                Label(L("button.cancel"), systemImage: "xmark.circle")
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .tint(.red)
+                        } else if isCurrentLayout {
+                            Button(action: saveCurrentWindowLayout) {
+                                Label(L("window_recovery.save"), systemImage: "macwindow.badge.plus")
+                            }
+                            .buttonStyle(.bordered)
+                            .disabled(!windowLayoutService.isEnabled)
+                            .help(saveWindowLayoutHelp)
+
+                            Button(action: {
+                                drawingSession.startDrawing()
+                            }) {
+                                Label(L("portal.add"), systemImage: "plus.circle")
+                            }
+                            .buttonStyle(.borderedProminent)
                         }
-                        .buttonStyle(.borderedProminent)
-                    }
 
-                    // 状态指示
-                    HStack(spacing: 12) {
-                        StatusIndicator(
-                            isEnabled: hotkeyService.isRunning,
-                            label: L("status.hotkey")
-                        )
+                        // 状态指示
+                        HStack(spacing: 12) {
+                            StatusIndicator(
+                                isEnabled: hotkeyService.isRunning,
+                                label: L("status.hotkey")
+                            )
 
-                        StatusIndicator(
-                            isEnabled: portalService.isRunning,
-                            label: L("status.portal")
-                        )
-                    }
-
-                    if #available(macOS 14.0, *) {
-                        SettingsLink {
-                            Image(systemName: "gear")
+                            StatusIndicator(
+                                isEnabled: portalService.isRunning,
+                                label: L("status.portal")
+                            )
                         }
-                        .buttonStyle(.bordered)
-                    } else {
-                        Button(action: {
-                            AppDelegate.shared?.openSettings()
-                        }) {
-                            Image(systemName: "gear")
+
+                        if #available(macOS 14.0, *) {
+                            SettingsLink {
+                                Image(systemName: "gear")
+                            }
+                            .buttonStyle(.bordered)
+                        } else {
+                            Button(action: {
+                                AppDelegate.shared?.openSettings()
+                            }) {
+                                Image(systemName: "gear")
+                            }
+                            .buttonStyle(.bordered)
                         }
-                        .buttonStyle(.bordered)
+
+                        Button(action: { displayService.fetchDisplays() }) {
+                            Image(systemName: "arrow.clockwise")
+                        }
+                        .help(L("button.refresh"))
                     }
 
-                    Button(action: { displayService.fetchDisplays() }) {
-                        Image(systemName: "arrow.clockwise")
+                    HStack(spacing: 16) {
+                        Spacer()
+
+                        Toggle(L("window_layout.show"), isOn: Binding(
+                            get: { showsWindowLayout },
+                            set: { isShown in
+                                showsWindowLayout = isShown
+                                if isShown {
+                                    synchronizeWindowSnapshotSelection()
+                                }
+                            }
+                        ))
+                        .toggleStyle(.switch)
+                        .fixedSize()
+                        .disabled(!windowLayoutService.isEnabled || matchingWindowSnapshots.isEmpty)
+                        .help(windowLayoutToggleHelp)
+
+                        Toggle(L("settings.enable_hotkeys"), isOn: hotkeyJumpEnabledBinding)
+                            .toggleStyle(.switch)
+                            .fixedSize()
                     }
-                    .help(L("button.refresh"))
                 }
-                .padding()
+                .padding(.horizontal)
+                .padding(.vertical, 8)
                 .frame(height: topBarHeight)
 
                 // 主画布区域 - 显示器布局 + 传送门绘制
@@ -177,6 +299,13 @@ struct ContentView: View {
                     portals: selectedPortals,
                     drawingSession: drawingSession,
                     tempPortalColor: portalColors[nextColorIndex % portalColors.count],
+                    windowSnapshot: showsWindowLayout ? selectedWindowSnapshot : nil,
+                    hotkeyConfigs: isCurrentLayout && hotkeyConfigStore.globalEnabled
+                        ? $hotkeyConfigStore.configs
+                        : nil,
+                    onHotkeySave: {
+                        hotkeyConfigStore.save()
+                    },
                     onDisplayRename: { display in
                         openRenameDisplaySheet(for: display)
                     },
@@ -234,62 +363,23 @@ struct ContentView: View {
                     }
                     .listStyle(.inset)
                     .scrollContentBackground(.hidden)
-                    .frame(maxHeight: 150)
+                    .scrollIndicators(selectedPortals.count > 4 ? .visible : .hidden)
+                    .frame(height: portalListHeight)
                 }
 
                 Divider()
                     .overlay(HomeSurface.separator)
 
-                // 底部：图例和快捷键设置
-                VStack(spacing: 12) {
-                    // 图例
-                    HStack(spacing: 20) {
-                        LegendItem(color: .blue, label: languageService.localizedString("legend.main_display"))
-                        LegendItem(color: .gray, label: languageService.localizedString("legend.external_display"))
-                        LegendItem(color: .green, label: languageService.localizedString("legend.shared_edge"), isLine: true)
-                        PortalColorsLegend(
-                            portals: selectedPortals,
-                            label: languageService.localizedString("legend.portal")
-                        )
-                        Spacer()
-                    }
-
-                    Divider()
-                        .overlay(HomeSurface.separator)
-
-                    // 快捷键设置区域
-                    HStack {
-                        Text(L("settings.enable_hotkeys"))
-                            .font(.headline)
-
-                        Toggle("", isOn: Binding(
-                            get: { hotkeyConfigStore.globalEnabled },
-                            set: { newValue in
-                                if newValue && !permissionService.isAccessibilityGranted {
-                                    permissionService.requestAccessibility()
-                                } else {
-                                    hotkeyConfigStore.globalEnabled = newValue
-                                    hotkeyConfigStore.save()
-                                    if newValue {
-                                        hotkeyService.start()
-                                    } else {
-                                        hotkeyService.stop()
-                                    }
-                                }
-                            }
-                        ))
-                        .toggleStyle(.switch)
-                        .labelsHidden()
-
-                        Spacer()
-
-                        // 显示各屏幕快捷键
-                        ForEach(hotkeyConfigStore.configs.indices, id: \.self) { index in
-                            HotkeyBadge(config: $hotkeyConfigStore.configs[index], onSave: {
-                                hotkeyConfigStore.save()
-                            })
-                        }
-                    }
+                // 底部图例
+                HStack(spacing: 20) {
+                    LegendItem(color: .blue, label: languageService.localizedString("legend.main_display"))
+                    LegendItem(color: .gray, label: languageService.localizedString("legend.external_display"))
+                    LegendItem(color: .green, label: languageService.localizedString("legend.shared_edge"), isLine: true)
+                    PortalColorsLegend(
+                        portals: selectedPortals,
+                        label: languageService.localizedString("legend.portal")
+                    )
+                    Spacer()
                 }
                 .padding()
             }
@@ -310,6 +400,7 @@ struct ContentView: View {
                 hotkeyConfigStore.initializeDefaults(from: layout.displaysApplyingCustomNames(to: displayService.displays))
             }
             checkPermissionOnLaunch()
+            synchronizeWindowSnapshotSelection()
         }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didChangeScreenParametersNotification)) { _ in
             displayService.fetchDisplays()
@@ -321,6 +412,20 @@ struct ContentView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .languageDidChange)) { _ in
             refreshHotkeyDisplayNames()
+        }
+        .onReceive(windowLayoutService.$snapshots) { _ in
+            synchronizeWindowSnapshotSelection()
+        }
+        .onReceive(windowLayoutService.$isEnabled) { isEnabled in
+            if isEnabled {
+                synchronizeWindowSnapshotSelection()
+            } else {
+                selectedWindowSnapshotID = nil
+                showsWindowLayout = false
+            }
+        }
+        .onChange(of: selectedLayoutID) { _ in
+            synchronizeWindowSnapshotSelection()
         }
         .alert(
             "",
@@ -379,6 +484,21 @@ struct ContentView: View {
                 }
             )
         }
+        .sheet(item: $renamingWindowSnapshot) { snapshot in
+            RenameWindowLayoutSheet(
+                name: $windowSnapshotRenameText,
+                onSave: {
+                    _ = windowLayoutService.renameSnapshot(
+                        id: snapshot.id,
+                        to: windowSnapshotRenameText
+                    )
+                    renamingWindowSnapshot = nil
+                },
+                onCancel: {
+                    renamingWindowSnapshot = nil
+                }
+            )
+        }
         .sheet(isPresented: isNamingPortalPresented) {
             PortalNameSheet(
                 portalName: $drawingSession.portalName,
@@ -409,6 +529,56 @@ struct ContentView: View {
 
     private var selectedPortals: [PortalPair] {
         selectedLayout?.portals ?? []
+    }
+
+    private var portalListHeight: CGFloat {
+        CGFloat(min(selectedPortals.count, 4)) * 50 + 8
+    }
+
+    private var matchingWindowSnapshots: [WindowLayoutSnapshot] {
+        guard let signature = selectedLayout?.signature else { return [] }
+        return windowLayoutService.snapshots(matching: signature)
+    }
+
+    private var selectedWindowSnapshot: WindowLayoutSnapshot? {
+        guard let selectedWindowSnapshotID else { return nil }
+        return matchingWindowSnapshots.first { $0.id == selectedWindowSnapshotID }
+    }
+
+    private var windowLayoutToggleHelp: String {
+        if !windowLayoutService.isEnabled {
+            return L("window_recovery.enable_in_settings")
+        }
+        if matchingWindowSnapshots.isEmpty {
+            return L("window_layout.no_saved")
+        }
+        return L("window_layout.show_help")
+    }
+
+    private var saveWindowLayoutHelp: String {
+        windowLayoutService.isEnabled
+            ? L("window_recovery.save_help")
+            : L("window_recovery.enable_in_settings")
+    }
+
+    private var hotkeyJumpEnabledBinding: Binding<Bool> {
+        Binding(
+            get: { hotkeyConfigStore.globalEnabled },
+            set: { isEnabled in
+                if isEnabled && !permissionService.checkAccessibility() {
+                    permissionService.requestAccessibility()
+                    return
+                }
+
+                hotkeyConfigStore.globalEnabled = isEnabled
+                hotkeyConfigStore.save()
+                if isEnabled {
+                    hotkeyService.start()
+                } else {
+                    hotkeyService.stop()
+                }
+            }
+        )
     }
 
     /// 用于显示的显示器列表（当前排列用实时数据，历史排列用快照）
@@ -545,6 +715,93 @@ struct ContentView: View {
         layoutService.addPortal(portal)
     }
 
+    private func saveCurrentWindowLayout() {
+        guard windowLayoutService.isEnabled else { return }
+        guard permissionService.checkAccessibility() else {
+            permissionService.requestAccessibility()
+            return
+        }
+        guard let snapshot = windowLayoutService.saveCurrentLayout() else { return }
+        selectedWindowSnapshotID = snapshot.id
+        showsWindowLayout = true
+        windowLayoutService.refreshAvailableApplications()
+    }
+
+    private func selectWindowSnapshot(_ snapshot: WindowLayoutSnapshot, in layout: DisplayLayout) {
+        selectedLayoutID = layout.id
+        selectedWindowSnapshotID = snapshot.id
+        showsWindowLayout = true
+    }
+
+    private func promoteWindowSnapshot(_ snapshot: WindowLayoutSnapshot, in layout: DisplayLayout) {
+        selectedLayoutID = layout.id
+        selectedWindowSnapshotID = snapshot.id
+        _ = windowLayoutService.promoteAutomaticSnapshot(id: snapshot.id)
+    }
+
+    private func restoreWindowSnapshot(_ snapshot: WindowLayoutSnapshot, in layout: DisplayLayout) {
+        guard permissionService.checkAccessibility() else {
+            permissionService.requestAccessibility()
+            return
+        }
+
+        selectWindowSnapshot(snapshot, in: layout)
+        _ = windowLayoutService.restoreSavedLayout(snapshotID: snapshot.id)
+    }
+
+    private func deleteWindowSnapshot(_ snapshot: WindowLayoutSnapshot) {
+        _ = windowLayoutService.deleteSnapshot(id: snapshot.id)
+    }
+
+    private func windowSnapshotTitle(
+        for snapshot: WindowLayoutSnapshot,
+        in snapshots: [WindowLayoutSnapshot]
+    ) -> String {
+        if let name = snapshot.name,
+           !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            return name
+        }
+
+        if snapshot.kind == .automatic {
+            return L("window_layout.automatic_before_lock")
+        }
+
+        let manualSnapshots = snapshots.filter { $0.kind == .manual }
+        let index = manualSnapshots.firstIndex(where: { $0.id == snapshot.id }) ?? 0
+        return L("window_layout.saved %lld", index + 1)
+    }
+
+    private func openRenameWindowSnapshot(
+        _ snapshot: WindowLayoutSnapshot,
+        in layout: DisplayLayout,
+        matching snapshots: [WindowLayoutSnapshot]
+    ) {
+        selectedLayoutID = layout.id
+        selectedWindowSnapshotID = snapshot.id
+        windowSnapshotRenameText = windowSnapshotTitle(for: snapshot, in: snapshots)
+        renamingWindowSnapshot = snapshot
+    }
+
+    private func synchronizeWindowSnapshotSelection() {
+        guard windowLayoutService.isEnabled else {
+            selectedWindowSnapshotID = nil
+            showsWindowLayout = false
+            return
+        }
+
+        let snapshots = matchingWindowSnapshots
+        guard !snapshots.isEmpty else {
+            selectedWindowSnapshotID = nil
+            showsWindowLayout = false
+            return
+        }
+
+        if !snapshots.contains(where: { $0.id == selectedWindowSnapshotID }) {
+            selectedWindowSnapshotID = snapshots.first(where: { $0.kind == .automatic })?.id
+                ?? snapshots.last?.id
+        }
+    }
+
     private func openRenameSheet(for layout: DisplayLayout) {
         renameText = layout.displayName
         selectedLayoutID = layout.id
@@ -635,12 +892,15 @@ struct ContentView: View {
 struct HotkeyBadge: View {
     @Binding var config: HotkeyConfig
     let onSave: () -> Void
+    var showsDisplayName = true
 
     var body: some View {
         HStack(spacing: 4) {
-            Text(config.displayName)
-                .font(.caption)
-                .foregroundColor(.secondary)
+            if showsDisplayName {
+                Text(config.displayName)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
 
             Text(config.shortcutString.isEmpty ? L("hotkey.not_set") : config.shortcutString)
                 .font(.system(.caption, design: .monospaced))
@@ -660,10 +920,107 @@ struct HotkeyBadge: View {
             .scaleEffect(0.7)
             .labelsHidden()
         }
-        .padding(.horizontal, 8)
+    }
+}
+
+/// 显示器排列下的二级窗口布局项。
+private struct WindowLayoutSnapshotSidebarRow: View {
+    let title: String
+    let snapshot: WindowLayoutSnapshot
+    let isSelected: Bool
+    let onSelect: () -> Void
+    let onPromote: () -> Void
+    let onRestore: () -> Void
+    let onRename: () -> Void
+    let onDelete: () -> Void
+
+    var body: some View {
+        HStack(spacing: 6) {
+            Image(systemName: snapshot.kind == .automatic ? "lock.fill" : "macwindow")
+                .frame(width: 14)
+
+            Text(snapshot.kind == .automatic
+                 ? L("window_layout.kind.automatic")
+                 : L("window_layout.kind.manual"))
+                .font(.system(size: 9, weight: .semibold))
+                .lineLimit(1)
+                .fixedSize(horizontal: true, vertical: false)
+                .layoutPriority(2)
+                .foregroundColor(snapshot.kind == .automatic ? .orange : .accentColor)
+                .padding(.horizontal, 5)
+                .padding(.vertical, 2)
+                .background(
+                    Capsule()
+                        .fill((snapshot.kind == .automatic ? Color.orange : Color.accentColor).opacity(0.12))
+                )
+
+            Text(title)
+                .lineLimit(1)
+                .fontWeight(isSelected ? .semibold : .regular)
+                .layoutPriority(1)
+
+            Spacer(minLength: 2)
+
+            if snapshot.kind == .automatic {
+                SnapshotActionButton(
+                    systemImage: "arrow.up.circle",
+                    accessibilityLabel: L("window_layout.promote_to_manual"),
+                    tint: .orange,
+                    action: onPromote
+                )
+            }
+
+            SnapshotActionButton(
+                systemImage: "play.fill",
+                accessibilityLabel: L("window_layout.apply"),
+                tint: .accentColor,
+                action: onRestore
+            )
+
+            SnapshotActionButton(
+                systemImage: "pencil",
+                accessibilityLabel: L("layout.rename"),
+                tint: .primary,
+                action: onRename
+            )
+
+            SnapshotActionButton(
+                systemImage: "trash",
+                accessibilityLabel: L("layout.delete"),
+                tint: .red,
+                action: onDelete
+            )
+        }
+        .font(.caption)
+        .foregroundColor(isSelected ? .accentColor : .secondary)
         .padding(.vertical, 4)
-        .background(Color.secondary.opacity(0.1))
-        .cornerRadius(6)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .contentShape(Rectangle())
+        .onTapGesture(perform: onSelect)
+        .help(snapshot.capturedAt.formatted(date: .abbreviated, time: .shortened))
+    }
+}
+
+private struct SnapshotActionButton: View {
+    let systemImage: String
+    let accessibilityLabel: String
+    let tint: Color
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Image(systemName: systemImage)
+                .font(.system(size: 10, weight: .semibold))
+                .foregroundColor(tint)
+                .frame(width: 22, height: 22)
+                .background(
+                    RoundedRectangle(cornerRadius: 6)
+                        .fill(tint.opacity(0.1))
+                )
+        }
+        .buttonStyle(.plain)
+        .help(accessibilityLabel)
+        .accessibilityLabel(accessibilityLabel)
     }
 }
 
@@ -754,6 +1111,7 @@ struct LayoutRowView: View {
     let onToggleLock: () -> Void
     let onRename: () -> Void
     let onDelete: () -> Void
+    let onSelect: () -> Void
 
     var body: some View {
         HStack {
@@ -781,15 +1139,6 @@ struct LayoutRowView: View {
 
             Spacer()
 
-            if !layout.portals.isEmpty {
-                Text("\(layout.portals.count)")
-                    .font(.caption)
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 2)
-                    .background(Color.orange.opacity(0.2))
-                    .cornerRadius(4)
-            }
-
             HStack(spacing: 6) {
                 RowActionButton(
                     systemImage: layout.isLocked ? "lock.fill" : "lock.open",
@@ -814,8 +1163,14 @@ struct LayoutRowView: View {
                 )
             }
         }
-        .padding(.vertical, 4)
+        .padding(.horizontal, 6)
+        .padding(.vertical, 5)
+        .background(
+            RoundedRectangle(cornerRadius: 8)
+                .fill(isSelected ? Color.accentColor.opacity(0.16) : Color.clear)
+        )
         .contentShape(Rectangle())
+        .onTapGesture(perform: onSelect)
     }
 }
 
@@ -940,6 +1295,40 @@ struct RenameLayoutSheet: View {
                 Button(L("button.cancel"), action: onCancel)
                 Button(L("button.save"), action: onSave)
                     .disabled(name.isEmpty)
+                    .buttonStyle(.borderedProminent)
+            }
+        }
+        .padding()
+        .frame(width: 320, height: 150)
+    }
+}
+
+/// 重命名窗口布局对话框
+private struct RenameWindowLayoutSheet: View {
+    @Binding var name: String
+    let onSave: () -> Void
+    let onCancel: () -> Void
+
+    private var canSave: Bool {
+        !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+
+    var body: some View {
+        VStack(spacing: 20) {
+            Text(L("window_layout.rename_title"))
+                .font(.headline)
+
+            FocusableTextField(text: $name, placeholder: L("window_layout.name_placeholder")) {
+                if canSave {
+                    onSave()
+                }
+            }
+            .frame(width: 250, height: 24)
+
+            HStack {
+                Button(L("button.cancel"), action: onCancel)
+                Button(L("button.save"), action: onSave)
+                    .disabled(!canSave)
                     .buttonStyle(.borderedProminent)
             }
         }

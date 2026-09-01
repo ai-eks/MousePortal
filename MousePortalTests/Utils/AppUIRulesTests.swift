@@ -136,4 +136,31 @@ final class AppUIRulesTests: XCTestCase {
             L("menu.accessibility_status %@", L("settings.permission_not_granted"))
         )
     }
+
+    func testWindowApplicationSearchMatchesNameAndBundleIdentifier() {
+        let applications = [
+            WindowApplicationOption(bundleIdentifier: "com.example.Editor", name: "Code Editor"),
+            WindowApplicationOption(bundleIdentifier: "com.example.Chat", name: "Messenger")
+        ]
+
+        XCTAssertEqual(
+            WindowApplicationSearch.filtered(applications, query: "EDITOR"),
+            [applications[0]]
+        )
+        XCTAssertEqual(
+            WindowApplicationSearch.filtered(applications, query: "example.chat"),
+            [applications[1]]
+        )
+    }
+
+    func testWindowApplicationSearchTreatsWhitespaceAsEmpty() {
+        let applications = [
+            WindowApplicationOption(bundleIdentifier: "com.example.Editor", name: "Editor")
+        ]
+
+        XCTAssertEqual(
+            WindowApplicationSearch.filtered(applications, query: "   "),
+            applications
+        )
+    }
 }

@@ -1,6 +1,6 @@
 # Privacy
 
-Last updated: 2026-06-14
+Last updated: 2026-08-31
 
 MousePortal is designed as a local macOS utility for managing cursor movement across multiple displays.
 
@@ -11,6 +11,7 @@ MousePortal stores its settings locally on your Mac, including:
 - Display layout names and display arrangement metadata.
 - Hotkey configuration.
 - Portal configuration.
+- Optional window recovery snapshots, including application identifiers, window titles, document URLs, window positions, and window sizes.
 - Configuration profiles.
 - App preferences such as launch-at-login and menu bar visibility.
 
@@ -29,5 +30,7 @@ MousePortal asks for macOS Accessibility permission because its core features ne
 - Listen for configured global hotkeys.
 - Monitor mouse movement for portal triggers.
 - Move the cursor between displays.
+- Read the position and size of standard application windows when window recovery is enabled.
+- Restore those windows to their saved positions and sizes after displays wake.
 
-MousePortal uses these permissions only for the cursor and hotkey features described in the app.
+Window recovery is opt-in. Its snapshots stay on the Mac and are not sent to the project maintainers or any backend service.

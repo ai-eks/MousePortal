@@ -153,3 +153,28 @@
 "layout.delete_disabled_last_remaining" = "At least one layout must remain";
 "portal.edit" = "Edit";
 "portal.delete" = "Delete";
+
+/* Window Recovery */
+"settings.window_recovery" = "Ripristino finestre";
+"window_recovery.enabled" = "Abilita ripristino finestre";
+"window_recovery.remember_before_sleep" = "Ricorda le finestre prima dello stop o del blocco";
+"window_recovery.automatic" = "Ripristina automaticamente al riavvio degli schermi";
+"window_recovery.behavior" = "Ripristino al riavvio";
+"window_recovery.save" = "Salva disposizione attuale";
+"window_recovery.ignored_apps" = "App ignorate";
+"window_recovery.search_apps" = "Cerca app";
+"window_recovery.ignored_apps_description" = "Attiva un’app per escluderla dalle istantanee future.";
+"window_recovery.limitations" = "Sono supportate solo finestre standard, non ridotte a icona e non a schermo intero. Split View, gruppi Stage Manager e Spaces non vengono ripristinati.";
+"window_layout.show" = "Mostra disposizione finestre";
+"window_layout.show_help" = "Sovrapponi le finestre salvate alla disposizione degli schermi.";
+"window_layout.no_saved" = "Nessuna disposizione di finestre salvata per questi schermi.";
+"window_layout.automatic_before_lock" = "Prima del blocco";
+"window_layout.saved %lld" = "Disposizione %lld";
+"window_layout.kind.automatic" = "Automatica";
+"window_layout.kind.manual" = "Manuale";
+"window_layout.promote_to_manual" = "Converti in disposizione manuale";
+"window_layout.apply" = "Passa a questa disposizione";
+"window_layout.rename_title" = "Rinomina disposizione finestre";
+"window_layout.name_placeholder" = "Inserisci il nome della disposizione";
+"window_recovery.enable_in_settings" = "Abilita prima il ripristino finestre nelle Impostazioni.";
+"window_recovery.save_help" = "Salva le posizioni attuali delle finestre.";

@@ -153,3 +153,28 @@
 "layout.delete_disabled_last_remaining" = "At least one layout must remain";
 "portal.edit" = "Edit";
 "portal.delete" = "Delete";
+
+/* Window Recovery */
+"settings.window_recovery" = "Przywracanie okien";
+"window_recovery.enabled" = "Włącz przywracanie okien";
+"window_recovery.remember_before_sleep" = "Zapamiętaj okna przed uśpieniem lub blokadą";
+"window_recovery.automatic" = "Przywracaj automatycznie po wybudzeniu ekranów";
+"window_recovery.behavior" = "Przywracanie po wybudzeniu";
+"window_recovery.save" = "Zapisz bieżący układ";
+"window_recovery.ignored_apps" = "Ignorowane aplikacje";
+"window_recovery.search_apps" = "Szukaj aplikacji";
+"window_recovery.ignored_apps_description" = "Włącz aplikację, aby wykluczyć ją z przyszłych migawek.";
+"window_recovery.limitations" = "Obsługiwane są tylko standardowe, niezminimalizowane i niepełnoekranowe okna. Split View, grupy Stage Manager i Spaces nie są przywracane.";
+"window_layout.show" = "Pokaż układ okien";
+"window_layout.show_help" = "Nałóż zapisane okna na układ monitorów.";
+"window_layout.no_saved" = "Brak zapisanego układu okien dla tego układu monitorów.";
+"window_layout.automatic_before_lock" = "Przed blokadą";
+"window_layout.saved %lld" = "Układ %lld";
+"window_layout.kind.automatic" = "Auto";
+"window_layout.kind.manual" = "Ręczny";
+"window_layout.promote_to_manual" = "Zmień na układ ręczny";
+"window_layout.apply" = "Przełącz na ten układ";
+"window_layout.rename_title" = "Zmień nazwę układu okien";
+"window_layout.name_placeholder" = "Wpisz nazwę układu okien";
+"window_recovery.enable_in_settings" = "Najpierw włącz przywracanie okien w Ustawieniach.";
+"window_recovery.save_help" = "Zapisz bieżące położenie okien.";

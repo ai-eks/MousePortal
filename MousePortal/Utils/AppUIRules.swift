@@ -83,3 +83,18 @@ enum AccessibilityPermissionPresentation {
         L("menu.accessibility_status %@", statusText(isGranted: isGranted))
     }
 }
+
+enum WindowApplicationSearch {
+    static func filtered(
+        _ applications: [WindowApplicationOption],
+        query: String
+    ) -> [WindowApplicationOption] {
+        let query = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !query.isEmpty else { return applications }
+
+        return applications.filter {
+            $0.name.localizedCaseInsensitiveContains(query) ||
+            $0.bundleIdentifier.localizedCaseInsensitiveContains(query)
+        }
+    }
+}

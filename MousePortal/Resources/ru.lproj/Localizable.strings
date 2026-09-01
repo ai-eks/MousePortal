@@ -151,3 +151,28 @@
 "layout.delete_disabled_last_remaining" = "At least one layout must remain";
 "portal.edit" = "Edit";
 "portal.delete" = "Delete";
+
+/* Window Recovery */
+"settings.window_recovery" = "Восстановление окон";
+"window_recovery.enabled" = "Включить восстановление окон";
+"window_recovery.remember_before_sleep" = "Запоминать окна перед сном или блокировкой";
+"window_recovery.automatic" = "Автоматически восстанавливать после пробуждения дисплеев";
+"window_recovery.behavior" = "Восстановление после сна";
+"window_recovery.save" = "Сохранить текущее расположение";
+"window_recovery.ignored_apps" = "Игнорируемые приложения";
+"window_recovery.search_apps" = "Поиск приложений";
+"window_recovery.ignored_apps_description" = "Включите приложение, чтобы исключить его из будущих снимков.";
+"window_recovery.limitations" = "Поддерживаются только обычные, не свёрнутые и не полноэкранные окна. Split View, группы Stage Manager и Spaces не восстанавливаются.";
+"window_layout.show" = "Показать расположение окон";
+"window_layout.show_help" = "Показывать сохранённые окна поверх схемы дисплеев.";
+"window_layout.no_saved" = "Для этой схемы дисплеев нет сохранённого расположения окон.";
+"window_layout.automatic_before_lock" = "Перед блокировкой";
+"window_layout.saved %lld" = "Схема %lld";
+"window_layout.kind.automatic" = "Авто";
+"window_layout.kind.manual" = "Вручную";
+"window_layout.promote_to_manual" = "Сделать ручной схемой";
+"window_layout.apply" = "Переключиться на эту схему";
+"window_layout.rename_title" = "Переименовать схему окон";
+"window_layout.name_placeholder" = "Введите название схемы окон";
+"window_recovery.enable_in_settings" = "Сначала включите восстановление окон в настройках.";
+"window_recovery.save_help" = "Сохранить текущие позиции окон.";

@@ -20,9 +20,100 @@ struct SettingsView: View {
                 .tabItem {
                     Label(L("settings.portals"), systemImage: "arrow.left.arrow.right")
                 }
+
+            WindowRecoverySettingsView()
+                .tabItem {
+                    Label(L("settings.window_recovery"), systemImage: "macwindow.on.rectangle")
+                }
         }
         .frame(width: 550, height: 450)
         .id(languageService.refreshID)
+    }
+}
+
+/// 普通应用窗口布局保存与恢复。
+struct WindowRecoverySettingsView: View {
+    @ObservedObject private var service = WindowLayoutService.shared
+    @ObservedObject private var permissionService = PermissionService.shared
+    @State private var applicationSearchText = ""
+
+    private var filteredApplications: [WindowApplicationOption] {
+        WindowApplicationSearch.filtered(
+            service.availableApplications,
+            query: applicationSearchText
+        )
+    }
+
+    var body: some View {
+        Form {
+            Section {
+                VStack(alignment: .leading, spacing: 5) {
+                    Toggle(L("window_recovery.enabled"), isOn: Binding(
+                        get: { service.isEnabled },
+                        set: { enabled in
+                            if enabled && !permissionService.checkAccessibility() {
+                                permissionService.requestAccessibility()
+                            } else {
+                                service.setEnabled(enabled)
+                                AppDelegate.shared?.refreshMenu()
+                            }
+                        }
+                    ))
+
+                    Text(L("window_recovery.limitations"))
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+
+                Toggle(L("window_recovery.remember_before_sleep"), isOn: Binding(
+                    get: { service.rememberBeforeSleepOrLockEnabled },
+                    set: { service.setRememberBeforeSleepOrLockEnabled($0) }
+                ))
+                .disabled(!service.isEnabled)
+
+                Toggle(L("window_recovery.automatic"), isOn: Binding(
+                    get: { service.automaticRestoreEnabled },
+                    set: { service.setAutomaticRestoreEnabled($0) }
+                ))
+                .disabled(!service.isEnabled || !service.rememberBeforeSleepOrLockEnabled)
+            } header: {
+                Text(L("window_recovery.behavior"))
+            }
+
+            if !service.availableApplications.isEmpty {
+                Section {
+                    TextField(
+                        L("window_recovery.search_apps"),
+                        text: $applicationSearchText
+                    )
+                    .textFieldStyle(.roundedBorder)
+
+                    ForEach(filteredApplications) { application in
+                        Toggle(application.name, isOn: Binding(
+                            get: {
+                                service.ignoredBundleIdentifiers.contains(application.bundleIdentifier)
+                            },
+                            set: { ignored in
+                                service.setApplicationIgnored(
+                                    application.bundleIdentifier,
+                                    ignored: ignored
+                                )
+                            }
+                        ))
+                    }
+                } header: {
+                    Text(L("window_recovery.ignored_apps"))
+                } footer: {
+                    Text(L("window_recovery.ignored_apps_description"))
+                }
+            }
+
+        }
+        .formStyle(.grouped)
+        .onAppear {
+            _ = permissionService.checkAccessibility()
+            service.refreshAvailableApplications()
+        }
     }
 }
 
