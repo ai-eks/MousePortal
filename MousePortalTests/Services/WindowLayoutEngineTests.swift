@@ -82,6 +82,33 @@ final class WindowLayoutEngineTests: XCTestCase {
         XCTAssertEqual(frame, CGRect(x: 700, y: 24, width: 500, height: 826))
     }
 
+    func testFrameMatchingAcceptsAccessibilityRoundingWithinTolerance() {
+        let target = CGRect(x: 100, y: 200, width: 800, height: 600)
+        let actual = CGRect(x: 101, y: 199, width: 799, height: 601)
+
+        XCTAssertTrue(WindowLayoutEngine.framesMatch(actual, target: target))
+    }
+
+    func testFrameMatchingRejectsIncorrectSize() {
+        let target = CGRect(x: 100, y: 200, width: 800, height: 600)
+        let actual = CGRect(x: 100, y: 200, width: 810, height: 600)
+
+        XCTAssertFalse(WindowLayoutEngine.framesMatch(actual, target: target))
+    }
+
+    func testFrameMatchingRejectsIncorrectPosition() {
+        let target = CGRect(x: 100, y: 200, width: 800, height: 600)
+        let actual = CGRect(x: 110, y: 200, width: 800, height: 600)
+
+        XCTAssertFalse(WindowLayoutEngine.framesMatch(actual, target: target))
+    }
+
+    func testFrameMatchingRejectsMissingReadback() {
+        let target = CGRect(x: 100, y: 200, width: 800, height: 600)
+
+        XCTAssertFalse(WindowLayoutEngine.framesMatch(nil, target: target))
+    }
+
     func testWindowMatchingPrefersDocumentOverPreviousIndex() {
         let placement = placement(
             documentURL: "file:///project/README.md",

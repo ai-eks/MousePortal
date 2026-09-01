@@ -113,7 +113,11 @@ final class SystemWindowLayoutProvider: WindowLayoutSystemProviding {
         var restoredCount = 0
         var skippedCount = 0
         var failedCount = 0
-        var secondPass: [(AXUIElement, CGPoint)] = []
+        var restoreAttempts: [(
+            element: AXUIElement,
+            targetFrame: CGRect,
+            initialApplySucceeded: Bool
+        )] = []
 
         let runtimeWindows = retainedSnapshotID == snapshot.id ? retainedWindows : []
         let placementsByBundleIdentifier = Dictionary(
@@ -150,21 +154,42 @@ final class SystemWindowLayoutProvider: WindowLayoutSystemProviding {
                 usedIndices.insert(matchIndex)
                 let targetFrame = WindowLayoutEngine.targetFrame(for: placement, on: display)
                 let window = windows[matchIndex].element
-                _ = setSize(targetFrame.size, for: window)
-
-                if setPosition(targetFrame.origin, for: window) {
-                    restoredCount += 1
-                    secondPass.append((window, targetFrame.origin))
-                } else {
-                    failedCount += 1
-                }
+                restoreAttempts.append((
+                    element: window,
+                    targetFrame: targetFrame,
+                    initialApplySucceeded: applyFrame(targetFrame, to: window)
+                ))
             }
         }
 
-        if !secondPass.isEmpty {
+        if !restoreAttempts.isEmpty {
             RunLoop.current.run(until: Date().addingTimeInterval(0.03))
-            for (window, position) in secondPass {
-                _ = setPosition(position, for: window)
+
+            var retried = false
+            for attempt in restoreAttempts {
+                let actualFrame = frame(for: attempt.element)
+                guard !attempt.initialApplySucceeded ||
+                        !WindowLayoutEngine.framesMatch(actualFrame, target: attempt.targetFrame) else {
+                    continue
+                }
+
+                _ = applyFrame(attempt.targetFrame, to: attempt.element)
+                retried = true
+            }
+
+            if retried {
+                RunLoop.current.run(until: Date().addingTimeInterval(0.03))
+            }
+
+            for attempt in restoreAttempts {
+                if WindowLayoutEngine.framesMatch(
+                    frame(for: attempt.element),
+                    target: attempt.targetFrame
+                ) {
+                    restoredCount += 1
+                } else {
+                    failedCount += 1
+                }
             }
         }
 
@@ -289,6 +314,12 @@ final class SystemWindowLayoutProvider: WindowLayoutSystemProviding {
         var position = position
         guard let value = AXValueCreate(.cgPoint, &position) else { return false }
         return AXUIElementSetAttributeValue(element, kAXPositionAttribute as CFString, value) == .success
+    }
+
+    private func applyFrame(_ frame: CGRect, to element: AXUIElement) -> Bool {
+        let sizeSucceeded = setSize(frame.size, for: element)
+        let positionSucceeded = setPosition(frame.origin, for: element)
+        return sizeSucceeded && positionSucceeded
     }
 
     private func setSize(_ size: CGSize, for element: AXUIElement) -> Bool {
@@ -434,8 +465,6 @@ final class WindowLayoutService: ObservableObject {
         let workspaceCenter = NSWorkspace.shared.notificationCenter
         workspaceCenter.addObserver(self, selector: #selector(sessionDidResignActive), name: NSWorkspace.sessionDidResignActiveNotification, object: nil)
         workspaceCenter.addObserver(self, selector: #selector(sessionDidBecomeActive), name: NSWorkspace.sessionDidBecomeActiveNotification, object: nil)
-        workspaceCenter.addObserver(self, selector: #selector(screensDidSleep), name: NSWorkspace.screensDidSleepNotification, object: nil)
-        workspaceCenter.addObserver(self, selector: #selector(screensDidWake), name: NSWorkspace.screensDidWakeNotification, object: nil)
         workspaceCenter.addObserver(self, selector: #selector(systemWillSleep), name: NSWorkspace.willSleepNotification, object: nil)
         workspaceCenter.addObserver(self, selector: #selector(systemDidWake), name: NSWorkspace.didWakeNotification, object: nil)
         NotificationCenter.default.addObserver(
@@ -589,26 +618,8 @@ final class WindowLayoutService: ObservableObject {
         }
     }
 
-    @objc private func screensDidSleep() {
-        guard lockRecoveryEnabled else { return }
-        system.logDisplayState(event: "screensDidSleep")
-        guard state == .normal else { return }
-
-        if recoverySnapshotID == nil {
-            recoverySnapshotID = latestAutomaticSnapshot?.id
-        }
-        guard recoverySnapshot != nil else { return }
-
-        // 该通知可能晚于显示器离线；这里只冻结已有正确快照，绝不在此时覆盖。
-        state = .snapshotFrozen
-    }
-
     @objc private func systemWillSleep() {
         freezeSnapshotIfNeeded(event: "willSleep")
-    }
-
-    @objc private func screensDidWake() {
-        handleWake(event: "screensDidWake")
     }
 
     @objc private func systemDidWake() {
@@ -746,12 +757,6 @@ final class WindowLayoutService: ObservableObject {
 
     private var lockRecoveryEnabled: Bool {
         isEnabled && rememberBeforeSleepOrLockEnabled
-    }
-
-    private var latestAutomaticSnapshot: WindowLayoutSnapshot? {
-        snapshots
-            .filter { $0.kind == .automatic }
-            .max { $0.capturedAt < $1.capturedAt }
     }
 
     private func captureSnapshot(kind: WindowLayoutSnapshotKind) -> WindowLayoutSnapshot? {

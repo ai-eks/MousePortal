@@ -53,6 +53,19 @@ enum WindowLayoutEngine {
         return CGRect(x: x, y: y, width: width, height: height)
     }
 
+    static func framesMatch(
+        _ actual: CGRect?,
+        target: CGRect,
+        tolerance: CGFloat = 2
+    ) -> Bool {
+        guard let actual else { return false }
+
+        return abs(actual.minX - target.minX) <= tolerance &&
+            abs(actual.minY - target.minY) <= tolerance &&
+            abs(actual.width - target.width) <= tolerance &&
+            abs(actual.height - target.height) <= tolerance
+    }
+
     static func bestMatchIndex(
         for placement: WindowPlacement,
         candidates: [WindowMatchCandidate],

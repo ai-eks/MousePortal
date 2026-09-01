@@ -124,7 +124,7 @@ final class WindowLayoutServiceTests: XCTestCase {
             object: nil
         )
         NSWorkspace.shared.notificationCenter.post(
-            name: NSWorkspace.screensDidWakeNotification,
+            name: NSWorkspace.didWakeNotification,
             object: nil
         )
 
@@ -275,13 +275,16 @@ final class WindowLayoutServiceTests: XCTestCase {
         XCTAssertNil(service.restoreSavedLayout())
     }
 
-    func testScreensDidSleepFreezesExistingSnapshotWithoutLateRecapture() {
+    func testDisplayOnlySleepAndWakeDoNotEnterRecoveryFlow() {
         let system = MockWindowLayoutSystemProvider()
         system.displays = [display(identity: "main")]
         system.windows = [placement(displayIdentity: WindowDisplayIdentity(rawValue: "main"))]
         let service = makeService(system: system)
         service.setEnabled(true)
+        service.setAutomaticRestoreEnabled(true)
         let originalSnapshot = service.snapshot
+        let captureCallCount = system.captureCallCount
+        let displayCallCount = system.currentDisplayCallCount
         system.windows = []
         service.startMonitoring()
         defer { service.stopMonitoring() }
@@ -290,10 +293,16 @@ final class WindowLayoutServiceTests: XCTestCase {
             name: NSWorkspace.screensDidSleepNotification,
             object: nil
         )
+        NSWorkspace.shared.notificationCenter.post(
+            name: NSWorkspace.screensDidWakeNotification,
+            object: nil
+        )
 
-        XCTAssertEqual(service.state, .snapshotFrozen)
+        XCTAssertEqual(service.state, .normal)
         XCTAssertEqual(service.snapshot, originalSnapshot)
-        XCTAssertEqual(system.captureCallCount, 1)
+        XCTAssertEqual(system.captureCallCount, captureCallCount)
+        XCTAssertEqual(system.currentDisplayCallCount, displayCallCount)
+        XCTAssertEqual(system.restoreCallCount, 0)
     }
 
     func testSessionResignCapturesLatestSnapshotBeforeFreezing() {
@@ -308,6 +317,26 @@ final class WindowLayoutServiceTests: XCTestCase {
 
         NSWorkspace.shared.notificationCenter.post(
             name: NSWorkspace.sessionDidResignActiveNotification,
+            object: nil
+        )
+
+        XCTAssertEqual(service.state, .snapshotFrozen)
+        XCTAssertEqual(service.snapshot?.windows.count, 1)
+        XCTAssertEqual(system.captureCallCount, 2)
+    }
+
+    func testSystemSleepCapturesLatestSnapshotBeforeFreezing() {
+        let system = MockWindowLayoutSystemProvider()
+        system.displays = [display(identity: "main")]
+        system.windows = []
+        let service = makeService(system: system)
+        service.setEnabled(true)
+        system.windows = [placement(displayIdentity: WindowDisplayIdentity(rawValue: "main"))]
+        service.startMonitoring()
+        defer { service.stopMonitoring() }
+
+        NSWorkspace.shared.notificationCenter.post(
+            name: NSWorkspace.willSleepNotification,
             object: nil
         )
 
