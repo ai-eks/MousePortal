@@ -343,28 +343,38 @@ class DisplayLayoutService: ObservableObject {
     }
 
     var hasUnusedLayouts: Bool {
-        layouts.contains(where: isUnusedLayout)
+        hasUnusedLayouts(preserving: [])
     }
 
-    /// 仅保留用户明确需要的排列：当前排列、已锁定排列、含传送门排列
+    func hasUnusedLayouts(preserving displayLayoutSignatures: Set<String>) -> Bool {
+        layouts.contains { isUnusedLayout($0, preserving: displayLayoutSignatures) }
+    }
+
+    /// 仅保留用户明确需要的排列：当前排列、已锁定排列、含传送门或窗口快照的排列
     @discardableResult
-    func cleanUpUnusedLayouts() -> [UUID] {
-        let removedIDs = pruneLayouts()
+    func cleanUpUnusedLayouts(preserving displayLayoutSignatures: Set<String> = []) -> [UUID] {
+        let removedIDs = pruneLayouts(preserving: displayLayoutSignatures)
         if !removedIDs.isEmpty {
             save()
         }
         return removedIDs
     }
 
-    private func isUnusedLayout(_ layout: DisplayLayout) -> Bool {
+    private func isUnusedLayout(
+        _ layout: DisplayLayout,
+        preserving displayLayoutSignatures: Set<String>
+    ) -> Bool {
         let isCurrent = layout.id == currentLayoutID
         let hasPortals = !layout.portals.isEmpty
-        return !isCurrent && !layout.isLocked && !hasPortals
+        let hasWindowSnapshots = displayLayoutSignatures.contains(layout.signature)
+        return !isCurrent && !layout.isLocked && !hasPortals && !hasWindowSnapshots
     }
 
     @discardableResult
-    private func pruneLayouts() -> [UUID] {
-        let removedIDs = layouts.filter(isUnusedLayout).map(\.id)
+    private func pruneLayouts(preserving displayLayoutSignatures: Set<String>) -> [UUID] {
+        let removedIDs = layouts
+            .filter { isUnusedLayout($0, preserving: displayLayoutSignatures) }
+            .map(\.id)
         layouts.removeAll { removedIDs.contains($0.id) }
         return removedIDs
     }
@@ -386,7 +396,11 @@ class DisplayLayoutService: ObservableObject {
     /// 处理显示器变化（带稳定性检测）
     /// - Parameter displays: 当前检测到的显示器列表
     /// - Parameter completion: 当排列稳定后的回调，返回匹配或创建的 Layout
-    func handleDisplayChange(displays: [DisplayInfo], completion: ((DisplayLayout) -> Void)? = nil) {
+    func handleDisplayChange(
+        displays: [DisplayInfo],
+        preserving displayLayoutSignatures: Set<String> = [],
+        completion: ((DisplayLayout) -> Void)? = nil
+    ) {
         let newSignature = generateSignature(for: displays)
 
         // 如果签名与上次相同，增加稳定计数
@@ -405,7 +419,10 @@ class DisplayLayoutService: ObservableObject {
         // 检查是否达到稳定阈值
         if stableCount >= requiredStableCount {
             // 已稳定，执行匹配或创建
-            let layout = matchOrCreateLayout(for: displays)
+            let layout = matchOrCreateLayout(
+                for: displays,
+                preserving: displayLayoutSignatures
+            )
             resetStabilityState()
             completion?(layout)
         } else {
@@ -414,7 +431,10 @@ class DisplayLayoutService: ObservableObject {
                 guard let self = self else { return }
                 // 超时后，如果有待处理的显示器，强制处理
                 if !self.pendingDisplays.isEmpty {
-                    let layout = self.matchOrCreateLayout(for: self.pendingDisplays)
+                    let layout = self.matchOrCreateLayout(
+                        for: self.pendingDisplays,
+                        preserving: displayLayoutSignatures
+                    )
                     self.resetStabilityState()
                     completion?(layout)
                 }
@@ -432,11 +452,14 @@ class DisplayLayoutService: ObservableObject {
     }
 
     /// 根据当前显示器自动匹配或创建配置（内部方法，不带稳定性检测）
-    func matchOrCreateLayout(for displays: [DisplayInfo]) -> DisplayLayout {
+    func matchOrCreateLayout(
+        for displays: [DisplayInfo],
+        preserving displayLayoutSignatures: Set<String> = []
+    ) -> DisplayLayout {
         // 尝试匹配现有配置
         if let matchedIndex = layouts.firstIndex(where: { $0.matches(displays: displays) }) {
             currentLayoutID = layouts[matchedIndex].id
-            pruneLayouts()
+            pruneLayouts(preserving: displayLayoutSignatures)
             save()
             return layouts[matchedIndex]
         }
@@ -449,7 +472,7 @@ class DisplayLayoutService: ObservableObject {
         )
         layouts.append(layout)
         currentLayoutID = layout.id
-        pruneLayouts()
+        pruneLayouts(preserving: displayLayoutSignatures)
         save()
 
         return layouts.first(where: { $0.id == layout.id }) ?? layout

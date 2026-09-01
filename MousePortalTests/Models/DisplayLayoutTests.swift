@@ -457,6 +457,51 @@ final class DisplayLayoutTests: XCTestCase {
         XCTAssertEqual(service.layouts.map(\.id), [current.id])
     }
 
+    func testCleanUpUnusedLayoutsPreservesLayoutsWithWindowSnapshots() {
+        let service = DisplayLayoutService.shared
+        let current = DisplayLayout(name: "Current", displays: sampleSingleDisplay())
+        let withWindowSnapshot = DisplayLayout(name: "Saved Windows", displays: sampleDualDisplays())
+        let unused = DisplayLayout(
+            name: "Unused",
+            displays: [
+                DisplayInfo(
+                    id: 3,
+                    frame: CGRect(x: 0, y: 0, width: 2560, height: 1440),
+                    isMain: true,
+                    name: "Other"
+                )
+            ]
+        )
+        let preservedSignatures = Set([withWindowSnapshot.signature])
+        service.layouts = [current, withWindowSnapshot, unused]
+        service.currentLayoutID = current.id
+        service.save()
+
+        XCTAssertTrue(service.hasUnusedLayouts(preserving: preservedSignatures))
+
+        let removedIDs = service.cleanUpUnusedLayouts(preserving: preservedSignatures)
+
+        XCTAssertEqual(removedIDs, [unused.id])
+        XCTAssertEqual(service.layouts.map(\.id), [current.id, withWindowSnapshot.id])
+        XCTAssertFalse(service.hasUnusedLayouts(preserving: preservedSignatures))
+    }
+
+    func testMatchOrCreateLayoutPreservesPreviousLayoutWithWindowSnapshots() {
+        let service = DisplayLayoutService.shared
+        let withWindowSnapshot = DisplayLayout(name: "Saved Windows", displays: sampleDualDisplays())
+        service.layouts = [withWindowSnapshot]
+        service.currentLayoutID = withWindowSnapshot.id
+        service.save()
+
+        let current = service.matchOrCreateLayout(
+            for: sampleSingleDisplay(),
+            preserving: Set([withWindowSnapshot.signature])
+        )
+
+        XCTAssertNotEqual(current.id, withWindowSnapshot.id)
+        XCTAssertEqual(service.layouts.map(\.id), [withWindowSnapshot.id, current.id])
+    }
+
     func testDecodeLegacyLayoutWithoutLockStateDefaultsToUnlocked() throws {
         let json = """
         {

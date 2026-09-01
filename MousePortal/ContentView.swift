@@ -93,7 +93,9 @@ struct ContentView: View {
                         Image(systemName: "trash")
                     }
                     .buttonStyle(.borderless)
-                    .disabled(!layoutService.hasUnusedLayouts)
+                    .disabled(!layoutService.hasUnusedLayouts(
+                        preserving: savedWindowLayoutSignatures
+                    ))
                     .help(L("layout.cleanup_unused"))
                     .accessibilityLabel(L("layout.cleanup_unused"))
                 }
@@ -391,12 +393,18 @@ struct ContentView: View {
             displayService.fetchDisplays()
             // 只在首次加载时设置 selectedLayoutID
             if selectedLayoutID == nil {
-                let layout = layoutService.matchOrCreateLayout(for: displayService.displays)
+                let layout = layoutService.matchOrCreateLayout(
+                    for: displayService.displays,
+                    preserving: savedWindowLayoutSignatures
+                )
                 selectedLayoutID = layout.id
                 hotkeyConfigStore.initializeDefaults(from: layout.displaysApplyingCustomNames(to: displayService.displays))
             } else {
                 // 确保 currentLayoutID 正确更新
-                let layout = layoutService.matchOrCreateLayout(for: displayService.displays)
+                let layout = layoutService.matchOrCreateLayout(
+                    for: displayService.displays,
+                    preserving: savedWindowLayoutSignatures
+                )
                 hotkeyConfigStore.initializeDefaults(from: layout.displaysApplyingCustomNames(to: displayService.displays))
             }
             checkPermissionOnLaunch()
@@ -406,7 +414,10 @@ struct ContentView: View {
             displayService.fetchDisplays()
             hotkeyConfigStore.initializeDefaults(from: displayService.displays)
             // 使用稳定性检测，避免唤醒时产生大量中间状态的排列
-            layoutService.handleDisplayChange(displays: displayService.displays) { layout in
+            layoutService.handleDisplayChange(
+                displays: displayService.displays,
+                preserving: savedWindowLayoutSignatures
+            ) { layout in
                 hotkeyConfigStore.initializeDefaults(from: layout.displaysApplyingCustomNames(to: displayService.displays))
             }
         }
@@ -868,9 +879,15 @@ struct ContentView: View {
     }
 
     private func cleanUpUnusedLayouts() {
-        let removedIDs = layoutService.cleanUpUnusedLayouts()
+        let removedIDs = layoutService.cleanUpUnusedLayouts(
+            preserving: savedWindowLayoutSignatures
+        )
         guard let selectedLayoutID, removedIDs.contains(selectedLayoutID) else { return }
         self.selectedLayoutID = layoutService.currentLayoutID ?? layoutService.layouts.first?.id
+    }
+
+    private var savedWindowLayoutSignatures: Set<String> {
+        Set(windowLayoutService.snapshots.map(\.displayLayoutSignature))
     }
 
     private func refreshHotkeyDisplayNames() {
