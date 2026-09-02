@@ -88,8 +88,17 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          version="${GITHUB_REF_NAME#v}"
+          awk -v heading="## [$version]" '
+            index($0, heading) == 1 { found = 1; next }
+            found && /^## \[/ { exit }
+            found { print }
+            END { if (!found) exit 1 }
+          ' CHANGELOG.md > release-notes.md
+          test -s release-notes.md
+
           gh release create "$GITHUB_REF_NAME" \
             dist/developer-id/*.dmg \
             dist/developer-id/*.sha256 \
             --title "MousePortal $GITHUB_REF_NAME" \
-            --notes "Signed and notarized MousePortal release."
+            --notes-file release-notes.md
