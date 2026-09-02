@@ -163,7 +163,7 @@
 "window_recovery.remember_before_sleep" = "Lembrar janelas antes de repousar ou bloquear";
 "window_recovery.automatic" = "Restaurar automaticamente quando as telas despertarem";
 "window_recovery.behavior" = "Recuperação ao despertar";
-"window_recovery.save" = "Salvar layout atual";
+"window_recovery.save" = "Salvar layout das janelas";
 "window_recovery.ignored_apps" = "Aplicativos ignorados";
 "window_recovery.search_apps" = "Buscar aplicativos";
 "window_recovery.ignored_apps_description" = "Ative um aplicativo para excluí-lo dos próximos instantâneos.";
@@ -180,4 +180,4 @@
 "window_layout.rename_title" = "Renomear layout das janelas";
 "window_layout.name_placeholder" = "Digite o nome do layout";
 "window_recovery.enable_in_settings" = "Ative primeiro a restauração de janelas nos Ajustes.";
-"window_recovery.save_help" = "Salva as posições atuais das janelas.";
+"window_recovery.save_help" = "Salva as posições e os tamanhos atuais das janelas.";

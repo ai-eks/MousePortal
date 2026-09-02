@@ -163,7 +163,7 @@
 "window_recovery.remember_before_sleep" = "睡眠或鎖定前記住視窗";
 "window_recovery.automatic" = "顯示器喚醒後自動還原";
 "window_recovery.behavior" = "喚醒還原";
-"window_recovery.save" = "儲存目前佈局";
+"window_recovery.save" = "儲存視窗佈局";
 "window_recovery.ignored_apps" = "忽略的應用程式";
 "window_recovery.search_apps" = "搜尋應用程式";
 "window_recovery.ignored_apps_description" = "開啟應用程式右側開關，可在之後的快照中排除它。";
@@ -180,4 +180,4 @@
 "window_layout.rename_title" = "重新命名視窗佈局";
 "window_layout.name_placeholder" = "輸入視窗佈局名稱";
 "window_recovery.enable_in_settings" = "請先在設定中開啟視窗還原。";
-"window_recovery.save_help" = "儲存目前的視窗位置。";
+"window_recovery.save_help" = "儲存目前視窗的位置和大小。";

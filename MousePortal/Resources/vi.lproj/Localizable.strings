@@ -165,7 +165,7 @@
 "window_recovery.remember_before_sleep" = "Ghi nhớ cửa sổ trước khi ngủ hoặc khóa";
 "window_recovery.automatic" = "Tự động khôi phục sau khi màn hình thức dậy";
 "window_recovery.behavior" = "Khôi phục khi thức dậy";
-"window_recovery.save" = "Lưu bố cục hiện tại";
+"window_recovery.save" = "Lưu bố cục cửa sổ";
 "window_recovery.ignored_apps" = "Ứng dụng bị bỏ qua";
 "window_recovery.search_apps" = "Tìm ứng dụng";
 "window_recovery.ignored_apps_description" = "Bật một ứng dụng để loại ứng dụng đó khỏi các ảnh chụp nhanh sau này.";
@@ -182,4 +182,4 @@
 "window_layout.rename_title" = "Đổi tên bố cục cửa sổ";
 "window_layout.name_placeholder" = "Nhập tên bố cục cửa sổ";
 "window_recovery.enable_in_settings" = "Trước tiên hãy bật Khôi phục cửa sổ trong Cài đặt.";
-"window_recovery.save_help" = "Lưu vị trí cửa sổ hiện tại.";
+"window_recovery.save_help" = "Lưu vị trí và kích thước cửa sổ hiện tại.";

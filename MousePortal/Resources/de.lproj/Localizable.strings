@@ -163,7 +163,7 @@
 "window_recovery.remember_before_sleep" = "Fenster vor Ruhezustand oder Sperren merken";
 "window_recovery.automatic" = "Nach dem Aufwachen der Displays automatisch wiederherstellen";
 "window_recovery.behavior" = "Wiederherstellung nach Ruhezustand";
-"window_recovery.save" = "Aktuelles Layout sichern";
+"window_recovery.save" = "Fensterlayout speichern";
 "window_recovery.ignored_apps" = "Ignorierte Apps";
 "window_recovery.search_apps" = "Apps suchen";
 "window_recovery.ignored_apps_description" = "Aktivieren Sie eine App, um sie aus zukünftigen Schnappschüssen auszuschließen.";
@@ -180,4 +180,4 @@
 "window_layout.rename_title" = "Fensterlayout umbenennen";
 "window_layout.name_placeholder" = "Name des Fensterlayouts eingeben";
 "window_recovery.enable_in_settings" = "Aktiviere zuerst die Fensterwiederherstellung in den Einstellungen.";
-"window_recovery.save_help" = "Aktuelle Fensterpositionen speichern.";
+"window_recovery.save_help" = "Aktuelle Fensterpositionen und -größen speichern.";

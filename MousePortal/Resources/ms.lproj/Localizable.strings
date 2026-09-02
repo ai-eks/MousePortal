@@ -165,7 +165,7 @@
 "window_recovery.remember_before_sleep" = "Ingat tetingkap sebelum tidur atau dikunci";
 "window_recovery.automatic" = "Pulihkan secara automatik selepas paparan bangun";
 "window_recovery.behavior" = "Pemulihan selepas bangun";
-"window_recovery.save" = "Simpan susun atur semasa";
+"window_recovery.save" = "Simpan susun atur tetingkap";
 "window_recovery.ignored_apps" = "Aplikasi diabaikan";
 "window_recovery.search_apps" = "Cari aplikasi";
 "window_recovery.ignored_apps_description" = "Hidupkan aplikasi untuk mengecualikannya daripada petikan akan datang.";
@@ -182,4 +182,4 @@
 "window_layout.rename_title" = "Namakan semula susun atur tetingkap";
 "window_layout.name_placeholder" = "Masukkan nama susun atur tetingkap";
 "window_recovery.enable_in_settings" = "Hidupkan Pemulihan Tetingkap dalam Tetapan dahulu.";
-"window_recovery.save_help" = "Simpan kedudukan tetingkap semasa.";
+"window_recovery.save_help" = "Simpan kedudukan dan saiz tetingkap semasa.";

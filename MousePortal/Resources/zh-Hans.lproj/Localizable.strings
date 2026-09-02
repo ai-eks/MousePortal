@@ -163,7 +163,7 @@
 "window_recovery.remember_before_sleep" = "睡眠或锁屏前记住窗口";
 "window_recovery.automatic" = "显示器唤醒后自动恢复";
 "window_recovery.behavior" = "唤醒恢复";
-"window_recovery.save" = "保存当前布局";
+"window_recovery.save" = "保存窗口布局";
 "window_recovery.ignored_apps" = "忽略的应用";
 "window_recovery.search_apps" = "搜索应用";
 "window_recovery.ignored_apps_description" = "打开应用右侧开关，可在之后的快照中排除它。";
@@ -180,4 +180,4 @@
 "window_layout.rename_title" = "重命名窗口布局";
 "window_layout.name_placeholder" = "输入窗口布局名称";
 "window_recovery.enable_in_settings" = "请先在设置中打开窗口恢复。";
-"window_recovery.save_help" = "保存当前窗口位置。";
+"window_recovery.save_help" = "保存当前窗口的位置和大小。";

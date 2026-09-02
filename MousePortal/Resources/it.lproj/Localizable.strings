@@ -165,7 +165,7 @@
 "window_recovery.remember_before_sleep" = "Ricorda le finestre prima dello stop o del blocco";
 "window_recovery.automatic" = "Ripristina automaticamente al riavvio degli schermi";
 "window_recovery.behavior" = "Ripristino al riavvio";
-"window_recovery.save" = "Salva disposizione attuale";
+"window_recovery.save" = "Salva layout finestre";
 "window_recovery.ignored_apps" = "App ignorate";
 "window_recovery.search_apps" = "Cerca app";
 "window_recovery.ignored_apps_description" = "Attiva un’app per escluderla dalle istantanee future.";
@@ -182,4 +182,4 @@
 "window_layout.rename_title" = "Rinomina disposizione finestre";
 "window_layout.name_placeholder" = "Inserisci il nome della disposizione";
 "window_recovery.enable_in_settings" = "Abilita prima il ripristino finestre nelle Impostazioni.";
-"window_recovery.save_help" = "Salva le posizioni attuali delle finestre.";
+"window_recovery.save_help" = "Salva le posizioni e le dimensioni attuali delle finestre.";
