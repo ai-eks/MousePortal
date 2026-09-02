@@ -18,10 +18,11 @@
 
 > **[English Version](README.md)** | 中文
 
-MousePortal 是一个 macOS 实用工具，用于在多个显示器之间管理鼠标光标移动。它提供两种主要功能：
+MousePortal 是一个 macOS 实用工具，用于在多个显示器之间管理鼠标光标移动和窗口位置。它提供三项核心功能：
 
 1. **热键跳转** - 全局键盘快捷键，瞬间将光标移动到指定显示器中心
 2. **传送门** - 自定义的边缘到边缘传送区域，当光标跨越定义的屏幕边界时自动传送
+3. **窗口布局** - 针对每种显示器排列保存、预览和恢复应用窗口的位置
 
 <p align="center">
   <img src="docs/images/mouseportal-readme-preview.gif" alt="MousePortal 预览" width="900">
@@ -42,6 +43,15 @@ MousePortal 是一个 macOS 实用工具，用于在多个显示器之间管理�
   - **按键模式** - 需要按住修饰键（默认为 Option）
 - 可视化编辑器，可轻松创建和调整传送门区域
 
+### 窗口布局与恢复
+- 为每种显示器排列保存多个命名窗口布局
+- 在睡眠或锁屏前自动保存一个 **锁屏前布局**
+- 在显示器画布上直接预览已保存的窗口
+- 支持切换、改名、删除布局，以及将自动布局提升为手动布局
+- 全局窗口恢复、睡眠/锁屏前记录和唤醒后自动恢复分别控制
+- 可搜索应用并将其加入忽略列表，后续快照不再记录
+- 仅恢复普通、非最小化、非全屏窗口；不恢复 Split View、Stage Manager 分组和 Spaces
+
 ### 多语言支持
 支持 20 种语言：英语、简体中文、繁体中文、日语、韩语、德语、法语、西班牙语、葡萄牙语（巴西）、俄语、意大利语、荷兰语、波兰语、土耳其语、阿拉伯语、印地语、泰语、越南语、印尼语、马来语。
 
@@ -50,6 +60,17 @@ MousePortal 是一个 macOS 实用工具，用于在多个显示器之间管理�
 - 菜单栏快捷访问
 - 配置文件管理（支持不同场景的配置）
 - 显示器布局可视化
+- 跟随系统、浅色和深色三种应用主题
+
+## 截图
+
+| English · Dark | English · Light |
+| --- | --- |
+| ![MousePortal 窗口布局英文深色主题](docs/images/window-layout-en-dark.webp) | ![MousePortal 窗口布局英文浅色主题](docs/images/window-layout-en-light.webp) |
+
+| 简体中文 · 深色 | 简体中文 · 浅色 |
+| --- | --- |
+| ![MousePortal 窗口布局中文深色主题](docs/images/window-layout-zh-Hans-dark.webp) | ![MousePortal 窗口布局中文浅色主题](docs/images/window-layout-zh-Hans-light.webp) |
 
 ## 系统要求
 
@@ -111,6 +132,14 @@ swift run
 2. 为每个布局指定一个名称（例如 "双显示器", "三显示器"）
 3. 指定每个显示器的相对位置
 
+### 保存与恢复窗口布局
+
+1. 打开 **设置 > 窗口恢复**，打开 **启用窗口恢复**
+2. 按需启用 **睡眠或锁屏前记住窗口** 和显示器唤醒后自动恢复
+3. 使用忽略应用搜索，排除不需要记录的应用
+4. 回到 **显示器排列**，打开 **显示窗口布局**，然后点击 **保存窗口布局**
+5. 在对应显示器排列下管理布局：切换、改名、删除，或将自动布局提升为手动布局
+
 ## 架构
 
 ### 核心服务
@@ -121,6 +150,7 @@ swift run
 | `HotkeyService` | 通过 CGEvent 监听全局键盘快捷键 |
 | `PermissionService` | 处理 macOS 辅助功能权限 |
 | `DisplayService` | 通过 `CGGetActiveDisplayList`/`CGDisplayBounds` 获取显示器信息 |
+| `WindowLayoutService` | 捕获、预览和恢复应用窗口布局 |
 | `LanguageService` | 处理动态语言切换 |
 | `LaunchAtLoginService` | 管理开机自启动 |
 
@@ -129,6 +159,7 @@ swift run
 - **`PortalPair`** - 定义双向传送区域的两个 `PortalLine` 对象
 - **`HotkeyConfig`** - 将键 + 修饰键组合映射到显示器布局
 - **`ConfigProfile`** - 用于不同设置的命名配置快照
+- **`WindowLayoutSnapshot`** - 针对一套显示器拓扑保存的手动或自动窗口快照
 
 ## 开发
 

@@ -40,6 +40,10 @@
 /* Настройки - Основные */
 "settings.app_behavior" = "Поведение приложения";
 "settings.language" = "Язык";
+"settings.theme" = "Тема";
+"theme.system" = "Как в системе";
+"theme.light" = "Светлая";
+"theme.dark" = "Тёмная";
 "settings.show_menubar_icon" = "Показывать значок в строке меню";
 "settings.launch_at_login" = "Запускать при входе";
 "settings.permissions" = "Разрешения";
@@ -159,7 +163,7 @@
 "window_recovery.remember_before_sleep" = "Запоминать окна перед сном или блокировкой";
 "window_recovery.automatic" = "Автоматически восстанавливать после пробуждения дисплеев";
 "window_recovery.behavior" = "Восстановление после сна";
-"window_recovery.save" = "Сохранить текущее расположение";
+"window_recovery.save" = "Сохранить раскладку окон";
 "window_recovery.ignored_apps" = "Игнорируемые приложения";
 "window_recovery.search_apps" = "Поиск приложений";
 "window_recovery.ignored_apps_description" = "Включите приложение, чтобы исключить его из будущих снимков.";
@@ -176,4 +180,4 @@
 "window_layout.rename_title" = "Переименовать схему окон";
 "window_layout.name_placeholder" = "Введите название схемы окон";
 "window_recovery.enable_in_settings" = "Сначала включите восстановление окон в настройках.";
-"window_recovery.save_help" = "Сохранить текущие позиции окон.";
+"window_recovery.save_help" = "Сохранить текущие позиции и размеры окон.";

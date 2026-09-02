@@ -39,6 +39,10 @@
 /* Pengaturan - Umum */
 "settings.app_behavior" = "Perilaku Aplikasi";
 "settings.language" = "Bahasa";
+"settings.theme" = "Tema";
+"theme.system" = "Ikuti sistem";
+"theme.light" = "Terang";
+"theme.dark" = "Gelap";
 "settings.show_menubar_icon" = "Tampilkan ikon di bilah menu";
 "settings.launch_at_login" = "Jalankan saat login";
 "settings.permissions" = "Izin";
@@ -161,7 +165,7 @@
 "window_recovery.remember_before_sleep" = "Ingat jendela sebelum tidur atau terkunci";
 "window_recovery.automatic" = "Pulihkan otomatis setelah layar aktif";
 "window_recovery.behavior" = "Pemulihan setelah aktif";
-"window_recovery.save" = "Simpan tata letak saat ini";
+"window_recovery.save" = "Simpan tata letak jendela";
 "window_recovery.ignored_apps" = "Aplikasi yang diabaikan";
 "window_recovery.search_apps" = "Cari aplikasi";
 "window_recovery.ignored_apps_description" = "Aktifkan aplikasi untuk mengecualikannya dari cuplikan berikutnya.";
@@ -178,4 +182,4 @@
 "window_layout.rename_title" = "Ubah nama tata letak jendela";
 "window_layout.name_placeholder" = "Masukkan nama tata letak jendela";
 "window_recovery.enable_in_settings" = "Aktifkan Pemulihan Jendela di Pengaturan terlebih dahulu.";
-"window_recovery.save_help" = "Simpan posisi jendela saat ini.";
+"window_recovery.save_help" = "Simpan posisi dan ukuran jendela saat ini.";

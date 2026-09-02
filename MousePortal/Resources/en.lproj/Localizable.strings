@@ -40,6 +40,10 @@
 /* Settings - General */
 "settings.app_behavior" = "App Behavior";
 "settings.language" = "Language";
+"settings.theme" = "Theme";
+"theme.system" = "Follow System";
+"theme.light" = "Light";
+"theme.dark" = "Dark";
 "settings.show_menubar_icon" = "Show menu bar icon";
 "settings.launch_at_login" = "Launch at login";
 "settings.permissions" = "Permissions";
@@ -159,7 +163,7 @@
 "window_recovery.remember_before_sleep" = "Remember windows before sleep or lock";
 "window_recovery.automatic" = "Restore automatically after displays wake";
 "window_recovery.behavior" = "Wake Recovery";
-"window_recovery.save" = "Save Current Layout";
+"window_recovery.save" = "Save Window Layout";
 "window_recovery.ignored_apps" = "Ignored Applications";
 "window_recovery.search_apps" = "Search applications";
 "window_recovery.ignored_apps_description" = "Turn on an app to exclude it from future snapshots.";
@@ -176,4 +180,4 @@
 "window_layout.rename_title" = "Rename Window Layout";
 "window_layout.name_placeholder" = "Enter window layout name";
 "window_recovery.enable_in_settings" = "Enable Window Recovery in Settings first.";
-"window_recovery.save_help" = "Save the current window positions.";
+"window_recovery.save_help" = "Save the current window positions and sizes.";

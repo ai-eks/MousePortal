@@ -40,6 +40,10 @@
 /* 설정 - 일반 */
 "settings.app_behavior" = "앱 동작";
 "settings.language" = "언어";
+"settings.theme" = "테마";
+"theme.system" = "시스템 설정 따르기";
+"theme.light" = "라이트";
+"theme.dark" = "다크";
 "settings.show_menubar_icon" = "메뉴 막대에 아이콘 표시";
 "settings.launch_at_login" = "로그인 시 시작";
 "settings.permissions" = "권한";
@@ -159,7 +163,7 @@
 "window_recovery.remember_before_sleep" = "잠자기 또는 잠금 전에 윈도우 기억";
 "window_recovery.automatic" = "디스플레이가 깨어난 후 자동 복원";
 "window_recovery.behavior" = "깨우기 복구";
-"window_recovery.save" = "현재 레이아웃 저장";
+"window_recovery.save" = "창 레이아웃 저장";
 "window_recovery.ignored_apps" = "무시할 앱";
 "window_recovery.search_apps" = "앱 검색";
 "window_recovery.ignored_apps_description" = "앱을 켜면 이후 스냅샷에서 제외됩니다.";
@@ -176,4 +180,4 @@
 "window_layout.rename_title" = "윈도우 배치 이름 변경";
 "window_layout.name_placeholder" = "윈도우 배치 이름 입력";
 "window_recovery.enable_in_settings" = "먼저 설정에서 윈도우 복원을 켜세요.";
-"window_recovery.save_help" = "현재 윈도우 위치를 저장합니다.";
+"window_recovery.save_help" = "현재 창의 위치와 크기를 저장합니다.";

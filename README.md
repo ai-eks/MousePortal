@@ -18,10 +18,11 @@
 
 > **[中文版本](README.zh.md)** | [English](README.md)
 
-MousePortal is a macOS utility for managing mouse cursor movement between multiple displays. It provides two main features:
+MousePortal is a macOS utility for managing mouse cursor movement and window placement across multiple displays. It provides three core features:
 
 1. **Hotkey Jump** - Global keyboard shortcuts to instantly teleport the cursor to specific displays
 2. **Portals** - Custom edge-to-edge teleportation zones that warp the cursor when crossing defined screen boundaries
+3. **Window Layouts** - Save, preview, and restore application window positions for each display arrangement
 
 <p align="center">
   <img src="docs/images/mouseportal-readme-preview.gif" alt="MousePortal preview" width="900">
@@ -42,6 +43,15 @@ MousePortal is a macOS utility for managing mouse cursor movement between multip
   - **Key-held** - Requires holding a modifier key (default: Option)
 - Visual editor for easy creation and adjustment of portal zones
 
+### Window Layouts and Recovery
+- Save multiple named window layouts for each display arrangement
+- Capture an automatic **Before Lock** layout before sleep or screen lock
+- Preview saved windows directly on the display canvas
+- Apply, rename, delete, or promote an automatic layout to a manual layout
+- Control global window recovery independently from sleep/lock capture and automatic wake restoration
+- Search for applications and exclude them from future snapshots
+- Restore standard, non-minimized, non-full-screen windows; Split View, Stage Manager groups, and Spaces are not restored
+
 ### Multi-language Support
 Available in 20 languages: English, Simplified Chinese, Traditional Chinese, Japanese, Korean, German, French, Spanish, Portuguese (Brazil), Russian, Italian, Dutch, Polish, Turkish, Arabic, Hindi, Thai, Vietnamese, Indonesian, Malay.
 
@@ -50,6 +60,17 @@ Available in 20 languages: English, Simplified Chinese, Traditional Chinese, Jap
 - Menu bar quick access
 - Configuration profile management (for different setups)
 - Display layout visualization
+- System, Light, and Dark app themes
+
+## Screenshots
+
+| English · Dark | English · Light |
+| --- | --- |
+| ![MousePortal Window Layout in English and Dark theme](docs/images/window-layout-en-dark.webp) | ![MousePortal Window Layout in English and Light theme](docs/images/window-layout-en-light.webp) |
+
+| 简体中文 · 深色 | 简体中文 · 浅色 |
+| --- | --- |
+| ![MousePortal 窗口布局中文深色主题](docs/images/window-layout-zh-Hans-dark.webp) | ![MousePortal 窗口布局中文浅色主题](docs/images/window-layout-zh-Hans-light.webp) |
 
 ## System Requirements
 
@@ -111,6 +132,14 @@ swift run
 2. Assign a name to each layout (e.g., "Dual Display", "Triple Display")
 3. Specify relative positions of each display
 
+### Save and Restore Window Layouts
+
+1. Open **Settings > Window Recovery** and turn on **Enable Window Recovery**
+2. Optionally enable **Remember windows before sleep or lock** and automatic restoration after displays wake
+3. Use the ignored-app search to exclude applications that should not be captured
+4. Return to **Display Layouts**, enable **Show Window Layout**, then click **Save Window Layout**
+5. Manage layouts below the matching display arrangement: apply, rename, delete, or promote an automatic layout to manual
+
 ## Architecture
 
 ### Core Services
@@ -121,6 +150,7 @@ swift run
 | `HotkeyService` | Listens for global keyboard shortcuts via CGEvent |
 | `PermissionService` | Handles macOS Accessibility permission |
 | `DisplayService` | Fetches display info via `CGGetActiveDisplayList`/`CGDisplayBounds` |
+| `WindowLayoutService` | Captures, previews, and restores application window layouts |
 | `LanguageService` | Handles dynamic language switching |
 | `LaunchAtLoginService` | Manages launch at login |
 
@@ -129,6 +159,7 @@ swift run
 - **`PortalPair`** - Two `PortalLine` objects defining a bidirectional warp zone
 - **`HotkeyConfig`** - Maps a key+modifiers combo to a display layout
 - **`ConfigProfile`** - Named configuration snapshots for different setups
+- **`WindowLayoutSnapshot`** - A manual or automatic snapshot of windows for one display topology
 
 ## Development
 

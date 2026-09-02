@@ -40,6 +40,10 @@
 /* Réglages - Général */
 "settings.app_behavior" = "Comportement de l'app";
 "settings.language" = "Langue";
+"settings.theme" = "Thème";
+"theme.system" = "Suivre le système";
+"theme.light" = "Clair";
+"theme.dark" = "Sombre";
 "settings.show_menubar_icon" = "Afficher l'icône dans la barre des menus";
 "settings.launch_at_login" = "Lancer au démarrage";
 "settings.permissions" = "Autorisations";
@@ -159,7 +163,7 @@
 "window_recovery.remember_before_sleep" = "Mémoriser les fenêtres avant la veille ou le verrouillage";
 "window_recovery.automatic" = "Restaurer automatiquement au réveil des écrans";
 "window_recovery.behavior" = "Récupération au réveil";
-"window_recovery.save" = "Enregistrer la disposition actuelle";
+"window_recovery.save" = "Enregistrer la disposition des fenêtres";
 "window_recovery.ignored_apps" = "Applications ignorées";
 "window_recovery.search_apps" = "Rechercher des applications";
 "window_recovery.ignored_apps_description" = "Activez une application pour l’exclure des prochains instantanés.";
@@ -176,4 +180,4 @@
 "window_layout.rename_title" = "Renommer la disposition des fenêtres";
 "window_layout.name_placeholder" = "Saisissez le nom de la disposition";
 "window_recovery.enable_in_settings" = "Activez d’abord la restauration des fenêtres dans Réglages.";
-"window_recovery.save_help" = "Enregistrer les positions actuelles des fenêtres.";
+"window_recovery.save_help" = "Enregistrer les positions et tailles actuelles des fenêtres.";

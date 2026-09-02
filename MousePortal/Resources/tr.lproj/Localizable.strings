@@ -39,6 +39,10 @@
 /* Ayarlar - Genel */
 "settings.app_behavior" = "Uygulama Davranışı";
 "settings.language" = "Dil";
+"settings.theme" = "Tema";
+"theme.system" = "Sistemi takip et";
+"theme.light" = "Açık";
+"theme.dark" = "Koyu";
 "settings.show_menubar_icon" = "Menü çubuğunda simge göster";
 "settings.launch_at_login" = "Girişte başlat";
 "settings.permissions" = "İzinler";
@@ -161,7 +165,7 @@
 "window_recovery.remember_before_sleep" = "Uyku veya kilitlemeden önce pencereleri hatırla";
 "window_recovery.automatic" = "Ekranlar uyandığında otomatik geri yükle";
 "window_recovery.behavior" = "Uyanma sonrası kurtarma";
-"window_recovery.save" = "Geçerli düzeni kaydet";
+"window_recovery.save" = "Pencere düzenini kaydet";
 "window_recovery.ignored_apps" = "Yoksayılan uygulamalar";
 "window_recovery.search_apps" = "Uygulama ara";
 "window_recovery.ignored_apps_description" = "Bir uygulamayı gelecekteki anlık görüntülerden çıkarmak için açın.";
@@ -178,4 +182,4 @@
 "window_layout.rename_title" = "Pencere düzenini yeniden adlandır";
 "window_layout.name_placeholder" = "Pencere düzeni adını girin";
 "window_recovery.enable_in_settings" = "Önce Ayarlar’dan Pencere Kurtarma’yı açın.";
-"window_recovery.save_help" = "Geçerli pencere konumlarını kaydeder.";
+"window_recovery.save_help" = "Geçerli pencere konumlarını ve boyutlarını kaydeder.";

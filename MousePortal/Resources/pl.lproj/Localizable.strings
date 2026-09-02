@@ -39,6 +39,10 @@
 /* Ustawienia - Ogólne */
 "settings.app_behavior" = "Zachowanie aplikacji";
 "settings.language" = "Język";
+"settings.theme" = "Motyw";
+"theme.system" = "Zgodnie z systemem";
+"theme.light" = "Jasny";
+"theme.dark" = "Ciemny";
 "settings.show_menubar_icon" = "Pokaż ikonę na pasku menu";
 "settings.launch_at_login" = "Uruchom przy logowaniu";
 "settings.permissions" = "Uprawnienia";
@@ -161,7 +165,7 @@
 "window_recovery.remember_before_sleep" = "Zapamiętaj okna przed uśpieniem lub blokadą";
 "window_recovery.automatic" = "Przywracaj automatycznie po wybudzeniu ekranów";
 "window_recovery.behavior" = "Przywracanie po wybudzeniu";
-"window_recovery.save" = "Zapisz bieżący układ";
+"window_recovery.save" = "Zapisz układ okien";
 "window_recovery.ignored_apps" = "Ignorowane aplikacje";
 "window_recovery.search_apps" = "Szukaj aplikacji";
 "window_recovery.ignored_apps_description" = "Włącz aplikację, aby wykluczyć ją z przyszłych migawek.";
@@ -178,4 +182,4 @@
 "window_layout.rename_title" = "Zmień nazwę układu okien";
 "window_layout.name_placeholder" = "Wpisz nazwę układu okien";
 "window_recovery.enable_in_settings" = "Najpierw włącz przywracanie okien w Ustawieniach.";
-"window_recovery.save_help" = "Zapisz bieżące położenie okien.";
+"window_recovery.save_help" = "Zapisz bieżące położenie i rozmiary okien.";

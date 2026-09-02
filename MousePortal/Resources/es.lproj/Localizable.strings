@@ -40,6 +40,10 @@
 /* Ajustes - General */
 "settings.app_behavior" = "Comportamiento de la app";
 "settings.language" = "Idioma";
+"settings.theme" = "Tema";
+"theme.system" = "Seguir el sistema";
+"theme.light" = "Claro";
+"theme.dark" = "Oscuro";
 "settings.show_menubar_icon" = "Mostrar icono en la barra de menús";
 "settings.launch_at_login" = "Iniciar al arrancar";
 "settings.permissions" = "Permisos";
@@ -159,7 +163,7 @@
 "window_recovery.remember_before_sleep" = "Recordar ventanas antes del reposo o bloqueo";
 "window_recovery.automatic" = "Restaurar automáticamente al activarse las pantallas";
 "window_recovery.behavior" = "Recuperación al despertar";
-"window_recovery.save" = "Guardar diseño actual";
+"window_recovery.save" = "Guardar diseño de ventanas";
 "window_recovery.ignored_apps" = "Aplicaciones ignoradas";
 "window_recovery.search_apps" = "Buscar aplicaciones";
 "window_recovery.ignored_apps_description" = "Activa una aplicación para excluirla de futuras instantáneas.";
@@ -176,4 +180,4 @@
 "window_layout.rename_title" = "Renombrar disposición de ventanas";
 "window_layout.name_placeholder" = "Introduce el nombre de la disposición";
 "window_recovery.enable_in_settings" = "Activa primero la restauración de ventanas en Ajustes.";
-"window_recovery.save_help" = "Guarda las posiciones actuales de las ventanas.";
+"window_recovery.save_help" = "Guarda las posiciones y tamaños actuales de las ventanas.";

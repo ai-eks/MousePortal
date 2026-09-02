@@ -32,6 +32,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         // 设置单例引用
         AppDelegate.shared = self
+        AppTheme.stored().apply()
         terminateOtherInstancesIfNeeded()
 
         // 确保应用作为正规前台应用运行（对于 swift run 方式很重要）

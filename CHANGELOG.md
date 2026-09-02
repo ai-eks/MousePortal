@@ -14,16 +14,38 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Improved portal visual editor
 - Configuration profile import/export
 
-## [1.1.0] - 2026-08-31
+## [1.1.0] - 2026-09-02
 
 ### Added
-- Window layout snapshots and lock-screen recovery for standard application windows.
-- Display-canvas previews with switchable automatic and manually saved layouts.
+- Manual and automatic window-layout snapshots for each display arrangement.
+- Display-canvas previews with switchable saved layouts and visible window placement.
+- Apply, rename, delete, and automatic-to-manual promotion actions for saved layouts.
+- Independent controls for global window recovery, sleep/lock capture, and automatic wake restoration.
+- Searchable ignored-application settings for excluding apps from future snapshots.
+- System, Light, and Dark application themes across all 20 supported languages.
+
+### Changed
+- Moved display controls into a clearer top toolbar and each display card.
+- Persisted the resizable display-layout sidebar width.
+- Kept four portal rows visible before scrolling.
+
+### Fixed
+- Prevented wake handling from scanning displays or moving windows when automatic restoration is disabled.
+- Improved matching for multiple windows from the same application and preserved layouts with saved windows.
+- Limited restoration to standard, non-minimized, non-full-screen windows and documented unsupported macOS window modes.
 
 ## [1.0.1] - 2026-07-24
 
 ### Fixed
 - Prevented a portal's two lines from overlapping or sharing an endpoint on the same display edge.
+
+## [1.0.0] - 2026-07-19
+
+### Added
+- First public release of Hotkey Jump and bidirectional edge portals.
+- Automatic display-arrangement detection, named layouts, and display visualization.
+- Global shortcut and portal configuration with menu bar and launch-at-login support.
+- Localized interface in 20 languages.
 
 ## [0.1.2] - 2026-06-15
 

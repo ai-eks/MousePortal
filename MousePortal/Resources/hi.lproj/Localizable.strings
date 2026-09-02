@@ -39,6 +39,10 @@
 /* सेटिंग्स - सामान्य */
 "settings.app_behavior" = "ऐप व्यवहार";
 "settings.language" = "भाषा";
+"settings.theme" = "थीम";
+"theme.system" = "सिस्टम के अनुसार";
+"theme.light" = "हल्की";
+"theme.dark" = "गहरी";
 "settings.show_menubar_icon" = "मेनू बार में आइकन दिखाएं";
 "settings.launch_at_login" = "लॉगिन पर लॉन्च करें";
 "settings.permissions" = "अनुमतियां";
@@ -161,7 +165,7 @@
 "window_recovery.remember_before_sleep" = "स्लीप या लॉक से पहले विंडो याद रखें";
 "window_recovery.automatic" = "डिस्प्ले जागने के बाद अपने आप पुनर्स्थापित करें";
 "window_recovery.behavior" = "जागने पर पुनर्प्राप्ति";
-"window_recovery.save" = "वर्तमान लेआउट सहेजें";
+"window_recovery.save" = "विंडो लेआउट सहेजें";
 "window_recovery.ignored_apps" = "अनदेखे ऐप";
 "window_recovery.search_apps" = "ऐप खोजें";
 "window_recovery.ignored_apps_description" = "किसी ऐप को भविष्य के स्नैपशॉट से बाहर रखने के लिए उसे चालू करें।";
@@ -178,4 +182,4 @@
 "window_layout.rename_title" = "विंडो लेआउट का नाम बदलें";
 "window_layout.name_placeholder" = "विंडो लेआउट नाम दर्ज करें";
 "window_recovery.enable_in_settings" = "पहले सेटिंग्स में विंडो रिकवरी चालू करें।";
-"window_recovery.save_help" = "मौजूदा विंडो स्थितियाँ सहेजें।";
+"window_recovery.save_help" = "मौजूदा विंडो की स्थितियाँ और आकार सहेजें।";
