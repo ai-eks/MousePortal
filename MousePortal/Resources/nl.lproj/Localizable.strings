@@ -39,6 +39,10 @@
 /* Instellingen - Algemeen */
 "settings.app_behavior" = "App-gedrag";
 "settings.language" = "Taal";
+"settings.theme" = "Thema";
+"theme.system" = "Systeem volgen";
+"theme.light" = "Licht";
+"theme.dark" = "Donker";
 "settings.show_menubar_icon" = "Toon pictogram in menubalk";
 "settings.launch_at_login" = "Start bij inloggen";
 "settings.permissions" = "Machtigingen";

@@ -39,6 +39,10 @@
 /* Ayarlar - Genel */
 "settings.app_behavior" = "Uygulama Davranışı";
 "settings.language" = "Dil";
+"settings.theme" = "Tema";
+"theme.system" = "Sistemi takip et";
+"theme.light" = "Açık";
+"theme.dark" = "Koyu";
 "settings.show_menubar_icon" = "Menü çubuğunda simge göster";
 "settings.launch_at_login" = "Girişte başlat";
 "settings.permissions" = "İzinler";

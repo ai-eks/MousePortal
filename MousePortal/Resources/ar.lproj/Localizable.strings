@@ -39,6 +39,10 @@
 /* الإعدادات - عام */
 "settings.app_behavior" = "سلوك التطبيق";
 "settings.language" = "اللغة";
+"settings.theme" = "المظهر";
+"theme.system" = "اتّباع النظام";
+"theme.light" = "فاتح";
+"theme.dark" = "داكن";
 "settings.show_menubar_icon" = "إظهار الأيقونة في شريط القوائم";
 "settings.launch_at_login" = "التشغيل عند تسجيل الدخول";
 "settings.permissions" = "الأذونات";
