@@ -40,6 +40,10 @@
 /* Настройки - Основные */
 "settings.app_behavior" = "Поведение приложения";
 "settings.language" = "Язык";
+"settings.theme" = "Тема";
+"theme.system" = "Как в системе";
+"theme.light" = "Светлая";
+"theme.dark" = "Тёмная";
 "settings.show_menubar_icon" = "Показывать значок в строке меню";
 "settings.launch_at_login" = "Запускать при входе";
 "settings.permissions" = "Разрешения";

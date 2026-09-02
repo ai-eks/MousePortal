@@ -40,6 +40,10 @@
 /* 設定 - 一般 */
 "settings.app_behavior" = "應用程式行為";
 "settings.language" = "語言";
+"settings.theme" = "主題";
+"theme.system" = "跟隨系統";
+"theme.light" = "淺色";
+"theme.dark" = "深色";
 "settings.show_menubar_icon" = "在選單列顯示圖示";
 "settings.launch_at_login" = "登入時啟動";
 "settings.permissions" = "權限";

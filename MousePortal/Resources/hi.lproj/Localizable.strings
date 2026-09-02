@@ -39,6 +39,10 @@
 /* सेटिंग्स - सामान्य */
 "settings.app_behavior" = "ऐप व्यवहार";
 "settings.language" = "भाषा";
+"settings.theme" = "थीम";
+"theme.system" = "सिस्टम के अनुसार";
+"theme.light" = "हल्की";
+"theme.dark" = "गहरी";
 "settings.show_menubar_icon" = "मेनू बार में आइकन दिखाएं";
 "settings.launch_at_login" = "लॉगिन पर लॉन्च करें";
 "settings.permissions" = "अनुमतियां";

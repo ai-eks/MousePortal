@@ -40,6 +40,10 @@
 /* 설정 - 일반 */
 "settings.app_behavior" = "앱 동작";
 "settings.language" = "언어";
+"settings.theme" = "테마";
+"theme.system" = "시스템 설정 따르기";
+"theme.light" = "라이트";
+"theme.dark" = "다크";
 "settings.show_menubar_icon" = "메뉴 막대에 아이콘 표시";
 "settings.launch_at_login" = "로그인 시 시작";
 "settings.permissions" = "권한";

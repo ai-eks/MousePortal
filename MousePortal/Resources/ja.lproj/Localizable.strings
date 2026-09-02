@@ -40,6 +40,10 @@
 /* 設定 - 一般 */
 "settings.app_behavior" = "アプリの動作";
 "settings.language" = "言語";
+"settings.theme" = "テーマ";
+"theme.system" = "システム設定に従う";
+"theme.light" = "ライト";
+"theme.dark" = "ダーク";
 "settings.show_menubar_icon" = "メニューバーにアイコンを表示";
 "settings.launch_at_login" = "ログイン時に起動";
 "settings.permissions" = "権限";

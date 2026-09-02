@@ -39,6 +39,10 @@
 /* การตั้งค่า - ทั่วไป */
 "settings.app_behavior" = "พฤติกรรมแอป";
 "settings.language" = "ภาษา";
+"settings.theme" = "ธีม";
+"theme.system" = "ตามระบบ";
+"theme.light" = "สว่าง";
+"theme.dark" = "มืด";
 "settings.show_menubar_icon" = "แสดงไอคอนในแถบเมนู";
 "settings.launch_at_login" = "เปิดเมื่อเข้าสู่ระบบ";
 "settings.permissions" = "สิทธิ์";

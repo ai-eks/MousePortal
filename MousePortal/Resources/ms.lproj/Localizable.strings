@@ -39,6 +39,10 @@
 /* Tetapan - Umum */
 "settings.app_behavior" = "Tingkah Laku Aplikasi";
 "settings.language" = "Bahasa";
+"settings.theme" = "Tema";
+"theme.system" = "Ikut sistem";
+"theme.light" = "Cerah";
+"theme.dark" = "Gelap";
 "settings.show_menubar_icon" = "Tunjukkan ikon di bar menu";
 "settings.launch_at_login" = "Lancar semasa log masuk";
 "settings.permissions" = "Kebenaran";

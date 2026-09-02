@@ -40,6 +40,10 @@
 /* Ajustes - Geral */
 "settings.app_behavior" = "Comportamento do app";
 "settings.language" = "Idioma";
+"settings.theme" = "Tema";
+"theme.system" = "Seguir o sistema";
+"theme.light" = "Claro";
+"theme.dark" = "Escuro";
 "settings.show_menubar_icon" = "Mostrar ícone na barra de menus";
 "settings.launch_at_login" = "Iniciar ao fazer login";
 "settings.permissions" = "Permissões";

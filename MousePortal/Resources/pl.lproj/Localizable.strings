@@ -39,6 +39,10 @@
 /* Ustawienia - Ogólne */
 "settings.app_behavior" = "Zachowanie aplikacji";
 "settings.language" = "Język";
+"settings.theme" = "Motyw";
+"theme.system" = "Zgodnie z systemem";
+"theme.light" = "Jasny";
+"theme.dark" = "Ciemny";
 "settings.show_menubar_icon" = "Pokaż ikonę na pasku menu";
 "settings.launch_at_login" = "Uruchom przy logowaniu";
 "settings.permissions" = "Uprawnienia";

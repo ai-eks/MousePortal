@@ -39,6 +39,10 @@
 /* Cài đặt - Chung */
 "settings.app_behavior" = "Hành vi ứng dụng";
 "settings.language" = "Ngôn ngữ";
+"settings.theme" = "Giao diện";
+"theme.system" = "Theo hệ thống";
+"theme.light" = "Sáng";
+"theme.dark" = "Tối";
 "settings.show_menubar_icon" = "Hiển thị biểu tượng trên thanh menu";
 "settings.launch_at_login" = "Khởi chạy khi đăng nhập";
 "settings.permissions" = "Quyền";

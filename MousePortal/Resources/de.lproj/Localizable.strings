@@ -40,6 +40,10 @@
 /* Einstellungen - Allgemein */
 "settings.app_behavior" = "App-Verhalten";
 "settings.language" = "Sprache";
+"settings.theme" = "Design";
+"theme.system" = "Systemeinstellung";
+"theme.light" = "Hell";
+"theme.dark" = "Dunkel";
 "settings.show_menubar_icon" = "Symbol in Menüleiste anzeigen";
 "settings.launch_at_login" = "Bei Anmeldung starten";
 "settings.permissions" = "Berechtigungen";

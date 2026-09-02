@@ -123,6 +123,7 @@ struct GeneralSettingsView: View {
     @ObservedObject private var languageService = LanguageService.shared
     @ObservedObject private var launchAtLoginService = LaunchAtLoginService.shared
     @AppStorage("showMenuBarIcon") private var showMenuBarIcon = true
+    @AppStorage(AppTheme.storageKey) private var appTheme = AppTheme.system
 
     var body: some View {
         Form {
@@ -135,6 +136,18 @@ struct GeneralSettingsView: View {
                         } else {
                             Text("\(language.displayName) (\(language.englishName))").tag(language)
                         }
+                    }
+                }
+
+                Picker(L("settings.theme"), selection: Binding(
+                    get: { appTheme },
+                    set: { theme in
+                        appTheme = theme
+                        theme.apply()
+                    }
+                )) {
+                    ForEach(AppTheme.allCases) { theme in
+                        Text(theme.localizedName).tag(theme)
                     }
                 }
 

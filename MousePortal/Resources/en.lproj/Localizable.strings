@@ -40,6 +40,10 @@
 /* Settings - General */
 "settings.app_behavior" = "App Behavior";
 "settings.language" = "Language";
+"settings.theme" = "Theme";
+"theme.system" = "Follow System";
+"theme.light" = "Light";
+"theme.dark" = "Dark";
 "settings.show_menubar_icon" = "Show menu bar icon";
 "settings.launch_at_login" = "Launch at login";
 "settings.permissions" = "Permissions";
