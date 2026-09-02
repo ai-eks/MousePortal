@@ -54,6 +54,8 @@ struct DisplayLayoutView: View {
 /// 单个显示器矩形视图
 struct DisplayRectView: View {
     let display: DisplayInfo
+    var hotkeyConfig: Binding<HotkeyConfig>? = nil
+    var onHotkeySave: (() -> Void)? = nil
     var onRename: (() -> Void)? = nil
     @State private var isRenameButtonHovered = false
 
@@ -96,6 +98,15 @@ struct DisplayRectView: View {
                 Text("\(display.width) × \(display.height)")
                     .font(.caption)
                     .foregroundColor(.secondary)
+
+                if let hotkeyConfig {
+                    HotkeyBadge(
+                        config: hotkeyConfig,
+                        onSave: onHotkeySave ?? {},
+                        showsDisplayName: false
+                    )
+                    .padding(.top, 2)
+                }
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 10)

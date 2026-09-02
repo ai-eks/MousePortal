@@ -61,6 +61,42 @@ final class AppUIRulesTests: XCTestCase {
         XCTAssertFalse(canDelete)
     }
 
+    func testDeletionIsUnavailableWhenLayoutHasWindowSnapshots() {
+        let currentID = UUID()
+        let targetID = UUID()
+
+        XCTAssertEqual(
+            LayoutSidebarRules.deletionAction(
+                layoutCount: 2,
+                currentLayoutID: currentID,
+                targetLayoutID: targetID,
+                portalCount: 0,
+                windowSnapshotCount: 1,
+                isLocked: false
+            ),
+            .unavailable
+        )
+        XCTAssertFalse(
+            LayoutSidebarRules.canDeleteLayout(
+                layoutCount: 2,
+                currentLayoutID: currentID,
+                targetLayoutID: targetID,
+                windowSnapshotCount: 1,
+                isLocked: false
+            )
+        )
+        XCTAssertEqual(
+            LayoutSidebarRules.deleteDisabledHelpText(
+                layoutCount: 2,
+                currentLayoutID: currentID,
+                targetLayoutID: targetID,
+                windowSnapshotCount: 1,
+                isLocked: false
+            ),
+            L("layout.delete_disabled_window_snapshots")
+        )
+    }
+
     func testDeleteDisabledHelpTextPrefersLockedReason() {
         let targetID = UUID()
 
@@ -134,6 +170,33 @@ final class AppUIRulesTests: XCTestCase {
         XCTAssertEqual(
             AccessibilityPermissionPresentation.menuStatusTitle(isGranted: false),
             L("menu.accessibility_status %@", L("settings.permission_not_granted"))
+        )
+    }
+
+    func testWindowApplicationSearchMatchesNameAndBundleIdentifier() {
+        let applications = [
+            WindowApplicationOption(bundleIdentifier: "com.example.Editor", name: "Code Editor"),
+            WindowApplicationOption(bundleIdentifier: "com.example.Chat", name: "Messenger")
+        ]
+
+        XCTAssertEqual(
+            WindowApplicationSearch.filtered(applications, query: "EDITOR"),
+            [applications[0]]
+        )
+        XCTAssertEqual(
+            WindowApplicationSearch.filtered(applications, query: "example.chat"),
+            [applications[1]]
+        )
+    }
+
+    func testWindowApplicationSearchTreatsWhitespaceAsEmpty() {
+        let applications = [
+            WindowApplicationOption(bundleIdentifier: "com.example.Editor", name: "Editor")
+        ]
+
+        XCTAssertEqual(
+            WindowApplicationSearch.filtered(applications, query: "   "),
+            applications
         )
     }
 }

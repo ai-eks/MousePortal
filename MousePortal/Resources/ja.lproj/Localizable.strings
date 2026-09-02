@@ -149,5 +149,31 @@
 "layout.delete_disabled_locked" = "Locked layouts cannot be deleted";
 "layout.delete_disabled_current" = "Current layout cannot be deleted";
 "layout.delete_disabled_last_remaining" = "At least one layout must remain";
+"layout.delete_disabled_window_snapshots" = "先に保存済みのウインドウレイアウトを削除してください";
 "portal.edit" = "Edit";
 "portal.delete" = "Delete";
+
+/* Window Recovery */
+"settings.window_recovery" = "ウインドウ復元";
+"window_recovery.enabled" = "ウインドウ復元を有効にする";
+"window_recovery.remember_before_sleep" = "スリープまたはロック前にウインドウを記憶";
+"window_recovery.automatic" = "ディスプレイ復帰後に自動復元";
+"window_recovery.behavior" = "スリープ解除時の復元";
+"window_recovery.save" = "現在の配置を保存";
+"window_recovery.ignored_apps" = "除外するアプリ";
+"window_recovery.search_apps" = "アプリを検索";
+"window_recovery.ignored_apps_description" = "オンにしたアプリは今後のスナップショットから除外されます。";
+"window_recovery.limitations" = "標準の非最小化・非フルスクリーンウインドウのみ対応します。Split View、Stage Manager グループ、Spaces は復元されません。";
+"window_layout.show" = "ウインドウ配置を表示";
+"window_layout.show_help" = "保存したウインドウをディスプレイ配置に重ねて表示します。";
+"window_layout.no_saved" = "このディスプレイ配置には保存済みのウインドウ配置がありません。";
+"window_layout.automatic_before_lock" = "ロック前";
+"window_layout.saved %lld" = "配置 %lld";
+"window_layout.kind.automatic" = "自動";
+"window_layout.kind.manual" = "手動";
+"window_layout.promote_to_manual" = "手動配置に変更";
+"window_layout.apply" = "この配置に切り替える";
+"window_layout.rename_title" = "ウインドウ配置の名前を変更";
+"window_layout.name_placeholder" = "ウインドウ配置名を入力";
+"window_recovery.enable_in_settings" = "先に設定でウインドウ復元を有効にしてください。";
+"window_recovery.save_help" = "現在のウインドウ位置を保存します。";

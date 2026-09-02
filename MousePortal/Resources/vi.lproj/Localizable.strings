@@ -151,5 +151,31 @@
 "layout.delete_disabled_locked" = "Locked layouts cannot be deleted";
 "layout.delete_disabled_current" = "Current layout cannot be deleted";
 "layout.delete_disabled_last_remaining" = "At least one layout must remain";
+"layout.delete_disabled_window_snapshots" = "Hãy xóa các bố cục cửa sổ đã lưu trước";
 "portal.edit" = "Edit";
 "portal.delete" = "Delete";
+
+/* Window Recovery */
+"settings.window_recovery" = "Khôi phục cửa sổ";
+"window_recovery.enabled" = "Bật khôi phục cửa sổ";
+"window_recovery.remember_before_sleep" = "Ghi nhớ cửa sổ trước khi ngủ hoặc khóa";
+"window_recovery.automatic" = "Tự động khôi phục sau khi màn hình thức dậy";
+"window_recovery.behavior" = "Khôi phục khi thức dậy";
+"window_recovery.save" = "Lưu bố cục hiện tại";
+"window_recovery.ignored_apps" = "Ứng dụng bị bỏ qua";
+"window_recovery.search_apps" = "Tìm ứng dụng";
+"window_recovery.ignored_apps_description" = "Bật một ứng dụng để loại ứng dụng đó khỏi các ảnh chụp nhanh sau này.";
+"window_recovery.limitations" = "Chỉ hỗ trợ cửa sổ tiêu chuẩn, không thu nhỏ và không toàn màn hình. Split View, nhóm Stage Manager và Spaces không được khôi phục.";
+"window_layout.show" = "Hiển thị bố cục cửa sổ";
+"window_layout.show_help" = "Hiển thị các cửa sổ đã lưu trên sơ đồ màn hình.";
+"window_layout.no_saved" = "Chưa có bố cục cửa sổ được lưu cho sơ đồ màn hình này.";
+"window_layout.automatic_before_lock" = "Trước khi khóa";
+"window_layout.saved %lld" = "Bố cục %lld";
+"window_layout.kind.automatic" = "Tự động";
+"window_layout.kind.manual" = "Thủ công";
+"window_layout.promote_to_manual" = "Chuyển thành bố cục thủ công";
+"window_layout.apply" = "Chuyển sang bố cục này";
+"window_layout.rename_title" = "Đổi tên bố cục cửa sổ";
+"window_layout.name_placeholder" = "Nhập tên bố cục cửa sổ";
+"window_recovery.enable_in_settings" = "Trước tiên hãy bật Khôi phục cửa sổ trong Cài đặt.";
+"window_recovery.save_help" = "Lưu vị trí cửa sổ hiện tại.";

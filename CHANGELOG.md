@@ -14,6 +14,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Improved portal visual editor
 - Configuration profile import/export
 
+## [1.1.0] - 2026-08-31
+
+### Added
+- Window layout snapshots and lock-screen recovery for standard application windows.
+- Display-canvas previews with switchable automatic and manually saved layouts.
+
 ## [1.0.1] - 2026-07-24
 
 ### Fixed

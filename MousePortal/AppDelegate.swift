@@ -12,6 +12,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private var hotkeyService: HotkeyService?
     private var portalService: PortalService?
     private let permissionService = PermissionService.shared
+    private let windowLayoutService = WindowLayoutService.shared
     private var hotkeyConfigStore = HotkeyConfigStore.shared
     private var cancellables: Set<AnyCancellable> = []
 
@@ -52,6 +53,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
                 self?.updateAccessibilityStatusItem()
+            }
+            .store(in: &cancellables)
+
+        windowLayoutService.$isEnabled
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.setupMenu()
             }
             .store(in: &cancellables)
     }
@@ -121,6 +129,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         portalItem.state = (portalService?.isRunning ?? false) ? .on : .off
         menu.addItem(portalItem)
 
+        let windowRecoveryItem = NSMenuItem(
+            title: L("window_recovery.enabled"),
+            action: #selector(toggleWindowRecovery),
+            keyEquivalent: ""
+        )
+        windowRecoveryItem.state = windowLayoutService.isEnabled ? .on : .off
+        menu.addItem(windowRecoveryItem)
+
         menu.addItem(NSMenuItem.separator())
 
         let accessibilityItem = NSMenuItem(title: accessibilityStatusTitle, action: nil, keyEquivalent: "")
@@ -159,6 +175,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         // 传送门默认启动
         portalService?.start()
+        windowLayoutService.startMonitoring()
     }
 
     private func terminateOtherInstancesIfNeeded() {
@@ -214,6 +231,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         setupMenu()
     }
 
+    @objc private func toggleWindowRecovery() {
+        if !windowLayoutService.isEnabled && !permissionService.checkAccessibility() {
+            permissionService.requestAccessibility()
+            return
+        }
+
+        windowLayoutService.setEnabled(!windowLayoutService.isEnabled)
+        setupMenu()
+    }
+
     // 传递 SwiftUI 环境的 openWindow，可用于直接打开特定 Window
     var openWindowAction: OpenWindowAction?
 
@@ -248,6 +275,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     @objc private func quitApp() {
         hotkeyService?.stop()
         portalService?.stop()
+        windowLayoutService.stopMonitoring()
         NSApplication.shared.terminate(nil)
     }
 

@@ -151,5 +151,31 @@
 "layout.delete_disabled_locked" = "Locked layouts cannot be deleted";
 "layout.delete_disabled_current" = "Current layout cannot be deleted";
 "layout.delete_disabled_last_remaining" = "At least one layout must remain";
+"layout.delete_disabled_window_snapshots" = "احذف تخطيطات النوافذ المحفوظة أولاً";
 "portal.edit" = "Edit";
 "portal.delete" = "Delete";
+
+/* Window Recovery */
+"settings.window_recovery" = "استعادة النوافذ";
+"window_recovery.enabled" = "تمكين استعادة النوافذ";
+"window_recovery.remember_before_sleep" = "تذكّر النوافذ قبل الإسبات أو القفل";
+"window_recovery.automatic" = "الاستعادة تلقائياً بعد تنبيه الشاشات";
+"window_recovery.behavior" = "الاستعادة بعد التنبيه";
+"window_recovery.save" = "حفظ التخطيط الحالي";
+"window_recovery.ignored_apps" = "التطبيقات المتجاهلة";
+"window_recovery.search_apps" = "البحث عن التطبيقات";
+"window_recovery.ignored_apps_description" = "فعّل تطبيقاً لاستبعاده من اللقطات المستقبلية.";
+"window_recovery.limitations" = "تُدعم فقط النوافذ القياسية غير المصغّرة وغير المعروضة بملء الشاشة. لا تتم استعادة Split View أو مجموعات Stage Manager أو Spaces.";
+"window_layout.show" = "إظهار تخطيط النوافذ";
+"window_layout.show_help" = "عرض النوافذ المحفوظة فوق ترتيب الشاشات.";
+"window_layout.no_saved" = "لا يوجد تخطيط نوافذ محفوظ لترتيب الشاشات هذا.";
+"window_layout.automatic_before_lock" = "قبل القفل";
+"window_layout.saved %lld" = "التخطيط %lld";
+"window_layout.kind.automatic" = "تلقائي";
+"window_layout.kind.manual" = "يدوي";
+"window_layout.promote_to_manual" = "تحويل إلى تخطيط يدوي";
+"window_layout.apply" = "التبديل إلى هذا التخطيط";
+"window_layout.rename_title" = "إعادة تسمية تخطيط النوافذ";
+"window_layout.name_placeholder" = "أدخل اسم تخطيط النوافذ";
+"window_recovery.enable_in_settings" = "فعّل استعادة النوافذ أولاً من الإعدادات.";
+"window_recovery.save_help" = "حفظ مواضع النوافذ الحالية.";

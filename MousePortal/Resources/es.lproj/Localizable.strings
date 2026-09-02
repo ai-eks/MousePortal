@@ -149,5 +149,31 @@
 "layout.delete_disabled_locked" = "Locked layouts cannot be deleted";
 "layout.delete_disabled_current" = "Current layout cannot be deleted";
 "layout.delete_disabled_last_remaining" = "At least one layout must remain";
+"layout.delete_disabled_window_snapshots" = "Elimina primero los diseños de ventanas guardados";
 "portal.edit" = "Edit";
 "portal.delete" = "Delete";
+
+/* Window Recovery */
+"settings.window_recovery" = "Recuperación de ventanas";
+"window_recovery.enabled" = "Activar la restauración de ventanas";
+"window_recovery.remember_before_sleep" = "Recordar ventanas antes del reposo o bloqueo";
+"window_recovery.automatic" = "Restaurar automáticamente al activarse las pantallas";
+"window_recovery.behavior" = "Recuperación al despertar";
+"window_recovery.save" = "Guardar diseño actual";
+"window_recovery.ignored_apps" = "Aplicaciones ignoradas";
+"window_recovery.search_apps" = "Buscar aplicaciones";
+"window_recovery.ignored_apps_description" = "Activa una aplicación para excluirla de futuras instantáneas.";
+"window_recovery.limitations" = "Solo se admiten ventanas estándar, no minimizadas y sin pantalla completa. No se restauran Split View, grupos de Stage Manager ni Spaces.";
+"window_layout.show" = "Mostrar disposición de ventanas";
+"window_layout.show_help" = "Superpone las ventanas guardadas en la disposición de pantallas.";
+"window_layout.no_saved" = "No hay una disposición de ventanas guardada para estas pantallas.";
+"window_layout.automatic_before_lock" = "Antes del bloqueo";
+"window_layout.saved %lld" = "Disposición %lld";
+"window_layout.kind.automatic" = "Automático";
+"window_layout.kind.manual" = "Manual";
+"window_layout.promote_to_manual" = "Convertir en disposición manual";
+"window_layout.apply" = "Cambiar a esta disposición";
+"window_layout.rename_title" = "Renombrar disposición de ventanas";
+"window_layout.name_placeholder" = "Introduce el nombre de la disposición";
+"window_recovery.enable_in_settings" = "Activa primero la restauración de ventanas en Ajustes.";
+"window_recovery.save_help" = "Guarda las posiciones actuales de las ventanas.";

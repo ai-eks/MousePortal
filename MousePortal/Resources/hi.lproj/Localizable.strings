@@ -151,5 +151,31 @@
 "layout.delete_disabled_locked" = "Locked layouts cannot be deleted";
 "layout.delete_disabled_current" = "Current layout cannot be deleted";
 "layout.delete_disabled_last_remaining" = "At least one layout must remain";
+"layout.delete_disabled_window_snapshots" = "पहले सहेजे गए विंडो लेआउट हटाएँ";
 "portal.edit" = "Edit";
 "portal.delete" = "Delete";
+
+/* Window Recovery */
+"settings.window_recovery" = "विंडो पुनर्प्राप्ति";
+"window_recovery.enabled" = "विंडो पुनर्प्राप्ति सक्षम करें";
+"window_recovery.remember_before_sleep" = "स्लीप या लॉक से पहले विंडो याद रखें";
+"window_recovery.automatic" = "डिस्प्ले जागने के बाद अपने आप पुनर्स्थापित करें";
+"window_recovery.behavior" = "जागने पर पुनर्प्राप्ति";
+"window_recovery.save" = "वर्तमान लेआउट सहेजें";
+"window_recovery.ignored_apps" = "अनदेखे ऐप";
+"window_recovery.search_apps" = "ऐप खोजें";
+"window_recovery.ignored_apps_description" = "किसी ऐप को भविष्य के स्नैपशॉट से बाहर रखने के लिए उसे चालू करें।";
+"window_recovery.limitations" = "केवल सामान्य, गैर-न्यूनतम और गैर-फ़ुल-स्क्रीन विंडो समर्थित हैं। Split View, Stage Manager समूह और Spaces पुनर्स्थापित नहीं होते।";
+"window_layout.show" = "विंडो लेआउट दिखाएँ";
+"window_layout.show_help" = "सहेजी गई विंडो को डिस्प्ले व्यवस्था पर दिखाएँ।";
+"window_layout.no_saved" = "इस डिस्प्ले व्यवस्था के लिए कोई विंडो लेआउट सहेजा नहीं गया है।";
+"window_layout.automatic_before_lock" = "लॉक से पहले";
+"window_layout.saved %lld" = "लेआउट %lld";
+"window_layout.kind.automatic" = "स्वचालित";
+"window_layout.kind.manual" = "मैन्युअल";
+"window_layout.promote_to_manual" = "मैन्युअल लेआउट में बदलें";
+"window_layout.apply" = "इस लेआउट पर स्विच करें";
+"window_layout.rename_title" = "विंडो लेआउट का नाम बदलें";
+"window_layout.name_placeholder" = "विंडो लेआउट नाम दर्ज करें";
+"window_recovery.enable_in_settings" = "पहले सेटिंग्स में विंडो रिकवरी चालू करें।";
+"window_recovery.save_help" = "मौजूदा विंडो स्थितियाँ सहेजें।";

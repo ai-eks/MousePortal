@@ -151,5 +151,31 @@
 "layout.delete_disabled_locked" = "Locked layouts cannot be deleted";
 "layout.delete_disabled_current" = "Current layout cannot be deleted";
 "layout.delete_disabled_last_remaining" = "At least one layout must remain";
+"layout.delete_disabled_window_snapshots" = "ลบเค้าโครงหน้าต่างที่บันทึกไว้ก่อน";
 "portal.edit" = "Edit";
 "portal.delete" = "Delete";
+
+/* Window Recovery */
+"settings.window_recovery" = "การกู้คืนหน้าต่าง";
+"window_recovery.enabled" = "เปิดใช้การกู้คืนหน้าต่าง";
+"window_recovery.remember_before_sleep" = "จำหน้าต่างก่อนพักเครื่องหรือล็อก";
+"window_recovery.automatic" = "คืนค่าอัตโนมัติหลังจอภาพตื่น";
+"window_recovery.behavior" = "การกู้คืนหลังตื่น";
+"window_recovery.save" = "บันทึกเค้าโครงปัจจุบัน";
+"window_recovery.ignored_apps" = "แอปที่ละเว้น";
+"window_recovery.search_apps" = "ค้นหาแอป";
+"window_recovery.ignored_apps_description" = "เปิดสวิตช์แอปเพื่อไม่รวมแอปนั้นจากสแนปช็อตในอนาคต";
+"window_recovery.limitations" = "รองรับเฉพาะหน้าต่างมาตรฐานที่ไม่ย่อและไม่เต็มหน้าจอ ไม่คืนค่า Split View กลุ่ม Stage Manager และ Spaces";
+"window_layout.show" = "แสดงเค้าโครงหน้าต่าง";
+"window_layout.show_help" = "แสดงหน้าต่างที่บันทึกไว้ซ้อนบนการจัดเรียงจอภาพ";
+"window_layout.no_saved" = "ไม่มีเค้าโครงหน้าต่างที่บันทึกไว้สำหรับการจัดเรียงจอภาพนี้";
+"window_layout.automatic_before_lock" = "ก่อนล็อก";
+"window_layout.saved %lld" = "เค้าโครง %lld";
+"window_layout.kind.automatic" = "อัตโนมัติ";
+"window_layout.kind.manual" = "กำหนดเอง";
+"window_layout.promote_to_manual" = "เปลี่ยนเป็นเค้าโครงแบบกำหนดเอง";
+"window_layout.apply" = "สลับไปยังเค้าโครงนี้";
+"window_layout.rename_title" = "เปลี่ยนชื่อเค้าโครงหน้าต่าง";
+"window_layout.name_placeholder" = "ป้อนชื่อเค้าโครงหน้าต่าง";
+"window_recovery.enable_in_settings" = "โปรดเปิดการคืนค่าหน้าต่างในการตั้งค่าก่อน";
+"window_recovery.save_help" = "บันทึกตำแหน่งหน้าต่างปัจจุบัน";

@@ -151,5 +151,31 @@
 "layout.delete_disabled_locked" = "Locked layouts cannot be deleted";
 "layout.delete_disabled_current" = "Current layout cannot be deleted";
 "layout.delete_disabled_last_remaining" = "At least one layout must remain";
+"layout.delete_disabled_window_snapshots" = "Verwijder eerst de opgeslagen vensterindelingen";
 "portal.edit" = "Edit";
 "portal.delete" = "Delete";
+
+/* Window Recovery */
+"settings.window_recovery" = "Vensterherstel";
+"window_recovery.enabled" = "Vensterherstel inschakelen";
+"window_recovery.remember_before_sleep" = "Vensters onthouden voor sluimerstand of vergrendeling";
+"window_recovery.automatic" = "Automatisch herstellen nadat beeldschermen ontwaken";
+"window_recovery.behavior" = "Herstel na ontwaken";
+"window_recovery.save" = "Huidige indeling bewaren";
+"window_recovery.ignored_apps" = "Genegeerde apps";
+"window_recovery.search_apps" = "Apps zoeken";
+"window_recovery.ignored_apps_description" = "Schakel een app in om deze uit toekomstige momentopnamen uit te sluiten.";
+"window_recovery.limitations" = "Alleen standaardvensters die niet geminimaliseerd of schermvullend zijn worden ondersteund. Split View, Stage Manager-groepen en Spaces worden niet hersteld.";
+"window_layout.show" = "Vensterindeling tonen";
+"window_layout.show_help" = "Toon opgeslagen vensters over de beeldschermindeling.";
+"window_layout.no_saved" = "Geen vensterindeling opgeslagen voor deze beeldschermindeling.";
+"window_layout.automatic_before_lock" = "Vóór vergrendelen";
+"window_layout.saved %lld" = "Indeling %lld";
+"window_layout.kind.automatic" = "Auto";
+"window_layout.kind.manual" = "Handmatig";
+"window_layout.promote_to_manual" = "Omzetten naar handmatige indeling";
+"window_layout.apply" = "Naar deze indeling schakelen";
+"window_layout.rename_title" = "Vensterindeling hernoemen";
+"window_layout.name_placeholder" = "Voer de naam van de vensterindeling in";
+"window_recovery.enable_in_settings" = "Schakel eerst Vensterherstel in bij Instellingen.";
+"window_recovery.save_help" = "Sla de huidige vensterposities op.";
