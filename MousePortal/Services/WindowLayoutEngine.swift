@@ -92,6 +92,59 @@ enum WindowLayoutEngine {
             }
     }
 
+    static func matchWindowIndices(
+        for placements: [WindowPlacement],
+        candidates: [WindowMatchCandidate],
+        preferredIndices: [Int?]
+    ) -> [Int?] {
+        var matches = [Int?](repeating: nil, count: placements.count)
+        var usedIndices = Set<Int>()
+
+        for placementIndex in placements.indices {
+            guard let preferredIndex = preferredIndices[placementIndex],
+                  candidates.indices.contains(preferredIndex),
+                  !usedIndices.contains(preferredIndex),
+                  candidates[preferredIndex].role == placements[placementIndex].role,
+                  candidates[preferredIndex].subrole == placements[placementIndex].subrole else {
+                continue
+            }
+
+            matches[placementIndex] = preferredIndex
+            usedIndices.insert(preferredIndex)
+        }
+
+        for placementIndex in placements.indices where matches[placementIndex] == nil {
+            guard let matchIndex = bestMatchIndex(
+                for: placements[placementIndex],
+                candidates: candidates,
+                excluding: usedIndices
+            ) else {
+                continue
+            }
+
+            matches[placementIndex] = matchIndex
+            usedIndices.insert(matchIndex)
+        }
+
+        for placementIndex in placements.indices where matches[placementIndex] == nil {
+            let placement = placements[placementIndex]
+            guard let matchIndex = candidates.indices.first(where: { candidateIndex in
+                let candidate = candidates[candidateIndex]
+                return !usedIndices.contains(candidateIndex) &&
+                    candidate.role == placement.role &&
+                    candidate.subrole == placement.subrole &&
+                    candidate.windowIndex == placement.windowIndex
+            }) else {
+                continue
+            }
+
+            matches[placementIndex] = matchIndex
+            usedIndices.insert(matchIndex)
+        }
+
+        return matches
+    }
+
     private static func hasMeaningfulIdentityMatch(
         _ placement: WindowPlacement,
         _ candidate: WindowMatchCandidate

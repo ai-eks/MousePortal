@@ -218,6 +218,69 @@ final class WindowLayoutEngineTests: XCTestCase {
         ), 0)
     }
 
+    func testBatchWindowMatchingReservesStrongMatchesBeforeIndexFallback() {
+        let placements = [
+            placement(
+                windowTitle: "Codex - Microsoft Edge",
+                documentURL: "https://chatgpt.com/codex",
+                windowIndex: 0
+            ),
+            placement(
+                windowTitle: "Game - Microsoft Edge",
+                documentURL: "https://game.example.com",
+                windowIndex: 1
+            ),
+            placement(
+                windowTitle: "Agent Showcases - Microsoft Edge",
+                documentURL: "https://showcases.example.com/old",
+                windowIndex: 2
+            )
+        ]
+        let candidates = [
+            candidate(
+                windowTitle: "VPC Console - Microsoft Edge",
+                documentURL: "https://vpc.example.com",
+                windowIndex: 0
+            ),
+            candidate(
+                windowTitle: "Agent Showcases - Microsoft Edge",
+                documentURL: "https://showcases.example.com/new",
+                windowIndex: 1
+            )
+        ]
+
+        XCTAssertEqual(
+            WindowLayoutEngine.matchWindowIndices(
+                for: placements,
+                candidates: candidates,
+                preferredIndices: [nil, nil, nil]
+            ),
+            [0, nil, 1]
+        )
+    }
+
+    func testBatchWindowMatchingDoesNotFallbackAcrossDifferentWindowIndices() {
+        let placements = [placement(
+            windowTitle: "Saved",
+            documentURL: "https://saved.example.com",
+            windowIndex: 1
+        )]
+        let candidates = [candidate(
+            windowTitle: "Current",
+            documentURL: "https://current.example.com",
+            windowIndex: 0
+        )]
+
+        XCTAssertEqual(
+            WindowLayoutEngine.matchWindowIndices(
+                for: placements,
+                candidates: candidates,
+                preferredIndices: [nil]
+            ),
+            [nil]
+        )
+    }
+
     func testSnapshotCodableRoundTripPreservesStableDisplayIdentity() throws {
         let targetDisplay = display(identity: "uuid-123", frame: CGRect(x: 0, y: 0, width: 1920, height: 1080))
         let snapshot = WindowLayoutSnapshot(
@@ -256,6 +319,7 @@ final class WindowLayoutEngineTests: XCTestCase {
     }
 
     private func placement(
+        windowTitle: String = "README",
         documentURL: String? = nil,
         windowIndex: Int = 0,
         displayIdentity: WindowDisplayIdentity = WindowDisplayIdentity(rawValue: "main"),
@@ -267,7 +331,7 @@ final class WindowLayoutEngineTests: XCTestCase {
         WindowPlacement(
             bundleIdentifier: "com.example.Editor",
             applicationName: "Editor",
-            windowTitle: "README",
+            windowTitle: windowTitle,
             documentURL: documentURL,
             windowIdentifier: nil,
             role: "AXWindow",
@@ -282,12 +346,13 @@ final class WindowLayoutEngineTests: XCTestCase {
     }
 
     private func candidate(
+        windowTitle: String = "README",
         documentURL: String? = nil,
         windowIndex: Int = 0,
         subrole: String = "AXStandardWindow"
     ) -> WindowMatchCandidate {
         WindowMatchCandidate(
-            windowTitle: "README",
+            windowTitle: windowTitle,
             documentURL: documentURL,
             windowIdentifier: nil,
             role: "AXWindow",

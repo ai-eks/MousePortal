@@ -133,25 +133,27 @@ final class SystemWindowLayoutProvider: WindowLayoutSystemProviding {
 
             let windows = applications.flatMap { accessibleWindows(for: $0) }
             let candidates = windows.map(\.candidate)
-            var usedIndices = Set<Int>()
-
-            for (placementIndex, placement) in indexedPlacements {
-                let preferredIndex = runtimeWindows.indices.contains(placementIndex) ? windows.indices.first { index in
-                    !usedIndices.contains(index) && CFEqual(runtimeWindows[placementIndex], windows[index].element)
+            let preferredIndices: [Int?] = indexedPlacements.map { indexedPlacement in
+                let placementIndex = indexedPlacement.offset
+                return runtimeWindows.indices.contains(placementIndex) ? windows.indices.first { index in
+                    CFEqual(runtimeWindows[placementIndex], windows[index].element)
                 } : nil
+            }
+            let matchIndices = WindowLayoutEngine.matchWindowIndices(
+                for: indexedPlacements.map { $0.element },
+                candidates: candidates,
+                preferredIndices: preferredIndices
+            )
+
+            for (groupIndex, indexedPlacement) in indexedPlacements.enumerated() {
+                let placement = indexedPlacement.element
 
                 guard let display = displaysByIdentity[placement.displayIdentity],
-                      let matchIndex = WindowLayoutEngine.bestMatchIndex(
-                        for: placement,
-                        candidates: candidates,
-                        excluding: usedIndices,
-                        preferredIndex: preferredIndex
-                      ) else {
+                      let matchIndex = matchIndices[groupIndex] else {
                     skippedCount += 1
                     continue
                 }
 
-                usedIndices.insert(matchIndex)
                 let targetFrame = WindowLayoutEngine.targetFrame(for: placement, on: display)
                 let window = windows[matchIndex].element
                 restoreAttempts.append((
@@ -799,7 +801,7 @@ final class WindowLayoutService: ObservableObject {
             windows: system.captureWindows(
                 displays: displays,
                 ignoring: ignoredBundleIdentifiers,
-                runtimeSnapshotID: kind == .automatic ? snapshotID : nil
+                runtimeSnapshotID: snapshotID
             )
         )
     }

@@ -196,14 +196,14 @@ final class WindowLayoutServiceTests: XCTestCase {
         XCTAssertEqual(system.currentDisplayCallCount, displayCallCount)
     }
 
-    func testManualSnapshotDoesNotRetainRuntimeWindowIdentity() {
+    func testManualSnapshotRetainsRuntimeWindowIdentity() {
         let system = MockWindowLayoutSystemProvider()
         system.displays = [display(identity: "main")]
         let service = makeService(system: system)
 
-        _ = service.saveCurrentLayout()
+        let snapshot = service.saveCurrentLayout()
 
-        XCTAssertNil(system.captureRuntimeSnapshotIDs.last!)
+        XCTAssertEqual(system.captureRuntimeSnapshotIDs.last!, snapshot?.id)
     }
 
     func testMatchingSnapshotsSortAutomaticBeforeManualSnapshots() {
