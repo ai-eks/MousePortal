@@ -24,11 +24,17 @@ private final class PortalEventTapState {
         lock.unlock()
     }
 
-    func updateDisplayState(
+    func applyDisplayConfiguration(
+        portals: [PortalPair],
+        triggerMode: PortalTriggerMode,
+        triggerKeyMask: UInt64,
         displayBoundsCache: [UInt32: CGRect],
         layoutResolver: DisplayLayoutResolver?
     ) {
         lock.lock()
+        self.portals = portals
+        self.triggerMode = triggerMode
+        self.triggerKeyMask = triggerKeyMask
         self.displayBoundsCache = displayBoundsCache
         self.layoutResolver = layoutResolver
         lock.unlock()
@@ -91,7 +97,7 @@ class PortalService: ObservableObject {
     }
     @Published var triggerKey: PortalTriggerKey = .option {
         didSet {
-            UserDefaults.standard.set(triggerKey.rawValue, forKey: triggerKeyKey)
+            defaults.set(triggerKey.rawValue, forKey: triggerKeyKey)
             syncCallbackConfiguration()
         }
     }
@@ -103,16 +109,21 @@ class PortalService: ObservableObject {
     private let userDefaultsKey = "portalPairs"
     private let triggerModeKey = "portalTriggerMode"
     private let triggerKeyKey = "portalTriggerKey"
+    private let defaults: UserDefaults
+    private var isApplyingDisplayConfiguration = false
+    private var hasBackedUpPreviousPortals = false
 
     private var displayBoundsCache: [UInt32: CGRect] = [:]
     private var layoutResolver: DisplayLayoutResolver?
     nonisolated(unsafe) private let callbackState = PortalEventTapState()
 
-    private init() {
+    init(defaults: UserDefaults = .standard) {
+        self.defaults = defaults
         load()
     }
 
     private func syncCallbackConfiguration() {
+        guard !isApplyingDisplayConfiguration else { return }
         callbackState.updateConfiguration(
             portals: portals,
             triggerMode: triggerMode,
@@ -120,17 +131,10 @@ class PortalService: ObservableObject {
         )
     }
 
-    private func syncCallbackDisplayState() {
-        callbackState.updateDisplayState(
-            displayBoundsCache: displayBoundsCache,
-            layoutResolver: layoutResolver
-        )
-    }
-
     // MARK: - Persistence
 
     func load() {
-        if let data = UserDefaults.standard.data(forKey: userDefaultsKey),
+        if let data = defaults.data(forKey: userDefaultsKey),
            let portals = try? JSONDecoder().decode([PortalPair].self, from: data) {
             self.portals = portals
 
@@ -138,12 +142,12 @@ class PortalService: ObservableObject {
             migrateIfNeeded()
         }
 
-        if let modeString = UserDefaults.standard.string(forKey: triggerModeKey),
+        if let modeString = defaults.string(forKey: triggerModeKey),
            let mode = PortalTriggerMode(rawValue: modeString) {
             self.triggerMode = mode
         }
 
-        if let triggerKeyString = UserDefaults.standard.string(forKey: triggerKeyKey),
+        if let triggerKeyString = defaults.string(forKey: triggerKeyKey),
            let triggerKey = PortalTriggerKey(rawValue: triggerKeyString) {
             self.triggerKey = triggerKey
         }
@@ -212,10 +216,10 @@ class PortalService: ObservableObject {
 
     func save() {
         if let data = try? JSONEncoder().encode(portals) {
-            UserDefaults.standard.set(data, forKey: userDefaultsKey)
+            defaults.set(data, forKey: userDefaultsKey)
         }
-        UserDefaults.standard.set(triggerMode.rawValue, forKey: triggerModeKey)
-        UserDefaults.standard.set(triggerKey.rawValue, forKey: triggerKeyKey)
+        defaults.set(triggerMode.rawValue, forKey: triggerModeKey)
+        defaults.set(triggerKey.rawValue, forKey: triggerKeyKey)
         syncCallbackConfiguration()
     }
 
@@ -254,8 +258,6 @@ class PortalService: ObservableObject {
             return
         }
 
-        updateDisplayBoundsCache()
-
         let eventMask = (1 << CGEventType.mouseMoved.rawValue) |
                         (1 << CGEventType.leftMouseDragged.rawValue) |
                         (1 << CGEventType.flagsChanged.rawValue)
@@ -282,14 +284,6 @@ class PortalService: ObservableObject {
             isRunning = true
             print("传送门监听已启动")
         }
-
-        // 监听屏幕变化
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleDisplayChange),
-            name: NSApplication.didChangeScreenParametersNotification,
-            object: nil
-        )
     }
 
     func stop() {
@@ -308,44 +302,34 @@ class PortalService: ObservableObject {
         runLoopSource = nil
         isRunning = false
 
-        NotificationCenter.default.removeObserver(
-            self,
-            name: NSApplication.didChangeScreenParametersNotification,
-            object: nil
-        )
         print("传送门监听已停止")
     }
 
-    @objc private func handleDisplayChange() {
-        // 延时获取显示器信息，等待系统稳定
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-            self?.updateDisplayBoundsCache()
-        }
-    }
-
-    private func updateDisplayBoundsCache() {
-        displayBoundsCache.removeAll()
-        let displayIDs = queryActiveDisplayIDs()
-
-        // 构建 DisplayInfo 列表
-        var displays: [DisplayInfo] = []
-        for i in 0..<displayIDs.count {
-            let displayID = displayIDs[i]
-            let bounds = CGDisplayBounds(displayID)
-            displayBoundsCache[displayID] = bounds
-
-            let info = DisplayInfo(
-                id: displayID,
-                frame: bounds,
-                isMain: displayID == CGMainDisplayID(),
-                name: ""  // 名称在这里不重要
-            )
-            displays.append(info)
+    /// Replace portal geometry and display resolution together for the event callback.
+    /// This does not start or stop input monitoring.
+    func applyDisplayConfiguration(portals: [PortalPair], displays: [DisplayInfo]) {
+        if !hasBackedUpPreviousPortals {
+            let backupKey = "portalPairsBeforeLayoutSync"
+            if defaults.object(forKey: backupKey) == nil,
+               let previousData = defaults.data(forKey: userDefaultsKey) {
+                defaults.set(previousData, forKey: backupKey)
+            }
+            hasBackedUpPreviousPortals = true
         }
 
-        // 更新布局解析器
+        isApplyingDisplayConfiguration = true
+        defer { isApplyingDisplayConfiguration = false }
+        self.portals = portals
+        displayBoundsCache = Dictionary(displays.map { ($0.id, $0.frame) }, uniquingKeysWith: { first, _ in first })
         layoutResolver = DisplayLayoutResolver(displays: displays)
-        syncCallbackDisplayState()
+        callbackState.applyDisplayConfiguration(
+            portals: portals,
+            triggerMode: triggerMode,
+            triggerKeyMask: triggerKey.flagsMask,
+            displayBoundsCache: displayBoundsCache,
+            layoutResolver: layoutResolver
+        )
+        save()
     }
 
     private func queryActiveDisplayIDs() -> [CGDirectDisplayID] {
@@ -369,7 +353,7 @@ class PortalService: ObservableObject {
         callbackState.updateKeyPressed(with: event.flags.rawValue)
     }
 
-    nonisolated fileprivate func handleMouseMovedForTap(_ event: CGEvent) -> (target: CGPoint, deltaX: Double, deltaY: Double)? {
+    nonisolated func handleMouseMovedForTap(_ event: CGEvent) -> (target: CGPoint, deltaX: Double, deltaY: Double)? {
         let snapshot = callbackState.snapshot()
 
         if snapshot.triggerMode == .withKey && !snapshot.isKeyPressed {

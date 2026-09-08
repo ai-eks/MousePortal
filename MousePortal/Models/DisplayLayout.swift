@@ -291,40 +291,30 @@ class DisplayLayoutService: ObservableObject {
 
     private let storageKey = "displayLayouts"
     private let currentLayoutKey = "currentLayoutID"
+    private let defaults: UserDefaults
+    private let applyPortals: @MainActor ([PortalPair]) -> Void
 
-    // MARK: - 稳定性检测
-
-    /// 稳定性检测所需的连续匹配次数
-    private let requiredStableCount = 3
-
-    /// 稳定性检测的时间间隔（秒）
-    private let stabilityCheckInterval: TimeInterval = 0.5
-
-    /// 当前检测到的显示器签名
-    private var pendingSignature: String?
-
-    /// 连续检测到相同签名的次数
-    private var stableCount = 0
-
-    /// 稳定性检测定时器
-    private var stabilityTimer: Timer?
-
-    /// 待处理的显示器列表
-    private var pendingDisplays: [DisplayInfo] = []
-
-    private init() {
+    init(
+        defaults: UserDefaults = .standard,
+        applyPortals: @escaping @MainActor ([PortalPair]) -> Void = { portals in
+            PortalService.shared.portals = portals
+            PortalService.shared.save()
+        }
+    ) {
+        self.defaults = defaults
+        self.applyPortals = applyPortals
         load()
     }
 
     // MARK: - 存储
 
     func load() {
-        if let data = UserDefaults.standard.data(forKey: storageKey),
+        if let data = defaults.data(forKey: storageKey),
            let layouts = try? JSONDecoder().decode([DisplayLayout].self, from: data) {
             self.layouts = layouts
         }
 
-        if let idString = UserDefaults.standard.string(forKey: currentLayoutKey),
+        if let idString = defaults.string(forKey: currentLayoutKey),
            let id = UUID(uuidString: idString) {
             currentLayoutID = id
         }
@@ -332,13 +322,13 @@ class DisplayLayoutService: ObservableObject {
 
     func save() {
         if let data = try? JSONEncoder().encode(layouts) {
-            UserDefaults.standard.set(data, forKey: storageKey)
+            defaults.set(data, forKey: storageKey)
         }
 
         if let id = currentLayoutID {
-            UserDefaults.standard.set(id.uuidString, forKey: currentLayoutKey)
+            defaults.set(id.uuidString, forKey: currentLayoutKey)
         } else {
-            UserDefaults.standard.removeObject(forKey: currentLayoutKey)
+            defaults.removeObject(forKey: currentLayoutKey)
         }
     }
 
@@ -393,64 +383,6 @@ class DisplayLayoutService: ObservableObject {
         return sorted.map { "\($0.width)x\($0.height)@\($0.x),\($0.y)\($0.isMain ? "M" : "")" }.joined(separator: "|")
     }
 
-    /// 处理显示器变化（带稳定性检测）
-    /// - Parameter displays: 当前检测到的显示器列表
-    /// - Parameter completion: 当排列稳定后的回调，返回匹配或创建的 Layout
-    func handleDisplayChange(
-        displays: [DisplayInfo],
-        preserving displayLayoutSignatures: Set<String> = [],
-        completion: ((DisplayLayout) -> Void)? = nil
-    ) {
-        let newSignature = generateSignature(for: displays)
-
-        // 如果签名与上次相同，增加稳定计数
-        if newSignature == pendingSignature {
-            stableCount += 1
-        } else {
-            // 签名变化，重置计数
-            pendingSignature = newSignature
-            pendingDisplays = displays
-            stableCount = 1
-        }
-
-        // 取消之前的定时器
-        stabilityTimer?.invalidate()
-
-        // 检查是否达到稳定阈值
-        if stableCount >= requiredStableCount {
-            // 已稳定，执行匹配或创建
-            let layout = matchOrCreateLayout(
-                for: displays,
-                preserving: displayLayoutSignatures
-            )
-            resetStabilityState()
-            completion?(layout)
-        } else {
-            // 未稳定，设置定时器继续检测
-            stabilityTimer = Timer.scheduledTimer(withTimeInterval: stabilityCheckInterval, repeats: false) { [weak self] _ in
-                guard let self = self else { return }
-                // 超时后，如果有待处理的显示器，强制处理
-                if !self.pendingDisplays.isEmpty {
-                    let layout = self.matchOrCreateLayout(
-                        for: self.pendingDisplays,
-                        preserving: displayLayoutSignatures
-                    )
-                    self.resetStabilityState()
-                    completion?(layout)
-                }
-            }
-        }
-    }
-
-    /// 重置稳定性检测状态
-    private func resetStabilityState() {
-        pendingSignature = nil
-        stableCount = 0
-        pendingDisplays = []
-        stabilityTimer?.invalidate()
-        stabilityTimer = nil
-    }
-
     /// 根据当前显示器自动匹配或创建配置（内部方法，不带稳定性检测）
     func matchOrCreateLayout(
         for displays: [DisplayInfo],
@@ -458,6 +390,7 @@ class DisplayLayoutService: ObservableObject {
     ) -> DisplayLayout {
         // 尝试匹配现有配置
         if let matchedLayout = layouts.first(where: { $0.matches(displays: displays) }) {
+            migrateLegacyPortalLines(in: matchedLayout.id)
             currentLayoutID = matchedLayout.id
             pruneLayouts(preserving: displayLayoutSignatures)
             save()
@@ -476,6 +409,30 @@ class DisplayLayoutService: ObservableObject {
         save()
 
         return layouts.first(where: { $0.id == layout.id }) ?? layout
+    }
+
+    /// Saved display IDs identify the original geometry even after macOS assigns new IDs.
+    private func migrateLegacyPortalLines(in layoutID: UUID) {
+        guard let index = layouts.firstIndex(where: { $0.id == layoutID }) else { return }
+        let snapshots = layouts[index].displaySnapshots
+        func migrate(_ line: PortalLine) -> PortalLine {
+            guard line.displayLayoutKey == nil,
+                  let legacyID = line.legacyDisplayID,
+                  let snapshot = snapshots.first(where: { $0.displayID == legacyID }) else { return line }
+            var migrated = line
+            migrated.displayLayoutKey = snapshot.layoutKey
+            migrated.legacyDisplayID = nil
+            return migrated
+        }
+        let migrated = layouts[index].portals.map { portal in
+            var portal = portal
+            portal.lineA = migrate(portal.lineA)
+            portal.lineB = migrate(portal.lineB)
+            return portal
+        }
+        if migrated != layouts[index].portals {
+            layouts[index].portals = migrated
+        }
     }
 
     /// 生成排列名称
@@ -579,10 +536,16 @@ class DisplayLayoutService: ObservableObject {
     /// 删除传送门
     @MainActor
     func removePortal(id portalID: UUID) {
+        removePortals(ids: [portalID])
+    }
+
+    /// Resolve list selections to IDs before mutating the array.
+    @MainActor
+    func removePortals(ids portalIDs: Set<UUID>) {
         guard let layoutID = currentLayoutID,
               let layoutIndex = layouts.firstIndex(where: { $0.id == layoutID }) else { return }
 
-        layouts[layoutIndex].portals.removeAll { $0.id == portalID }
+        layouts[layoutIndex].portals.removeAll { portalIDs.contains($0.id) }
         layouts[layoutIndex].modifiedAt = Date()
         save()
 
@@ -611,18 +574,6 @@ class DisplayLayoutService: ObservableObject {
     /// 同步当前排列的传送门到 PortalService
     @MainActor
     func syncToPortalService() {
-        PortalService.shared.portals = currentPortals
-        PortalService.shared.save()
-    }
-
-    /// 从 PortalService 同步传送门到当前排列
-    @MainActor
-    func syncFromPortalService() {
-        guard let id = currentLayoutID,
-              let index = layouts.firstIndex(where: { $0.id == id }) else { return }
-
-        layouts[index].portals = PortalService.shared.portals
-        layouts[index].modifiedAt = Date()
-        save()
+        applyPortals(currentPortals)
     }
 }

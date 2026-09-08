@@ -21,7 +21,7 @@ class DisplayService: ObservableObject {
 
         // 先计算外接显示器的编号（跳过主显示器）
         var externalIndex = 0
-        displays = (0..<Int(displayCount)).map { index in
+        let currentDisplays = (0..<Int(displayCount)).map { index in
             let displayID = displayIDs[index]
             let bounds = CGDisplayBounds(displayID)
             let isMain = displayID == mainDisplayID
@@ -42,7 +42,12 @@ class DisplayService: ObservableObject {
             )
         }
 
-        // 计算共享边界
+        updateDisplays(currentDisplays)
+    }
+
+    /// Use the same system snapshot as the portal configuration.
+    func updateDisplays(_ currentDisplays: [DisplayInfo]) {
+        displays = currentDisplays
         sharedEdges = calculateSharedEdges()
     }
 
