@@ -327,6 +327,47 @@ final class DisplayLayoutTests: XCTestCase {
         XCTAssertEqual(service.currentLayoutID, existing.id)
     }
 
+    func testMatchReturnsTargetAfterPruningEarlierLayout() {
+        let service = DisplayLayoutService.shared
+        let unused = DisplayLayout(name: "Unused", displays: sampleSingleDisplay())
+        let target = DisplayLayout(name: "Target", displays: sampleDualDisplays())
+        service.layouts = [unused, target]
+        service.currentLayoutID = unused.id
+
+        let matched = service.matchOrCreateLayout(for: sampleDualDisplays())
+
+        XCTAssertEqual(matched.id, target.id)
+        XCTAssertEqual(service.currentLayoutID, target.id)
+    }
+
+    func testMatchDoesNotReturnFollowingLayoutAfterPruning() {
+        let service = DisplayLayoutService.shared
+        let unused = DisplayLayout(name: "Unused", displays: sampleSingleDisplay())
+        let target = DisplayLayout(name: "Target", displays: sampleDualDisplays())
+        var other = DisplayLayout(name: "Other locked", displays: sampleSingleDisplay())
+        other.isLocked = true
+        service.layouts = [unused, target, other]
+        service.currentLayoutID = unused.id
+
+        let matched = service.matchOrCreateLayout(for: sampleDualDisplays())
+
+        XCTAssertEqual(matched.id, target.id)
+        XCTAssertEqual(service.currentLayoutID, target.id)
+    }
+
+    func testMatchReturnsTargetAfterPruningMultipleEarlierLayouts() {
+        let service = DisplayLayoutService.shared
+        let target = DisplayLayout(name: "Target", displays: sampleDualDisplays())
+        service.layouts = [
+            DisplayLayout(name: "Unused A", displays: sampleSingleDisplay()),
+            DisplayLayout(name: "Unused B", displays: sampleSingleDisplay()),
+            target
+        ]
+        service.currentLayoutID = service.layouts[0].id
+
+        XCTAssertEqual(service.matchOrCreateLayout(for: sampleDualDisplays()).id, target.id)
+    }
+
     func testRenameLayoutUpdatesNameAndModifiedDate() {
         let service = DisplayLayoutService.shared
         let layout = DisplayLayout(name: "Before", displays: sampleSingleDisplay())

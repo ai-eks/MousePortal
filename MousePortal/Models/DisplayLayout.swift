@@ -457,11 +457,11 @@ class DisplayLayoutService: ObservableObject {
         preserving displayLayoutSignatures: Set<String> = []
     ) -> DisplayLayout {
         // 尝试匹配现有配置
-        if let matchedIndex = layouts.firstIndex(where: { $0.matches(displays: displays) }) {
-            currentLayoutID = layouts[matchedIndex].id
+        if let matchedLayout = layouts.first(where: { $0.matches(displays: displays) }) {
+            currentLayoutID = matchedLayout.id
             pruneLayouts(preserving: displayLayoutSignatures)
             save()
-            return layouts[matchedIndex]
+            return layouts.first(where: { $0.id == matchedLayout.id }) ?? matchedLayout
         }
 
         // 创建新配置
