@@ -10,6 +10,10 @@ protocol WindowLayoutSystemProviding {
         ignoring bundleIdentifiers: Set<String>,
         runtimeSnapshotID: UUID?
     ) -> [WindowPlacement]
+    func captureVisibleWindows(
+        displays: [WindowDisplaySnapshot],
+        ignoring bundleIdentifiers: Set<String>
+    ) -> [WindowPlacement]
     func restoreWindows(
         from snapshot: WindowLayoutSnapshot,
         currentDisplays: [WindowDisplaySnapshot]
@@ -90,6 +94,82 @@ final class SystemWindowLayoutProvider: WindowLayoutSystemProviding {
         if let runtimeSnapshotID {
             retainedSnapshotID = runtimeSnapshotID
             retainedWindows = capturedWindows
+        }
+
+        return placements
+    }
+
+    func captureVisibleWindows(
+        displays: [WindowDisplaySnapshot],
+        ignoring bundleIdentifiers: Set<String>
+    ) -> [WindowPlacement] {
+        let ownBundleIdentifier = Bundle.main.bundleIdentifier
+        let applicationsByPID: [pid_t: NSRunningApplication] = Dictionary(
+            uniqueKeysWithValues: restorableApplications().compactMap { application in
+                guard let bundleIdentifier = application.bundleIdentifier,
+                      bundleIdentifier != ownBundleIdentifier,
+                      !bundleIdentifiers.contains(bundleIdentifier) else {
+                    return nil
+                }
+                return (application.processIdentifier, application)
+            }
+        )
+        let windowInfo = CGWindowListCopyWindowInfo(
+            [.optionOnScreenOnly, .excludeDesktopElements],
+            kCGNullWindowID
+        ) as? [[CFString: Any]] ?? []
+        var windowIndicesByBundleIdentifier: [String: Int] = [:]
+        var placements: [WindowPlacement] = []
+
+        for info in windowInfo {
+            guard let pidNumber = info[kCGWindowOwnerPID] as? NSNumber,
+                  let application = applicationsByPID[pid_t(pidNumber.int32Value)],
+                  let layerNumber = info[kCGWindowLayer] as? NSNumber,
+                  layerNumber.intValue == 0,
+                  let boundsDictionary = info[kCGWindowBounds] as? NSDictionary,
+                  let frame = CGRect(dictionaryRepresentation: boundsDictionary),
+                  frame.width > 0,
+                  frame.height > 0,
+                  let display = WindowLayoutEngine.display(containing: frame, from: displays) else {
+                continue
+            }
+            if let alphaNumber = info[kCGWindowAlpha] as? NSNumber,
+               alphaNumber.doubleValue <= 0 {
+                continue
+            }
+
+            let displayFrame = display.frame.cgRect
+            let matchesDisplayWidth = abs(frame.minX - displayFrame.minX) <= 1 &&
+                abs(frame.width - displayFrame.width) <= 1
+            let isMenuBarWindow = matchesDisplayWidth &&
+                abs(frame.minY - displayFrame.minY) <= 1 &&
+                frame.height <= 64
+            let isFullScreenWindow = matchesDisplayWidth &&
+                abs(frame.minY - displayFrame.minY) <= 1 &&
+                abs(frame.height - displayFrame.height) <= 1
+            guard !isMenuBarWindow, !isFullScreenWindow,
+                  let bundleIdentifier = application.bundleIdentifier else {
+                continue
+            }
+
+            let windowIndex = windowIndicesByBundleIdentifier[bundleIdentifier, default: 0]
+            windowIndicesByBundleIdentifier[bundleIdentifier] = windowIndex + 1
+            let title = (info[kCGWindowName] as? String).flatMap { $0.isEmpty ? nil : $0 }
+            placements.append(WindowPlacement(
+                bundleIdentifier: bundleIdentifier,
+                applicationName: application.localizedName ?? bundleIdentifier,
+                windowTitle: title,
+                documentURL: nil,
+                windowIdentifier: nil,
+                role: kAXWindowRole as String,
+                subrole: kAXStandardWindowSubrole as String,
+                windowIndex: windowIndex,
+                displayIdentity: display.identity,
+                relativeX: (frame.minX - displayFrame.minX) / displayFrame.width,
+                relativeY: (frame.minY - displayFrame.minY) / displayFrame.height,
+                width: frame.width,
+                height: frame.height
+            ))
         }
 
         return placements
@@ -392,6 +472,7 @@ final class WindowLayoutService: ObservableObject {
 
     private let system: WindowLayoutSystemProviding
     private let defaults: UserDefaults
+    private let screenNotificationCenter: NotificationCenter
     private let accessibilityIsTrusted: () -> Bool
     private let legacySnapshotKey = "windowLayoutSnapshot"
     private let snapshotsKey = "windowLayoutSnapshots"
@@ -399,6 +480,8 @@ final class WindowLayoutService: ObservableObject {
     private let rememberBeforeSleepOrLockKey = "windowRecoveryRememberBeforeSleepOrLock"
     private let automaticRestoreKey = "windowRecoveryAutomaticRestore"
     private let ignoredApplicationsKey = "windowRecoveryIgnoredApplications"
+    private let screenDidLockNotification = NSNotification.Name("com.apple.screenIsLocked")
+    private let screenDidUnlockNotification = NSNotification.Name("com.apple.screenIsUnlocked")
     private let requiredStableSampleCount = 3
     private let stabilityCheckInterval: TimeInterval = 0.5
     private let stabilityTimeout: TimeInterval = 8
@@ -416,10 +499,12 @@ final class WindowLayoutService: ObservableObject {
     init(
         system: WindowLayoutSystemProviding = SystemWindowLayoutProvider(),
         defaults: UserDefaults = .standard,
+        screenNotificationCenter: NotificationCenter = DistributedNotificationCenter.default(),
         accessibilityIsTrusted: @escaping () -> Bool = AXIsProcessTrusted
     ) {
         self.system = system
         self.defaults = defaults
+        self.screenNotificationCenter = screenNotificationCenter
         self.accessibilityIsTrusted = accessibilityIsTrusted
         self.isEnabled = defaults.bool(forKey: enabledKey)
         let savedRememberSetting = defaults.object(forKey: rememberBeforeSleepOrLockKey) as? Bool
@@ -469,6 +554,8 @@ final class WindowLayoutService: ObservableObject {
         workspaceCenter.addObserver(self, selector: #selector(sessionDidBecomeActive), name: NSWorkspace.sessionDidBecomeActiveNotification, object: nil)
         workspaceCenter.addObserver(self, selector: #selector(systemWillSleep), name: NSWorkspace.willSleepNotification, object: nil)
         workspaceCenter.addObserver(self, selector: #selector(systemDidWake), name: NSWorkspace.didWakeNotification, object: nil)
+        screenNotificationCenter.addObserver(self, selector: #selector(screenDidLock), name: screenDidLockNotification, object: nil)
+        screenNotificationCenter.addObserver(self, selector: #selector(screenDidUnlock), name: screenDidUnlockNotification, object: nil)
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(screenParametersDidChange),
@@ -483,6 +570,7 @@ final class WindowLayoutService: ObservableObject {
         stabilityTimer?.invalidate()
         stabilityTimer = nil
         NSWorkspace.shared.notificationCenter.removeObserver(self)
+        screenNotificationCenter.removeObserver(self)
         NotificationCenter.default.removeObserver(self)
     }
 
@@ -632,12 +720,28 @@ final class WindowLayoutService: ObservableObject {
     }
 
     @objc private func sessionDidBecomeActive() {
+        handleSessionDidBecomeActive(event: "sessionDidBecomeActive")
+    }
+
+    @objc private func screenDidLock() {
+        sessionIsActive = false
+        if state != .normal, recoverySnapshot?.windows.isEmpty == true {
+            resetRecoveryState()
+        }
+        freezeSnapshotIfNeeded(event: "screenIsLocked", allowWindowServerFallback: true)
+    }
+
+    @objc private func screenDidUnlock() {
+        handleSessionDidBecomeActive(event: "screenIsUnlocked")
+    }
+
+    private func handleSessionDidBecomeActive(event: String) {
         sessionIsActive = true
         guard automaticRestoreEnabled else {
             resetRecoveryState()
             return
         }
-        system.logDisplayState(event: "sessionDidBecomeActive")
+        system.logDisplayState(event: event)
 
         if topologyIsReady {
             completeStableTopologyWait()
@@ -669,11 +773,16 @@ final class WindowLayoutService: ObservableObject {
         }
     }
 
-    private func freezeSnapshotIfNeeded(event: String) {
+    private func freezeSnapshotIfNeeded(
+        event: String,
+        allowWindowServerFallback: Bool = false
+    ) {
         guard lockRecoveryEnabled else { return }
         system.logDisplayState(event: event)
         guard state == .normal else { return }
-        guard let automaticSnapshot = saveAutomaticLayout() else { return }
+        guard let automaticSnapshot = saveAutomaticLayout(
+            allowWindowServerFallback: allowWindowServerFallback
+        ) else { return }
         recoverySnapshotID = automaticSnapshot.id
         state = .snapshotFrozen
     }
@@ -787,28 +896,43 @@ final class WindowLayoutService: ObservableObject {
         isEnabled && rememberBeforeSleepOrLockEnabled
     }
 
-    private func captureSnapshot(kind: WindowLayoutSnapshotKind) -> WindowLayoutSnapshot? {
+    private func captureSnapshot(
+        kind: WindowLayoutSnapshotKind,
+        allowWindowServerFallback: Bool = false
+    ) -> WindowLayoutSnapshot? {
         guard accessibilityIsTrusted() else { return nil }
         let displays = system.currentDisplays()
         guard !displays.isEmpty else { return nil }
         let snapshotID = UUID()
+        let accessibilityWindows = system.captureWindows(
+            displays: displays,
+            ignoring: ignoredBundleIdentifiers,
+            runtimeSnapshotID: snapshotID
+        )
+        let windows = accessibilityWindows.isEmpty && allowWindowServerFallback
+            ? system.captureVisibleWindows(
+                displays: displays,
+                ignoring: ignoredBundleIdentifiers
+            )
+            : accessibilityWindows
 
         return WindowLayoutSnapshot(
             id: snapshotID,
             kind: kind,
             capturedAt: Date(),
             displays: displays,
-            windows: system.captureWindows(
-                displays: displays,
-                ignoring: ignoredBundleIdentifiers,
-                runtimeSnapshotID: snapshotID
-            )
+            windows: windows
         )
     }
 
     @discardableResult
-    private func saveAutomaticLayout() -> WindowLayoutSnapshot? {
-        guard let newSnapshot = captureSnapshot(kind: .automatic) else { return nil }
+    private func saveAutomaticLayout(
+        allowWindowServerFallback: Bool = false
+    ) -> WindowLayoutSnapshot? {
+        guard let newSnapshot = captureSnapshot(
+            kind: .automatic,
+            allowWindowServerFallback: allowWindowServerFallback
+        ) else { return nil }
         snapshots.removeAll {
             $0.kind == .automatic &&
             $0.displayLayoutSignature == newSnapshot.displayLayoutSignature

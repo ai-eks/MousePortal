@@ -6,6 +6,7 @@ import AppKit
 final class WindowLayoutServiceTests: XCTestCase {
     private var defaults: UserDefaults!
     private var suiteName: String!
+    private let screenNotificationCenter = NotificationCenter()
 
     override func setUp() {
         super.setUp()
@@ -255,6 +256,43 @@ final class WindowLayoutServiceTests: XCTestCase {
         XCTAssertEqual(makeService(system: system).snapshots.map(\.id), [second.id])
     }
 
+    func testDeletingAutomaticSnapshotWaitsForNextScreenLockBeforeRecreatingIt() {
+        let system = MockWindowLayoutSystemProvider()
+        system.displays = [display(identity: "main")]
+        system.windows = []
+        system.visibleWindows = [placement(displayIdentity: WindowDisplayIdentity(rawValue: "main"))]
+        let service = makeService(system: system)
+        service.setEnabled(true)
+        let automaticSnapshotID = service.snapshots.first!.id
+
+        XCTAssertTrue(service.deleteSnapshot(id: automaticSnapshotID))
+        service.startMonitoring()
+        defer { service.stopMonitoring() }
+
+        XCTAssertTrue(service.snapshots.isEmpty)
+
+        NSWorkspace.shared.notificationCenter.post(
+            name: NSWorkspace.sessionDidResignActiveNotification,
+            object: nil
+        )
+        let emptySnapshotID = service.snapshots.first?.id
+        XCTAssertEqual(service.snapshots.first?.windows.count, 0)
+        XCTAssertEqual(service.state, .snapshotFrozen)
+
+        screenNotificationCenter.post(
+            name: NSNotification.Name("com.apple.screenIsLocked"),
+            object: nil
+        )
+
+        XCTAssertEqual(service.snapshots.count, 1)
+        XCTAssertEqual(service.snapshots.first?.kind, .automatic)
+        XCTAssertEqual(service.snapshots.first?.windows.count, 1)
+        XCTAssertNotEqual(service.snapshots.first?.id, automaticSnapshotID)
+        XCTAssertNotEqual(service.snapshots.first?.id, emptySnapshotID)
+        XCTAssertEqual(service.state, .snapshotFrozen)
+        XCTAssertEqual(system.captureVisibleWindowCallCount, 1)
+    }
+
     func testLegacySingleSnapshotMigratesToSnapshotCollection() throws {
         let system = MockWindowLayoutSystemProvider()
         let savedDisplay = display(identity: "main")
@@ -436,6 +474,7 @@ final class WindowLayoutServiceTests: XCTestCase {
         WindowLayoutService(
             system: system,
             defaults: defaults,
+            screenNotificationCenter: screenNotificationCenter,
             accessibilityIsTrusted: { true }
         )
     }
@@ -478,11 +517,13 @@ final class WindowLayoutServiceTests: XCTestCase {
 private final class MockWindowLayoutSystemProvider: WindowLayoutSystemProviding {
     var displays: [WindowDisplaySnapshot] = []
     var windows: [WindowPlacement] = []
+    var visibleWindows: [WindowPlacement] = []
     var applications: [WindowApplicationOption] = []
     var restoreResult = WindowRestoreResult(restoredCount: 0, skippedCount: 0, failedCount: 0)
     private(set) var lastIgnoredBundleIdentifiers: Set<String> = []
     private(set) var restoreCallCount = 0
     private(set) var captureCallCount = 0
+    private(set) var captureVisibleWindowCallCount = 0
     private(set) var currentDisplayCallCount = 0
     private(set) var restoredSnapshotID: UUID?
     private(set) var captureRuntimeSnapshotIDs: [UUID?] = []
@@ -501,6 +542,14 @@ private final class MockWindowLayoutSystemProvider: WindowLayoutSystemProviding 
         lastIgnoredBundleIdentifiers = bundleIdentifiers
         captureRuntimeSnapshotIDs.append(runtimeSnapshotID)
         return windows
+    }
+
+    func captureVisibleWindows(
+        displays: [WindowDisplaySnapshot],
+        ignoring bundleIdentifiers: Set<String>
+    ) -> [WindowPlacement] {
+        captureVisibleWindowCallCount += 1
+        return visibleWindows
     }
 
     func restoreWindows(
