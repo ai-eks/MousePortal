@@ -353,7 +353,7 @@ class PortalService: ObservableObject {
         callbackState.updateKeyPressed(with: event.flags.rawValue)
     }
 
-    nonisolated func handleMouseMovedForTap(_ event: CGEvent) -> (target: CGPoint, deltaX: Double, deltaY: Double)? {
+    nonisolated func handleMouseMovedForTap(_ event: CGEvent) -> CGPoint? {
         let snapshot = callbackState.snapshot()
 
         if snapshot.triggerMode == .withKey && !snapshot.isKeyPressed {
@@ -363,8 +363,6 @@ class PortalService: ObservableObject {
         guard let resolver = snapshot.layoutResolver else { return nil }
 
         let mouseLocation = event.location
-        let deltaX = event.getDoubleValueField(.mouseEventDeltaX)
-        let deltaY = event.getDoubleValueField(.mouseEventDeltaY)
 
         for portal in snapshot.portals where portal.isEnabled {
             // 通过布局标识解析显示器边界
@@ -377,7 +375,7 @@ class PortalService: ObservableObject {
                    let boundsB = snapshot.displayBoundsCache[portal.lineB.legacyDisplayID ?? 0] {
                     if isPointOnLine(mouseLocation, line: portal.lineA, bounds: boundsA) {
                         if let target = portal.calculateTargetPosition(from: mouseLocation, lineABounds: boundsA, lineBBounds: boundsB) {
-                            return (target, deltaX, deltaY)
+                            return target
                         }
                     }
 
@@ -391,7 +389,7 @@ class PortalService: ObservableObject {
                             color: portal.color
                         )
                         if let target = reversedPortal.calculateTargetPosition(from: mouseLocation, lineABounds: boundsB, lineBBounds: boundsA) {
-                            return (target, deltaX, deltaY)
+                            return target
                         }
                     }
                 }
@@ -400,7 +398,7 @@ class PortalService: ObservableObject {
 
             if isPointOnLine(mouseLocation, line: portal.lineA, bounds: boundsA) {
                 if let target = portal.calculateTargetPosition(from: mouseLocation, lineABounds: boundsA, lineBBounds: boundsB) {
-                    return (target, deltaX, deltaY)
+                    return target
                 }
             }
 
@@ -416,7 +414,7 @@ class PortalService: ObservableObject {
                         color: portal.color
                     )
                     if let target = reversedPortal.calculateTargetPosition(from: mouseLocation, lineABounds: boundsB, lineBBounds: boundsA) {
-                        return (target, deltaX, deltaY)
+                        return target
                     }
                 }
             }
@@ -486,22 +484,15 @@ private func portalEventCallback(
         service.handleFlagsChangedForTap(event)
 
     case .mouseMoved, .leftMouseDragged:
-        let result = service.handleMouseMovedForTap(event)
-
-        if let result {
-            // 方法：不消费事件，直接修改事件位置
-            // 同时用底层方式移动光标，不触发加速度重置
-            CGAssociateMouseAndMouseCursorPosition(0)
-            defer { CGAssociateMouseAndMouseCursorPosition(1) }
-
-            // 创建并发送移动事件到目标位置
-            if let moveEvent = CGEvent(mouseEventSource: nil, mouseType: type, mouseCursorPosition: result.target, mouseButton: .left) {
-                moveEvent.setDoubleValueField(.mouseEventDeltaX, value: result.deltaX)
-                moveEvent.setDoubleValueField(.mouseEventDeltaY, value: result.deltaY)
+        if let target = service.handleMouseMovedForTap(event) {
+            // 保留原有的 HID 事件传送手感，但不再切换全局鼠标关联状态。
+            if let moveEvent = CGEvent(mouseEventSource: nil, mouseType: type, mouseCursorPosition: target, mouseButton: .left) {
+                moveEvent.setDoubleValueField(.mouseEventDeltaX, value: event.getDoubleValueField(.mouseEventDeltaX))
+                moveEvent.setDoubleValueField(.mouseEventDeltaY, value: event.getDoubleValueField(.mouseEventDeltaY))
                 moveEvent.post(tap: .cghidEventTap)
             }
 
-            return nil  // 消费原始事件
+            return nil
         }
 
     default:

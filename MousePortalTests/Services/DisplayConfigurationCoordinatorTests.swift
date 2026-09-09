@@ -290,8 +290,8 @@ final class DisplayConfigurationCoordinatorTests: XCTestCase {
 
     private func assertTarget(_ portals: PortalService, x: CGFloat, file: StaticString = #filePath, line: UInt = #line) throws {
         let target = try XCTUnwrap(portals.handleMouseMovedForTap(mouseEvent()), file: file, line: line)
-        XCTAssertEqual(target.target.x, x, file: file, line: line)
-        XCTAssertEqual(target.target.y, 50, file: file, line: line)
+        XCTAssertEqual(target.x, x, file: file, line: line)
+        XCTAssertEqual(target.y, 50, file: file, line: line)
     }
 }
 
