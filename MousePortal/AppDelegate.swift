@@ -15,6 +15,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private let windowLayoutService = WindowLayoutService.shared
     private var hotkeyConfigStore = HotkeyConfigStore.shared
     private var cancellables: Set<AnyCancellable> = []
+    private lazy var displayCoordinator = DisplayConfigurationCoordinator(
+        provider: SystemDisplayProvider(),
+        layouts: .shared,
+        portals: .shared,
+        displayService: .shared,
+        preservedSignatures: { Set(WindowLayoutService.shared.snapshots.map(\.displayLayoutSignature)) },
+        updateHotkeys: { HotkeyConfigStore.shared.initializeDefaults(from: $0) }
+    )
 
     // 应用状态
     @AppStorage("showMenuBarIcon") private var showMenuBarIcon = true
@@ -80,6 +88,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         // 关闭最后一个窗口后继续在菜单栏运行，但不占用 Dock
         sender.setActivationPolicy(.accessory)
         return false
+    }
+
+    func applicationWillTerminate(_ notification: Notification) {
+        displayCoordinator.stop()
+        hotkeyService?.stop()
+        portalService?.stop()
+        windowLayoutService.stopMonitoring()
+    }
+
+    func refreshDisplayConfiguration() {
+        displayCoordinator.refresh()
     }
 
     // MARK: - Menu Bar Setup
@@ -169,6 +188,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private func setupServices() {
         hotkeyService = HotkeyService.shared
         portalService = PortalService.shared
+        // Resolve the active layout before accepting any input events.
+        displayCoordinator.start()
 
         if hotkeyConfigStore.globalEnabled {
             hotkeyService?.start()
@@ -274,6 +295,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     @objc private func quitApp() {
+        displayCoordinator.stop()
         hotkeyService?.stop()
         portalService?.stop()
         windowLayoutService.stopMonitoring()

@@ -264,7 +264,7 @@ struct ContentView: View {
                             .buttonStyle(.bordered)
                         }
 
-                        Button(action: { displayService.fetchDisplays() }) {
+                        Button(action: { AppDelegate.shared?.refreshDisplayConfiguration() }) {
                             Image(systemName: "arrow.clockwise")
                         }
                         .help(L("button.refresh"))
@@ -393,35 +393,17 @@ struct ContentView: View {
         .background(HomeSurface.background)
         .frame(minWidth: 1000, minHeight: 680)
         .onAppear {
-            displayService.fetchDisplays()
-            // 只在首次加载时设置 selectedLayoutID
+            AppDelegate.shared?.refreshDisplayConfiguration()
             if selectedLayoutID == nil {
-                let layout = layoutService.matchOrCreateLayout(
-                    for: displayService.displays,
-                    preserving: savedWindowLayoutSignatures
-                )
-                selectedLayoutID = layout.id
-                hotkeyConfigStore.initializeDefaults(from: layout.displaysApplyingCustomNames(to: displayService.displays))
-            } else {
-                // 确保 currentLayoutID 正确更新
-                let layout = layoutService.matchOrCreateLayout(
-                    for: displayService.displays,
-                    preserving: savedWindowLayoutSignatures
-                )
-                hotkeyConfigStore.initializeDefaults(from: layout.displaysApplyingCustomNames(to: displayService.displays))
+                selectedLayoutID = layoutService.currentLayoutID
             }
             checkPermissionOnLaunch()
             synchronizeWindowSnapshotSelection()
         }
-        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didChangeScreenParametersNotification)) { _ in
-            displayService.fetchDisplays()
-            hotkeyConfigStore.initializeDefaults(from: displayService.displays)
-            // 使用稳定性检测，避免唤醒时产生大量中间状态的排列
-            layoutService.handleDisplayChange(
-                displays: displayService.displays,
-                preserving: savedWindowLayoutSignatures
-            ) { layout in
-                hotkeyConfigStore.initializeDefaults(from: layout.displaysApplyingCustomNames(to: displayService.displays))
+        .onReceive(layoutService.$currentLayoutID.receive(on: RunLoop.main)) { currentID in
+            // Preserve explicit browsing of saved layouts, unless that layout was pruned.
+            if selectedLayoutID == nil || !layoutService.layouts.contains(where: { $0.id == selectedLayoutID }) {
+                selectedLayoutID = currentID
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .languageDidChange)) { _ in

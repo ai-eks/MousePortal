@@ -327,6 +327,47 @@ final class DisplayLayoutTests: XCTestCase {
         XCTAssertEqual(service.currentLayoutID, existing.id)
     }
 
+    func testMatchReturnsTargetAfterPruningEarlierLayout() {
+        let service = DisplayLayoutService.shared
+        let unused = DisplayLayout(name: "Unused", displays: sampleSingleDisplay())
+        let target = DisplayLayout(name: "Target", displays: sampleDualDisplays())
+        service.layouts = [unused, target]
+        service.currentLayoutID = unused.id
+
+        let matched = service.matchOrCreateLayout(for: sampleDualDisplays())
+
+        XCTAssertEqual(matched.id, target.id)
+        XCTAssertEqual(service.currentLayoutID, target.id)
+    }
+
+    func testMatchDoesNotReturnFollowingLayoutAfterPruning() {
+        let service = DisplayLayoutService.shared
+        let unused = DisplayLayout(name: "Unused", displays: sampleSingleDisplay())
+        let target = DisplayLayout(name: "Target", displays: sampleDualDisplays())
+        var other = DisplayLayout(name: "Other locked", displays: sampleSingleDisplay())
+        other.isLocked = true
+        service.layouts = [unused, target, other]
+        service.currentLayoutID = unused.id
+
+        let matched = service.matchOrCreateLayout(for: sampleDualDisplays())
+
+        XCTAssertEqual(matched.id, target.id)
+        XCTAssertEqual(service.currentLayoutID, target.id)
+    }
+
+    func testMatchReturnsTargetAfterPruningMultipleEarlierLayouts() {
+        let service = DisplayLayoutService.shared
+        let target = DisplayLayout(name: "Target", displays: sampleDualDisplays())
+        service.layouts = [
+            DisplayLayout(name: "Unused A", displays: sampleSingleDisplay()),
+            DisplayLayout(name: "Unused B", displays: sampleSingleDisplay()),
+            target
+        ]
+        service.currentLayoutID = service.layouts[0].id
+
+        XCTAssertEqual(service.matchOrCreateLayout(for: sampleDualDisplays()).id, target.id)
+    }
+
     func testRenameLayoutUpdatesNameAndModifiedDate() {
         let service = DisplayLayoutService.shared
         let layout = DisplayLayout(name: "Before", displays: sampleSingleDisplay())
@@ -600,88 +641,6 @@ final class DisplayLayoutTests: XCTestCase {
 
         XCTAssertEqual(layout.customName, "Desk Setup")
         XCTAssertEqual(layout.displayName, "Desk Setup")
-    }
-
-    // MARK: - Stability Detection Tests
-
-    func testStabilityDetectionSameSignatureMultipleTimes() {
-        let service = DisplayLayoutService.shared
-
-        let displays = [
-            DisplayInfo(id: 99, frame: CGRect(x: 0, y: 0, width: 3840, height: 2160), isMain: true, name: "Test 4K")
-        ]
-
-        // 模拟连续3次相同的显示器变化
-        let expectation = XCTestExpectation(description: "Stability callback")
-
-        // 第一次调用
-        service.handleDisplayChange(displays: displays) { _ in }
-
-        // 第二次调用
-        service.handleDisplayChange(displays: displays) { _ in }
-
-        // 第三次调用 - 应该触发稳定
-        service.handleDisplayChange(displays: displays) { layout in
-            XCTAssertEqual(layout.displaySnapshots.count, 1)
-            XCTAssertEqual(layout.displaySnapshots.first?.width, 3840)
-            expectation.fulfill()
-        }
-
-        wait(for: [expectation], timeout: 2.0)
-
-        // 清理测试数据
-        if let testLayout = service.layouts.first(where: { $0.displaySnapshots.first?.width == 3840 }) {
-            service.deleteLayout(testLayout)
-        }
-    }
-
-    func testStabilityDetectionResetsOnDifferentSignature() {
-        let service = DisplayLayoutService.shared
-
-        let singleDisplay = [
-            DisplayInfo(id: 1, frame: CGRect(x: 0, y: 0, width: 1920, height: 1080), isMain: true, name: "Main")
-        ]
-
-        let dualDisplay = [
-            DisplayInfo(id: 1, frame: CGRect(x: 0, y: 0, width: 1920, height: 1080), isMain: true, name: "Main"),
-            DisplayInfo(id: 2, frame: CGRect(x: 1920, y: 0, width: 1920, height: 1080), isMain: false, name: "External")
-        ]
-
-        var callbackCount = 0
-
-        // 模拟唤醒过程：单显示器 -> 单显示器 -> 双显示器（签名变化，重置计数）
-        service.handleDisplayChange(displays: singleDisplay) { _ in callbackCount += 1 }
-        service.handleDisplayChange(displays: singleDisplay) { _ in callbackCount += 1 }
-        service.handleDisplayChange(displays: dualDisplay) { _ in callbackCount += 1 }  // 签名变化
-
-        // 此时不应该触发回调，因为双显示器签名只出现了1次
-        XCTAssertEqual(callbackCount, 0, "Callback should not be triggered when signature changes")
-    }
-
-    func testStabilityDetectionPreventsIntermediateLayouts() {
-        let service = DisplayLayoutService.shared
-        let initialCount = service.layouts.count
-
-        // 模拟唤醒过程：1屏 -> 1屏 -> 2屏 -> 2屏 -> 2屏（稳定）
-        let oneDisplay = [
-            DisplayInfo(id: 1, frame: CGRect(x: 0, y: 0, width: 1920, height: 1080), isMain: true, name: "Main")
-        ]
-
-        let twoDisplays = [
-            DisplayInfo(id: 1, frame: CGRect(x: 0, y: 0, width: 1920, height: 1080), isMain: true, name: "Main"),
-            DisplayInfo(id: 2, frame: CGRect(x: 1920, y: 100, width: 2560, height: 1440), isMain: false, name: "External")
-        ]
-
-        // 中间状态不应创建新排列
-        service.handleDisplayChange(displays: oneDisplay) { _ in }
-        service.handleDisplayChange(displays: oneDisplay) { _ in }
-        service.handleDisplayChange(displays: twoDisplays) { _ in }
-        service.handleDisplayChange(displays: twoDisplays) { _ in }
-
-        let afterIntermediateCount = service.layouts.count
-
-        // 在达到稳定阈值之前，不应创建新排列
-        XCTAssertEqual(afterIntermediateCount, initialCount, "No new layout should be created before stability threshold")
     }
 
     private func sampleSingleDisplay() -> [DisplayInfo] {

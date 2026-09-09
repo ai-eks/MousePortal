@@ -99,6 +99,18 @@ swift build -c release
 swift run
 ```
 
+To create a double-clickable app for the Mac you are building on:
+
+```bash
+bash tools/package-local.sh
+```
+
+This creates `dist/local/MousePortal.app` with its icon and bundled resources.
+Move it to `/Applications` and grant Accessibility permission before using portals.
+The app is ad-hoc signed for local use, without Developer ID credentials or Apple notarization.
+The script preserves an existing app; pass another output directory to build a new copy,
+for example `bash tools/package-local.sh dist/local-new`.
+
 ## Usage Guide
 
 ### First-Time Setup

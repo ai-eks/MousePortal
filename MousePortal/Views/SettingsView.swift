@@ -210,7 +210,6 @@ struct GeneralSettingsView: View {
 /// 快捷键设置
 struct HotkeySettingsView: View {
     @ObservedObject private var hotkeyConfigStore = HotkeyConfigStore.shared
-    @ObservedObject private var displayService = DisplayService.shared
 
     var body: some View {
         Form {
@@ -271,8 +270,7 @@ struct HotkeySettingsView: View {
         }
         .formStyle(.grouped)
         .onAppear {
-            displayService.fetchDisplays()
-            hotkeyConfigStore.initializeDefaults(from: displayService.displays)
+            AppDelegate.shared?.refreshDisplayConfiguration()
         }
     }
 }
@@ -280,6 +278,7 @@ struct HotkeySettingsView: View {
 /// 传送门设置
 struct PortalSettingsView: View {
     @ObservedObject private var portalService = PortalService.shared
+    @ObservedObject private var layoutService = DisplayLayoutService.shared
 
     var body: some View {
         Form {
@@ -323,17 +322,17 @@ struct PortalSettingsView: View {
             }
 
             Section {
-                if portalService.portals.isEmpty {
+                if layoutService.currentPortals.isEmpty {
                     Text(L("settings.no_portals"))
                         .foregroundColor(.secondary)
                 } else {
-                    ForEach(portalService.portals) { portal in
+                    ForEach(layoutService.currentPortals) { portal in
                         PortalRowView(portal: portal)
                     }
                     .onDelete { indexSet in
-                        for index in indexSet {
-                            portalService.removePortal(id: portalService.portals[index].id)
-                        }
+                        let portals = layoutService.currentPortals
+                        let ids = Set(indexSet.compactMap { portals.indices.contains($0) ? portals[$0].id : nil })
+                        layoutService.removePortals(ids: ids)
                     }
                 }
             } header: {
@@ -353,7 +352,7 @@ struct PortalSettingsView: View {
 /// 传送门行视图
 struct PortalRowView: View {
     let portal: PortalPair
-    @ObservedObject private var portalService = PortalService.shared
+    @ObservedObject private var layoutService = DisplayLayoutService.shared
 
     var body: some View {
         HStack {
@@ -373,7 +372,7 @@ struct PortalRowView: View {
 
             Toggle("", isOn: Binding(
                 get: { portal.isEnabled },
-                set: { _ in portalService.togglePortal(id: portal.id) }
+                set: { _ in layoutService.togglePortal(id: portal.id) }
             ))
             .toggleStyle(.switch)
             .labelsHidden()
