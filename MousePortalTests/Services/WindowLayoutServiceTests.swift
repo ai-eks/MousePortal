@@ -24,14 +24,17 @@ final class WindowLayoutServiceTests: XCTestCase {
     func testSaveCurrentLayoutCapturesAndPersistsSnapshot() {
         let system = MockWindowLayoutSystemProvider()
         system.displays = [display(identity: "main")]
-        system.windows = [placement(displayIdentity: WindowDisplayIdentity(rawValue: "main"))]
+        var window = placement(displayIdentity: WindowDisplayIdentity(rawValue: "main"))
+        window.runtimeIdentity = runtimeIdentity()
+        system.windows = [window]
         let service = makeService(system: system)
 
         let snapshot = service.saveCurrentLayout()
-        let reloadedService = makeService(system: system)
+        let reloadedService = makeService(system: MockWindowLayoutSystemProvider())
 
         XCTAssertEqual(snapshot?.windows.count, 1)
         XCTAssertEqual(reloadedService.snapshot, snapshot)
+        XCTAssertEqual(reloadedService.snapshot?.windows.first?.runtimeIdentity, window.runtimeIdentity)
     }
 
     func testManualSavesAppendMultipleSnapshots() {
@@ -131,6 +134,7 @@ final class WindowLayoutServiceTests: XCTestCase {
         XCTAssertEqual(automaticSnapshots.count, 1)
         XCTAssertNotEqual(automaticSnapshots.first?.id, firstAutomaticID)
         XCTAssertEqual(system.captureRuntimeSnapshotIDs.last!, automaticSnapshots.first?.id)
+        XCTAssertEqual(system.lastRetainedSnapshotIDs, Set(service.snapshots.map(\.id)))
     }
 
     func testRememberBeforeSleepOrLockPersistsIndependentlyFromGlobalSwitch() {
@@ -207,6 +211,17 @@ final class WindowLayoutServiceTests: XCTestCase {
         XCTAssertEqual(system.captureRuntimeSnapshotIDs.last!, snapshot?.id)
     }
 
+    func testManualSnapshotDoesNotDiscardAutomaticRuntimeIdentities() {
+        let system = MockWindowLayoutSystemProvider()
+        system.displays = [display(identity: "main")]
+        let service = makeService(system: system)
+        service.setEnabled(true)
+        let automaticID = service.snapshots.first!.id
+        let manualID = service.saveCurrentLayout()!.id
+
+        XCTAssertEqual(system.lastRetainedSnapshotIDs, [automaticID, manualID])
+    }
+
     func testMatchingSnapshotsSortAutomaticBeforeManualSnapshots() {
         let system = MockWindowLayoutSystemProvider()
         system.displays = [display(identity: "main")]
@@ -253,6 +268,7 @@ final class WindowLayoutServiceTests: XCTestCase {
 
         XCTAssertTrue(service.deleteSnapshot(id: first.id))
         XCTAssertEqual(service.snapshots.map(\.id), [second.id])
+        XCTAssertEqual(system.lastRetainedSnapshotIDs, [second.id])
         XCTAssertEqual(makeService(system: system).snapshots.map(\.id), [second.id])
     }
 
@@ -260,7 +276,9 @@ final class WindowLayoutServiceTests: XCTestCase {
         let system = MockWindowLayoutSystemProvider()
         system.displays = [display(identity: "main")]
         system.windows = []
-        system.visibleWindows = [placement(displayIdentity: WindowDisplayIdentity(rawValue: "main"))]
+        var window = placement(displayIdentity: WindowDisplayIdentity(rawValue: "main"))
+        window.runtimeIdentity = runtimeIdentity()
+        system.visibleWindows = [window]
         let service = makeService(system: system)
         service.setEnabled(true)
         let automaticSnapshotID = service.snapshots.first!.id
@@ -291,6 +309,8 @@ final class WindowLayoutServiceTests: XCTestCase {
         XCTAssertNotEqual(service.snapshots.first?.id, emptySnapshotID)
         XCTAssertEqual(service.state, .snapshotFrozen)
         XCTAssertEqual(system.captureVisibleWindowCallCount, 1)
+        let reloadedService = makeService(system: MockWindowLayoutSystemProvider())
+        XCTAssertEqual(reloadedService.snapshot?.windows.first?.runtimeIdentity, window.runtimeIdentity)
     }
 
     func testLegacySingleSnapshotMigratesToSnapshotCollection() throws {
@@ -507,6 +527,14 @@ final class WindowLayoutServiceTests: XCTestCase {
         )
     }
 
+    private func runtimeIdentity() -> WindowRuntimeIdentity {
+        WindowRuntimeIdentity(
+            bundleIdentifier: "com.example.Editor", processIdentifier: 100,
+            processLaunchDate: Date(timeIntervalSince1970: 1_000.123456),
+            sessionIdentifier: "boot:login", windowID: 41
+        )
+    }
+
     private func privateTimer(named name: String, in service: WindowLayoutService) -> Timer? {
         Mirror(reflecting: service).children
             .first { $0.label == name }?
@@ -527,6 +555,7 @@ private final class MockWindowLayoutSystemProvider: WindowLayoutSystemProviding 
     private(set) var currentDisplayCallCount = 0
     private(set) var restoredSnapshotID: UUID?
     private(set) var captureRuntimeSnapshotIDs: [UUID?] = []
+    private(set) var lastRetainedSnapshotIDs: Set<UUID> = []
 
     func currentDisplays() -> [WindowDisplaySnapshot] {
         currentDisplayCallCount += 1
@@ -563,6 +592,10 @@ private final class MockWindowLayoutSystemProvider: WindowLayoutSystemProviding 
 
     func runningApplications() -> [WindowApplicationOption] {
         applications
+    }
+
+    func discardWindowIdentities(except snapshotIDs: Set<UUID>) {
+        lastRetainedSnapshotIDs = snapshotIDs
     }
 
     func logDisplayState(event: String) {}

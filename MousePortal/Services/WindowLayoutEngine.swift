@@ -9,6 +9,7 @@ struct WindowMatchCandidate: Equatable {
     let subrole: String
     let windowIndex: Int
     let frame: CGRect
+    var runtimeIdentity: WindowRuntimeIdentity? = nil
 }
 
 enum WindowLayoutEngine {
@@ -66,32 +67,6 @@ enum WindowLayoutEngine {
             abs(actual.height - target.height) <= tolerance
     }
 
-    static func bestMatchIndex(
-        for placement: WindowPlacement,
-        candidates: [WindowMatchCandidate],
-        excluding usedIndices: Set<Int>,
-        preferredIndex: Int? = nil
-    ) -> Int? {
-        if let preferredIndex,
-           candidates.indices.contains(preferredIndex),
-           !usedIndices.contains(preferredIndex),
-           candidates[preferredIndex].role == placement.role,
-           candidates[preferredIndex].subrole == placement.subrole {
-            return preferredIndex
-        }
-
-        return candidates.indices
-            .filter { !usedIndices.contains($0) }
-            .filter {
-                candidates[$0].role == placement.role &&
-                candidates[$0].subrole == placement.subrole &&
-                hasMeaningfulIdentityMatch(placement, candidates[$0])
-            }
-            .max { lhs, rhs in
-                matchScore(placement, candidates[lhs]) < matchScore(placement, candidates[rhs])
-            }
-    }
-
     static func matchWindowIndices(
         for placements: [WindowPlacement],
         candidates: [WindowMatchCandidate],
@@ -113,17 +88,45 @@ enum WindowLayoutEngine {
             usedIndices.insert(preferredIndex)
         }
 
+        // MousePortal 重启后重新枚举 AX 对象，只接受同应用、同进程启动、同会话的窗口 ID。
         for placementIndex in placements.indices where matches[placementIndex] == nil {
-            guard let matchIndex = bestMatchIndex(
-                for: placements[placementIndex],
-                candidates: candidates,
-                excluding: usedIndices
-            ) else {
-                continue
+            let placement = placements[placementIndex]
+            guard let identity = placement.runtimeIdentity,
+                  identity.bundleIdentifier == placement.bundleIdentifier else { continue }
+            let identityMatches = candidates.indices.filter {
+                candidates[$0].runtimeIdentity == identity &&
+                    candidates[$0].role == placement.role &&
+                    candidates[$0].subrole == placement.subrole
             }
-
+            guard identityMatches.count == 1,
+                  let matchIndex = identityMatches.first,
+                  !usedIndices.contains(matchIndex) else { continue }
             matches[placementIndex] = matchIndex
             usedIndices.insert(matchIndex)
+        }
+
+        // 这些字段只是相似度线索；真实窗口身份已在前两轮优先匹配。
+        // 全局按分数分配，避免较早记录的弱匹配抢走后面记录的强匹配。
+        var scoredPairs: [(placement: Int, candidate: Int, score: Double)] = []
+        for placementIndex in placements.indices where matches[placementIndex] == nil {
+            let placement = placements[placementIndex]
+            for candidateIndex in candidates.indices where !usedIndices.contains(candidateIndex) {
+                let candidate = candidates[candidateIndex]
+                guard candidate.role == placement.role,
+                      candidate.subrole == placement.subrole,
+                      hasMeaningfulIdentityMatch(placement, candidate) else { continue }
+                scoredPairs.append((placementIndex, candidateIndex, matchScore(placement, candidate)))
+            }
+        }
+        scoredPairs.sort {
+            if $0.score != $1.score { return $0.score > $1.score }
+            if $0.placement != $1.placement { return $0.placement < $1.placement }
+            return $0.candidate < $1.candidate
+        }
+
+        for pair in scoredPairs where matches[pair.placement] == nil && !usedIndices.contains(pair.candidate) {
+            matches[pair.placement] = pair.candidate
+            usedIndices.insert(pair.candidate)
         }
 
         for placementIndex in placements.indices where matches[placementIndex] == nil {
@@ -165,18 +168,15 @@ enum WindowLayoutEngine {
     private static func matchScore(_ placement: WindowPlacement, _ candidate: WindowMatchCandidate) -> Double {
         var score = 0.0
 
-        if let documentURL = placement.documentURL,
-           documentURL == candidate.documentURL {
+        if exactNonEmptyMatch(placement.documentURL, candidate.documentURL) {
             score += 1_000
         }
 
-        if let identifier = placement.windowIdentifier,
-           identifier == candidate.windowIdentifier {
+        if exactNonEmptyMatch(placement.windowIdentifier, candidate.windowIdentifier) {
             score += 600
         }
 
-        if let title = placement.windowTitle,
-           title == candidate.windowTitle {
+        if exactNonEmptyMatch(placement.windowTitle, candidate.windowTitle) {
             score += 300
         }
 

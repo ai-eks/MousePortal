@@ -38,6 +38,15 @@ struct WindowDisplaySnapshot: Codable, Equatable {
     }
 }
 
+/// 只用于核验同一系统会话中仍然存活的窗口，不是跨应用重启的永久 ID。
+struct WindowRuntimeIdentity: Codable, Equatable {
+    let bundleIdentifier: String
+    let processIdentifier: Int32
+    let processLaunchDate: Date
+    let sessionIdentifier: String
+    let windowID: CGWindowID
+}
+
 /// 单个普通窗口在其所属显示器内的相对位置。
 struct WindowPlacement: Codable, Equatable {
     let bundleIdentifier: String
@@ -53,6 +62,7 @@ struct WindowPlacement: Codable, Equatable {
     let relativeY: Double
     let width: Double
     let height: Double
+    var runtimeIdentity: WindowRuntimeIdentity? = nil
 }
 
 enum WindowLayoutSnapshotKind: String, Codable, Equatable {

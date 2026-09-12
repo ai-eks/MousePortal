@@ -120,8 +120,8 @@ final class WindowLayoutEngineTests: XCTestCase {
         ]
 
         XCTAssertEqual(
-            WindowLayoutEngine.bestMatchIndex(for: placement, candidates: candidates, excluding: []),
-            1
+            WindowLayoutEngine.matchWindowIndices(for: [placement], candidates: candidates, preferredIndices: [nil]),
+            [1]
         )
     }
 
@@ -130,13 +130,12 @@ final class WindowLayoutEngineTests: XCTestCase {
         let candidates = [candidate(windowIndex: 0), candidate(windowIndex: 1)]
 
         XCTAssertEqual(
-            WindowLayoutEngine.bestMatchIndex(
-                for: placement,
+            WindowLayoutEngine.matchWindowIndices(
+                for: [placement],
                 candidates: candidates,
-                excluding: [],
-                preferredIndex: 1
+                preferredIndices: [1]
             ),
-            1
+            [1]
         )
     }
 
@@ -145,13 +144,12 @@ final class WindowLayoutEngineTests: XCTestCase {
         let candidates = [candidate(windowIndex: 0), candidate(windowIndex: 1)]
 
         XCTAssertEqual(
-            WindowLayoutEngine.bestMatchIndex(
-                for: placement,
+            WindowLayoutEngine.matchWindowIndices(
+                for: [placement, placement],
                 candidates: candidates,
-                excluding: [1],
-                preferredIndex: 1
+                preferredIndices: [1, 1]
             ),
-            0
+            [1, 0]
         )
     }
 
@@ -160,8 +158,10 @@ final class WindowLayoutEngineTests: XCTestCase {
         let candidates = [candidate(windowIndex: 0), candidate(windowIndex: 1)]
 
         XCTAssertEqual(
-            WindowLayoutEngine.bestMatchIndex(for: placement, candidates: candidates, excluding: [0]),
-            1
+            WindowLayoutEngine.matchWindowIndices(
+                for: [placement, placement], candidates: candidates, preferredIndices: [0, nil]
+            ),
+            [0, 1]
         )
     }
 
@@ -169,14 +169,14 @@ final class WindowLayoutEngineTests: XCTestCase {
         let placement = placement()
         let candidates = [candidate(subrole: "AXDialog")]
 
-        XCTAssertNil(WindowLayoutEngine.bestMatchIndex(
-            for: placement,
+        XCTAssertEqual(WindowLayoutEngine.matchWindowIndices(
+            for: [placement],
             candidates: candidates,
-            excluding: []
-        ))
+            preferredIndices: [nil]
+        ), [nil])
     }
 
-    func testWindowMatchingRejectsUnrelatedFallbackWindow() {
+    func testWindowMatchingRejectsUnrelatedWindowWithDifferentIndex() {
         let placement = placement(
             documentURL: "file:///project/README.md",
             windowIndex: 0
@@ -187,15 +187,15 @@ final class WindowLayoutEngineTests: XCTestCase {
             windowIdentifier: "other-window",
             role: "AXWindow",
             subrole: "AXStandardWindow",
-            windowIndex: 0,
+            windowIndex: 1,
             frame: CGRect(x: 0, y: 0, width: 800, height: 600)
         )]
 
-        XCTAssertNil(WindowLayoutEngine.bestMatchIndex(
-            for: placement,
+        XCTAssertEqual(WindowLayoutEngine.matchWindowIndices(
+            for: [placement],
             candidates: candidates,
-            excluding: []
-        ))
+            preferredIndices: [nil]
+        ), [nil])
     }
 
     func testWindowMatchingAllowsRetainedRuntimeWindowWithoutMetadataMatch() {
@@ -210,12 +210,11 @@ final class WindowLayoutEngineTests: XCTestCase {
             frame: CGRect(x: 300, y: 200, width: 500, height: 400)
         )]
 
-        XCTAssertEqual(WindowLayoutEngine.bestMatchIndex(
-            for: placement,
+        XCTAssertEqual(WindowLayoutEngine.matchWindowIndices(
+            for: [placement],
             candidates: candidates,
-            excluding: [],
-            preferredIndex: 0
-        ), 0)
+            preferredIndices: [0]
+        ), [0])
     }
 
     func testBatchWindowMatchingReservesStrongMatchesBeforeIndexFallback() {
@@ -281,6 +280,61 @@ final class WindowLayoutEngineTests: XCTestCase {
         )
     }
 
+    func testBatchWindowMatchingAllocatesStrongerDocumentMatchBeforeEarlierTitleMatch() {
+        let weak = placement(windowTitle: "Shared", windowIndex: 0)
+        let strong = placement(windowTitle: "Old title", documentURL: "file:///report.pdf", windowIndex: 1)
+        let candidates = [candidate(windowTitle: "Shared", documentURL: "file:///report.pdf", windowIndex: 0)]
+
+        XCTAssertEqual(WindowLayoutEngine.matchWindowIndices(
+            for: [weak, strong], candidates: candidates, preferredIndices: [nil, nil]
+        ), [nil, 0])
+        XCTAssertEqual(WindowLayoutEngine.matchWindowIndices(
+            for: [strong, weak], candidates: candidates, preferredIndices: [nil, nil]
+        ), [0, nil])
+    }
+
+    func testBatchWindowMatchingAllocatesIdentifierMatchWithoutDocumentURLs() {
+        let placements = [
+            placement(windowTitle: "Shared", windowIndex: 0),
+            placement(windowTitle: "Old title", windowIdentifier: "editor-window", windowIndex: 1)
+        ]
+        let candidates = [candidate(windowTitle: "Shared", windowIdentifier: "editor-window", windowIndex: 0)]
+
+        XCTAssertEqual(WindowLayoutEngine.matchWindowIndices(
+            for: placements, candidates: candidates, preferredIndices: [nil, nil]
+        ), [nil, 0])
+    }
+
+    func testBatchWindowMatchingDoesNotScoreBlankDocumentsAsIdentityEvidence() {
+        for blankDocument in ["", " \n "] {
+            let weak = placement(windowTitle: "Shared", documentURL: blankDocument, windowIndex: 0)
+            let strong = placement(windowTitle: "Old title", windowIdentifier: "editor-42", windowIndex: 1)
+            let candidates = [candidate(
+                windowTitle: "Shared", documentURL: blankDocument,
+                windowIdentifier: "editor-42", windowIndex: 0
+            )]
+
+            XCTAssertEqual(WindowLayoutEngine.matchWindowIndices(
+                for: [weak, strong], candidates: candidates, preferredIndices: [nil, nil]
+            ), [nil, 0])
+        }
+    }
+
+    func testBatchWindowMatchingKeepsRuntimeIdentitiesForIdenticalDocuments() {
+        let placements = [
+            placement(documentURL: "file:///report.pdf", windowIndex: 0),
+            placement(documentURL: "file:///report.pdf", windowIndex: 1)
+        ]
+        let candidates = [
+            candidate(documentURL: "file:///report.pdf", windowIndex: 0),
+            candidate(documentURL: "file:///report.pdf", windowIndex: 1)
+        ]
+
+        XCTAssertEqual(WindowLayoutEngine.matchWindowIndices(
+            for: placements, candidates: candidates, preferredIndices: [1, 0]
+        ), [1, 0])
+    }
+
     func testSnapshotCodableRoundTripPreservesStableDisplayIdentity() throws {
         let targetDisplay = display(identity: "uuid-123", frame: CGRect(x: 0, y: 0, width: 1920, height: 1080))
         let snapshot = WindowLayoutSnapshot(
@@ -321,6 +375,7 @@ final class WindowLayoutEngineTests: XCTestCase {
     private func placement(
         windowTitle: String = "README",
         documentURL: String? = nil,
+        windowIdentifier: String? = nil,
         windowIndex: Int = 0,
         displayIdentity: WindowDisplayIdentity = WindowDisplayIdentity(rawValue: "main"),
         relativeX: Double = 0,
@@ -333,7 +388,7 @@ final class WindowLayoutEngineTests: XCTestCase {
             applicationName: "Editor",
             windowTitle: windowTitle,
             documentURL: documentURL,
-            windowIdentifier: nil,
+            windowIdentifier: windowIdentifier,
             role: "AXWindow",
             subrole: "AXStandardWindow",
             windowIndex: windowIndex,
@@ -348,13 +403,14 @@ final class WindowLayoutEngineTests: XCTestCase {
     private func candidate(
         windowTitle: String = "README",
         documentURL: String? = nil,
+        windowIdentifier: String? = nil,
         windowIndex: Int = 0,
         subrole: String = "AXStandardWindow"
     ) -> WindowMatchCandidate {
         WindowMatchCandidate(
             windowTitle: windowTitle,
             documentURL: documentURL,
-            windowIdentifier: nil,
+            windowIdentifier: windowIdentifier,
             role: "AXWindow",
             subrole: subrole,
             windowIndex: windowIndex,

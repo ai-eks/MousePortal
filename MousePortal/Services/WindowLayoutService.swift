@@ -19,6 +19,7 @@ protocol WindowLayoutSystemProviding {
         currentDisplays: [WindowDisplaySnapshot]
     ) -> WindowRestoreResult
     func runningApplications() -> [WindowApplicationOption]
+    func discardWindowIdentities(except snapshotIDs: Set<UUID>)
     func logDisplayState(event: String)
 }
 
@@ -28,8 +29,20 @@ final class SystemWindowLayoutProvider: WindowLayoutSystemProviding {
         let candidate: WindowMatchCandidate
     }
 
-    private var retainedSnapshotID: UUID?
-    private var retainedWindows: [AXUIElement] = []
+    private var retainedWindowsBySnapshotID: [UUID: [AXUIElement]] = [:]
+    private let applications: () -> [NSRunningApplication]
+
+    init(applications: @escaping () -> [NSRunningApplication] = { NSWorkspace.shared.runningApplications }) {
+        self.applications = applications
+    }
+
+    func retainedWindows(for snapshotID: UUID) -> [AXUIElement]? {
+        retainedWindowsBySnapshotID[snapshotID]
+    }
+
+    func discardWindowIdentities(except snapshotIDs: Set<UUID>) {
+        retainedWindowsBySnapshotID = retainedWindowsBySnapshotID.filter { snapshotIDs.contains($0.key) }
+    }
 
     func currentDisplays() -> [WindowDisplaySnapshot] {
         activeDisplayIDs().map { displayID in
@@ -51,6 +64,7 @@ final class SystemWindowLayoutProvider: WindowLayoutSystemProviding {
         let ownBundleIdentifier = Bundle.main.bundleIdentifier
         var placements: [WindowPlacement] = []
         var capturedWindows: [AXUIElement] = []
+        let sessionIdentifier = WindowIdentityResolver.currentSessionIdentifier()
 
         for application in restorableApplications() {
             guard let bundleIdentifier = application.bundleIdentifier,
@@ -59,7 +73,7 @@ final class SystemWindowLayoutProvider: WindowLayoutSystemProviding {
                 continue
             }
 
-            let windows = accessibleWindows(for: application)
+            let windows = accessibleWindows(for: application, sessionIdentifier: sessionIdentifier)
             for window in windows {
                 guard let display = WindowLayoutEngine.display(
                     containing: window.candidate.frame,
@@ -83,7 +97,8 @@ final class SystemWindowLayoutProvider: WindowLayoutSystemProviding {
                     relativeX: (windowFrame.minX - displayFrame.minX) / displayFrame.width,
                     relativeY: (windowFrame.minY - displayFrame.minY) / displayFrame.height,
                     width: windowFrame.width,
-                    height: windowFrame.height
+                    height: windowFrame.height,
+                    runtimeIdentity: window.candidate.runtimeIdentity
                 ))
                 if runtimeSnapshotID != nil {
                     capturedWindows.append(window.element)
@@ -92,8 +107,7 @@ final class SystemWindowLayoutProvider: WindowLayoutSystemProviding {
         }
 
         if let runtimeSnapshotID {
-            retainedSnapshotID = runtimeSnapshotID
-            retainedWindows = capturedWindows
+            retainedWindowsBySnapshotID[runtimeSnapshotID] = capturedWindows
         }
 
         return placements
@@ -104,6 +118,7 @@ final class SystemWindowLayoutProvider: WindowLayoutSystemProviding {
         ignoring bundleIdentifiers: Set<String>
     ) -> [WindowPlacement] {
         let ownBundleIdentifier = Bundle.main.bundleIdentifier
+        let sessionIdentifier = WindowIdentityResolver.currentSessionIdentifier()
         let applicationsByPID: [pid_t: NSRunningApplication] = Dictionary(
             uniqueKeysWithValues: restorableApplications().compactMap { application in
                 guard let bundleIdentifier = application.bundleIdentifier,
@@ -168,7 +183,12 @@ final class SystemWindowLayoutProvider: WindowLayoutSystemProviding {
                 relativeX: (frame.minX - displayFrame.minX) / displayFrame.width,
                 relativeY: (frame.minY - displayFrame.minY) / displayFrame.height,
                 width: frame.width,
-                height: frame.height
+                height: frame.height,
+                runtimeIdentity: WindowIdentityResolver.identity(
+                    for: application,
+                    windowID: (info[kCGWindowNumber] as? NSNumber)?.uint32Value,
+                    sessionIdentifier: sessionIdentifier
+                )
             ))
         }
 
@@ -199,7 +219,8 @@ final class SystemWindowLayoutProvider: WindowLayoutSystemProviding {
             initialApplySucceeded: Bool
         )] = []
 
-        let runtimeWindows = retainedSnapshotID == snapshot.id ? retainedWindows : []
+        let runtimeWindows = retainedWindows(for: snapshot.id) ?? []
+        let sessionIdentifier = WindowIdentityResolver.currentSessionIdentifier()
         let placementsByBundleIdentifier = Dictionary(
             grouping: snapshot.windows.enumerated(),
             by: { $0.element.bundleIdentifier }
@@ -211,7 +232,9 @@ final class SystemWindowLayoutProvider: WindowLayoutSystemProviding {
                 continue
             }
 
-            let windows = applications.flatMap { accessibleWindows(for: $0) }
+            let windows = applications.flatMap {
+                accessibleWindows(for: $0, sessionIdentifier: sessionIdentifier)
+            }
             let candidates = windows.map(\.candidate)
             let preferredIndices: [Int?] = indexedPlacements.map { indexedPlacement in
                 let placementIndex = indexedPlacement.offset
@@ -314,12 +337,15 @@ final class SystemWindowLayoutProvider: WindowLayoutSystemProviding {
     }
 
     private func restorableApplications() -> [NSRunningApplication] {
-        NSWorkspace.shared.runningApplications.filter {
+        applications().filter {
             !$0.isTerminated && $0.activationPolicy == .regular
         }
     }
 
-    private func accessibleWindows(for application: NSRunningApplication) -> [AccessibleWindow] {
+    private func accessibleWindows(
+        for application: NSRunningApplication,
+        sessionIdentifier: String?
+    ) -> [AccessibleWindow] {
         let applicationElement = AXUIElementCreateApplication(application.processIdentifier)
         guard let values = attribute(kAXWindowsAttribute as CFString, from: applicationElement) as? [AXUIElement] else {
             return []
@@ -343,7 +369,12 @@ final class SystemWindowLayoutProvider: WindowLayoutSystemProviding {
                     role: kAXWindowRole as String,
                     subrole: kAXStandardWindowSubrole as String,
                     windowIndex: index,
-                    frame: frame
+                    frame: frame,
+                    runtimeIdentity: WindowIdentityResolver.identity(
+                        for: application,
+                        windowID: WindowIdentityResolver.windowID(for: window),
+                        sessionIdentifier: sessionIdentifier
+                    )
                 )
             )
         }
@@ -943,6 +974,7 @@ final class WindowLayoutService: ObservableObject {
     }
 
     private func persistSnapshots() {
+        system.discardWindowIdentities(except: Set(snapshots.map(\.id)))
         if let data = try? JSONEncoder().encode(snapshots) {
             defaults.set(data, forKey: snapshotsKey)
         }
