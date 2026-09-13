@@ -280,6 +280,82 @@ final class WindowLayoutEngineTests: XCTestCase {
         )
     }
 
+    func testMetadataAssignmentDoesNotLoseACompleteMatchingToOneHigherScore() {
+        let a = placement(windowTitle: "A", windowIdentifier: "id-a", windowIndex: 10)
+        let b = placement(windowTitle: "B", documentURL: "doc-b", windowIdentifier: "id-b", windowIndex: 20)
+        let x = candidate(windowTitle: "A", documentURL: "doc-b", windowIdentifier: "id-a", windowIndex: 0)
+        let y = candidate(windowTitle: "B", windowIdentifier: "id-b", windowIndex: 1)
+
+        XCTAssertEqual(WindowLayoutEngine.matchWindowIndices(
+            for: [a, b], candidates: [x, y], preferredIndices: [nil, nil]
+        ), [0, 1])
+        XCTAssertEqual(WindowLayoutEngine.matchWindowIndices(
+            for: [b, a], candidates: [y, x], preferredIndices: [nil, nil]
+        ), [0, 1])
+    }
+
+    func testMetadataAssignmentMaximizesTotalScoreAtEqualCardinality() {
+        let a = placement(windowTitle: "Shared", documentURL: "doc-a", windowIdentifier: "id-a", windowIndex: 10)
+        let b = placement(windowTitle: "Shared", windowIdentifier: "id-b", windowIndex: 20)
+        let x = candidate(windowTitle: "Shared", documentURL: "doc-a", windowIdentifier: "id-b", windowIndex: 0)
+        let y = candidate(windowTitle: "Shared", windowIdentifier: "id-a", windowIndex: 1)
+
+        XCTAssertEqual(WindowLayoutEngine.matchWindowIndices(
+            for: [a, b], candidates: [x, y], preferredIndices: [nil, nil]
+        ), [1, 0])
+    }
+
+    func testMetadataAssignmentMatchesExhaustiveSmallGraphOptimum() {
+        var seed: UInt64 = 42
+        func next(_ limit: Int) -> Int {
+            seed = seed &* 6364136223846793005 &+ 1
+            return Int((seed >> 32) % UInt64(limit))
+        }
+        func score(_ saved: WindowPlacement, _ current: WindowMatchCandidate) -> Int {
+            var value = saved.windowTitle == current.windowTitle ? 300 : 0
+            if let document = saved.documentURL, document == current.documentURL { value += 1000 }
+            if let identifier = saved.windowIdentifier, identifier == current.windowIdentifier { value += 600 }
+            return value > 0 ? value + 80 : 0
+        }
+        for _ in 0..<200 {
+            let placements = (0..<next(5)).map { index in
+                placement(windowTitle: "title-\(next(4))", documentURL: "doc-\(next(4))",
+                          windowIdentifier: "id-\(next(4))", windowIndex: index + 10)
+            }
+            let candidates = (0..<next(5)).map { index in
+                candidate(windowTitle: "title-\(next(4))", documentURL: "doc-\(next(4))",
+                          windowIdentifier: "id-\(next(4))", windowIndex: index)
+            }
+            var best = (count: 0, score: 0)
+            func enumerate(_ row: Int, _ used: Set<Int>, _ total: Int) {
+                if row == placements.count {
+                    if used.count > best.count || (used.count == best.count && total > best.score) {
+                        best = (used.count, total)
+                    }
+                    return
+                }
+                enumerate(row + 1, used, total)
+                for column in candidates.indices where !used.contains(column) {
+                    let value = score(placements[row], candidates[column])
+                    if value > 0 { enumerate(row + 1, used.union([column]), total + value) }
+                }
+            }
+            enumerate(0, [], 0)
+            let matches = WindowLayoutEngine.matchWindowIndices(
+                for: placements, candidates: candidates,
+                preferredIndices: [Int?](repeating: nil, count: placements.count)
+            )
+            let columns = matches.compactMap { $0 }
+            let total = matches.enumerated().reduce(0) { sum, pair in
+                guard let column = pair.element else { return sum }
+                return sum + score(placements[pair.offset], candidates[column])
+            }
+            XCTAssertEqual(Set(columns).count, columns.count)
+            XCTAssertEqual(columns.count, best.count)
+            XCTAssertEqual(total, best.score)
+        }
+    }
+
     func testBatchWindowMatchingAllocatesStrongerDocumentMatchBeforeEarlierTitleMatch() {
         let weak = placement(windowTitle: "Shared", windowIndex: 0)
         let strong = placement(windowTitle: "Old title", documentURL: "file:///report.pdf", windowIndex: 1)

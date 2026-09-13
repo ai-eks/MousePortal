@@ -63,6 +63,8 @@ struct WindowPlacement: Codable, Equatable {
     let width: Double
     let height: Double
     var runtimeIdentity: WindowRuntimeIdentity? = nil
+    // CG 捕获无法确认 AX 类型；这类记录只能通过精确身份恢复，不能猜测标题或序号。
+    var requiresExactIdentity: Bool? = nil
 }
 
 enum WindowLayoutSnapshotKind: String, Codable, Equatable {

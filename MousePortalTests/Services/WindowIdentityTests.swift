@@ -105,6 +105,41 @@ final class WindowIdentityTests: XCTestCase {
         ), [nil])
     }
 
+    func testUnverifiedWindowTypeCannotFallBackToMetadataOrIndexAfterReload() throws {
+        var saved = placement(identity: identity(windowID: 41))
+        saved.requiresExactIdentity = true
+        let reloaded = try JSONDecoder().decode(WindowPlacement.self, from: JSONEncoder().encode(saved))
+        for currentIdentity in [nil, identity(windowID: 99), identity(pid: 200)] {
+            let current = candidate(title: "Saved", index: 0, identity: currentIdentity)
+            XCTAssertEqual(WindowLayoutEngine.matchWindowIndices(
+                for: [reloaded], candidates: [current], preferredIndices: [nil]
+            ), [nil])
+        }
+    }
+
+    func testUnverifiedWindowTypeRequiresExactIdentityAndCurrentStandardWindow() {
+        let saved = WindowPlacement(
+            bundleIdentifier: "com.example.Editor", applicationName: "Editor",
+            windowTitle: "Saved", documentURL: nil, windowIdentifier: nil,
+            role: "", subrole: "", windowIndex: 0,
+            displayIdentity: WindowDisplayIdentity(rawValue: "main"),
+            relativeX: 0, relativeY: 0, width: 800, height: 600,
+            runtimeIdentity: identity(), requiresExactIdentity: true
+        )
+        let standard = candidate(title: "Changed", index: 1, identity: identity())
+        let dialog = WindowMatchCandidate(
+            windowTitle: "Saved", documentURL: nil, windowIdentifier: nil,
+            role: "AXWindow", subrole: "AXDialog", windowIndex: 0,
+            frame: standard.frame, runtimeIdentity: identity()
+        )
+        XCTAssertEqual(WindowLayoutEngine.matchWindowIndices(
+            for: [saved], candidates: [standard], preferredIndices: [nil]
+        ), [0])
+        XCTAssertEqual(WindowLayoutEngine.matchWindowIndices(
+            for: [saved], candidates: [dialog], preferredIndices: [nil]
+        ), [nil])
+    }
+
     func testLegacyPlacementWithoutRuntimeIdentityStillDecodes() throws {
         let saved = placement(identity: nil)
         let data = try JSONEncoder().encode(saved)
@@ -114,6 +149,7 @@ final class WindowIdentityTests: XCTestCase {
         let decoded = try JSONDecoder().decode(WindowPlacement.self, from: data)
         XCTAssertEqual(decoded, saved)
         XCTAssertNil(decoded.runtimeIdentity)
+        XCTAssertNil(decoded.requiresExactIdentity)
     }
 
     func testPrivateWindowLookupRejectsNonWindowElement() {
