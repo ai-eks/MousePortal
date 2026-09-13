@@ -641,7 +641,7 @@ private final class MockWindowLayoutSystemProvider: WindowLayoutSystemProviding 
     private(set) var captureVisibleWindowCallCount = 0
     private(set) var currentDisplayCallCount = 0
     private(set) var restoredSnapshotID: UUID?
-    private(set) var captureRuntimeSnapshotIDs: [UUID?] = []
+    private(set) var captureRuntimeSnapshotIDs: [UUID] = []
     private(set) var lastRetainedSnapshotIDs: Set<UUID> = []
 
     func currentDisplays() -> [WindowDisplaySnapshot] {
@@ -652,7 +652,7 @@ private final class MockWindowLayoutSystemProvider: WindowLayoutSystemProviding 
     func captureWindows(
         displays: [WindowDisplaySnapshot],
         ignoring bundleIdentifiers: Set<String>,
-        runtimeSnapshotID: UUID?
+        runtimeSnapshotID: UUID
     ) -> [WindowPlacement] {
         captureCallCount += 1
         lastIgnoredBundleIdentifiers = bundleIdentifiers

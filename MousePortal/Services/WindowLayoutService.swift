@@ -8,7 +8,7 @@ protocol WindowLayoutSystemProviding {
     func captureWindows(
         displays: [WindowDisplaySnapshot],
         ignoring bundleIdentifiers: Set<String>,
-        runtimeSnapshotID: UUID?
+        runtimeSnapshotID: UUID
     ) -> [WindowPlacement]
     func captureVisibleWindows(
         displays: [WindowDisplaySnapshot],
@@ -71,7 +71,7 @@ final class SystemWindowLayoutProvider: WindowLayoutSystemProviding {
     func captureWindows(
         displays: [WindowDisplaySnapshot],
         ignoring bundleIdentifiers: Set<String>,
-        runtimeSnapshotID: UUID?
+        runtimeSnapshotID: UUID
     ) -> [WindowPlacement] {
         let ownBundleIdentifier = Bundle.main.bundleIdentifier
         var placements: [WindowPlacement] = []
@@ -112,15 +112,11 @@ final class SystemWindowLayoutProvider: WindowLayoutSystemProviding {
                     height: windowFrame.height,
                     runtimeIdentity: window.candidate.runtimeIdentity
                 ))
-                if runtimeSnapshotID != nil {
-                    capturedWindows.append(window.element)
-                }
+                capturedWindows.append(window.element)
             }
         }
 
-        if let runtimeSnapshotID {
-            retainedWindowsBySnapshotID[runtimeSnapshotID] = capturedWindows
-        }
+        retainedWindowsBySnapshotID[runtimeSnapshotID] = capturedWindows
 
         return placements
     }

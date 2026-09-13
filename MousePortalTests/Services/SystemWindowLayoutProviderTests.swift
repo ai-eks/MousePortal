@@ -156,15 +156,6 @@ final class SystemWindowLayoutProviderTests: XCTestCase {
         XCTAssertNotNil(provider.retainedWindows(for: nextManualID))
     }
 
-    func testCaptureWithoutSnapshotIDDoesNotReplaceExistingIdentities() {
-        let provider = SystemWindowLayoutProvider(applications: { [] })
-        let snapshotID = UUID()
-        _ = provider.captureWindows(displays: [], ignoring: [], runtimeSnapshotID: snapshotID)
-        _ = provider.captureWindows(displays: [], ignoring: [], runtimeSnapshotID: nil)
-
-        XCTAssertNotNil(provider.retainedWindows(for: snapshotID))
-    }
-
     func testPruningRemovesOnlyDeletedSnapshotIdentities() {
         let provider = SystemWindowLayoutProvider(applications: { [] })
         let firstID = UUID()
