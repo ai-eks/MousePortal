@@ -31,9 +31,21 @@ final class SystemWindowLayoutProvider: WindowLayoutSystemProviding {
 
     private var retainedWindowsBySnapshotID: [UUID: [AXUIElement]] = [:]
     private let applications: () -> [NSRunningApplication]
+    private let visibleWindowInfo: () -> [[CFString: Any]]
+    private let windowBounds: (CGWindowID) -> CGRect?
 
-    init(applications: @escaping () -> [NSRunningApplication] = { NSWorkspace.shared.runningApplications }) {
+    init(
+        applications: @escaping () -> [NSRunningApplication] = { NSWorkspace.shared.runningApplications },
+        visibleWindowInfo: @escaping () -> [[CFString: Any]] = {
+            CGWindowListCopyWindowInfo(
+                [.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID
+            ) as? [[CFString: Any]] ?? []
+        },
+        windowBounds: @escaping (CGWindowID) -> CGRect? = WindowServerGeometry.bounds(for:)
+    ) {
         self.applications = applications
+        self.visibleWindowInfo = visibleWindowInfo
+        self.windowBounds = windowBounds
     }
 
     func retainedWindows(for snapshotID: UUID) -> [AXUIElement]? {
@@ -129,10 +141,7 @@ final class SystemWindowLayoutProvider: WindowLayoutSystemProviding {
                 return (application.processIdentifier, application)
             }
         )
-        let windowInfo = CGWindowListCopyWindowInfo(
-            [.optionOnScreenOnly, .excludeDesktopElements],
-            kCGNullWindowID
-        ) as? [[CFString: Any]] ?? []
+        let windowInfo = visibleWindowInfo()
         var windowIndicesByBundleIdentifier: [String: Int] = [:]
         var placements: [WindowPlacement] = []
 
@@ -140,16 +149,27 @@ final class SystemWindowLayoutProvider: WindowLayoutSystemProviding {
             guard let pidNumber = info[kCGWindowOwnerPID] as? NSNumber,
                   let application = applicationsByPID[pid_t(pidNumber.int32Value)],
                   let layerNumber = info[kCGWindowLayer] as? NSNumber,
-                  layerNumber.intValue == 0,
-                  let boundsDictionary = info[kCGWindowBounds] as? NSDictionary,
-                  let frame = CGRect(dictionaryRepresentation: boundsDictionary),
-                  frame.width > 0,
-                  frame.height > 0,
-                  let display = WindowLayoutEngine.display(containing: frame, from: displays) else {
+                  layerNumber.intValue == 0 else {
                 continue
             }
             if let alphaNumber = info[kCGWindowAlpha] as? NSNumber,
                alphaNumber.doubleValue <= 0 {
+                continue
+            }
+
+            // CG 列表仅用于枚举；用原始边框判断显示器并保存尺寸，避开锁屏缩放动画。
+            guard let windowID = (info[kCGWindowNumber] as? NSNumber)?.uint32Value,
+                  windowID != kCGNullWindowID,
+                  let frame = windowBounds(windowID),
+                  !frame.isInfinite,
+                  frame.origin.x.isFinite, frame.origin.y.isFinite,
+                  frame.size.width.isFinite, frame.size.height.isFinite,
+                  frame.size.width > 0, frame.size.height > 0 else {
+                // 不把部分成功或动画边框写成新布局，交给上层保留原有快照。
+                print("锁屏窗口原始边框读取失败，放弃本次布局捕获")
+                return []
+            }
+            guard let display = WindowLayoutEngine.display(containing: frame, from: displays) else {
                 continue
             }
 
@@ -186,7 +206,7 @@ final class SystemWindowLayoutProvider: WindowLayoutSystemProviding {
                 height: frame.height,
                 runtimeIdentity: WindowIdentityResolver.identity(
                     for: application,
-                    windowID: (info[kCGWindowNumber] as? NSNumber)?.uint32Value,
+                    windowID: windowID,
                     sessionIdentifier: sessionIdentifier
                 )
             ))
@@ -756,9 +776,6 @@ final class WindowLayoutService: ObservableObject {
 
     @objc private func screenDidLock() {
         sessionIsActive = false
-        if state != .normal, recoverySnapshot?.windows.isEmpty == true {
-            resetRecoveryState()
-        }
         freezeSnapshotIfNeeded(event: "screenIsLocked", allowWindowServerFallback: true)
     }
 
@@ -964,6 +981,12 @@ final class WindowLayoutService: ObservableObject {
             kind: .automatic,
             allowWindowServerFallback: allowWindowServerFallback
         ) else { return nil }
+        // AX 可能在锁屏通知前失效；空结果不能覆盖旧布局，也不能阻止后续锁屏重试。
+        guard !newSnapshot.windows.isEmpty else {
+            system.discardWindowIdentities(except: Set(snapshots.map(\.id)))
+            print("自动布局未捕获到有效窗口，保留已有布局")
+            return nil
+        }
         snapshots.removeAll {
             $0.kind == .automatic &&
             $0.displayLayoutSignature == newSnapshot.displayLayoutSignature
