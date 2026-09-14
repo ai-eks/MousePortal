@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="https://github.com/ai-eks/MousePortal/releases">
-    <img src="https://img.shields.io/badge/version-1.1.0-blue.svg" alt="Version">
+    <img src="https://img.shields.io/badge/version-1.1.1-blue.svg" alt="Version">
   </a>
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/license-Apache--2.0-green.svg" alt="License">

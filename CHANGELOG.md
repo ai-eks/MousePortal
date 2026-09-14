@@ -14,6 +14,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Improved portal visual editor
 - Configuration profile import/export
 
+## [1.1.1] - 2026-09-14
+
+### Fixed
+- Restored window layouts after tab or title changes with persisted, verified window identities and improved matching.
+- Preserved original window bounds during screen lock and supplemented partial captures without replacing saved layouts with incomplete data.
+- Applied saved portals across display configuration changes and preserved matched layout identities.
+
 ## [1.1.0] - 2026-09-02
 
 ### Added

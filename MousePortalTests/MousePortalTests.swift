@@ -6,8 +6,8 @@ final class MousePortalTests: XCTestCase {
         XCTAssertFalse(AppVersion.windowTitle.isEmpty)
     }
 
-    func testAppVersionIsOneOneZero() {
-        XCTAssertEqual(AppVersion.current, "1.1.0")
-        XCTAssertEqual(AppVersion.build, "20")
+    func testAppVersionIsOneOneOne() {
+        XCTAssertEqual(AppVersion.current, "1.1.1")
+        XCTAssertEqual(AppVersion.build, "21")
     }
 }
