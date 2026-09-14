@@ -18,6 +18,8 @@
 
 > **[中文版本](README.zh.md)** | [English](README.md)
 
+[Changelog](CHANGELOG.md)
+
 MousePortal is a macOS utility for managing mouse cursor movement and window placement across multiple displays. It provides three core features:
 
 1. **Hotkey Jump** - Global keyboard shortcuts to instantly teleport the cursor to specific displays

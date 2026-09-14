@@ -18,6 +18,8 @@
 
 > **[English Version](README.md)** | 中文
 
+[更新日志](CHANGELOG.zh.md)
+
 MousePortal 是一个 macOS 实用工具，用于在多个显示器之间管理鼠标光标移动和窗口位置。它提供三项核心功能：
 
 1. **热键跳转** - 全局键盘快捷键，瞬间将光标移动到指定显示器中心

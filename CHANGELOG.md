@@ -1,5 +1,7 @@
 # Changelog
 
+[English](CHANGELOG.md) | [简体中文](CHANGELOG.zh.md)
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
@@ -16,10 +18,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [1.1.1] - 2026-09-14
 
-### Fixed
-- Restored window layouts after tab or title changes with persisted, verified window identities and improved matching.
-- Preserved original window bounds during screen lock and supplemented partial captures without replacing saved layouts with incomplete data.
-- Applied saved portals across display configuration changes and preserved matched layout identities.
+### Window Layout Recovery
+
+- Fixed window restoration failures after browser tab or window title changes.
+- Improved matching between multiple windows of the same app, including after restarting MousePortal while those windows remain open.
+
+### Automatic Capture on Lock
+
+- Fixed saved window sizes being affected by the lock-screen animation, which could cause windows to restore smaller than expected.
+- Improved automatic layout capture on screen lock, including handling incomplete window lists and preserving existing saved layouts when capture fails.
+
+### Displays and Portals
+
+- Fixed saved portal configurations not being applied correctly when displays are connected, disconnected, or rearranged—even when the MousePortal main window is closed.
+- Preserved matched display layout identities when cleaning up unused layouts.
+
+Thanks to @JaeHyeon-KAIST for contributing these display and portal fixes in [#8](https://github.com/ai-eks/MousePortal/pull/8)!
 
 ## [1.1.0] - 2026-09-02
 
