@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="https://github.com/ai-eks/MousePortal/releases">
-    <img src="https://img.shields.io/badge/version-1.1.0-blue.svg" alt="Version">
+    <img src="https://img.shields.io/badge/version-1.1.1-blue.svg" alt="Version">
   </a>
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/license-Apache--2.0-green.svg" alt="License">
@@ -17,6 +17,8 @@
 </p>
 
 > **[English Version](README.md)** | 中文
+
+[更新日志](CHANGELOG.zh.md)
 
 MousePortal 是一个 macOS 实用工具，用于在多个显示器之间管理鼠标光标移动和窗口位置。它提供三项核心功能：
 

@@ -1,18 +1,29 @@
 # Changelog
 
+[English](CHANGELOG.md) | [简体中文](CHANGELOG.zh.md)
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased]
+## [1.1.1] - 2026-09-14
 
-### Added
-- Apache 2.0 license file and lightweight privacy note for open-source readiness.
+### Window Layout Recovery
 
-### Planned
-- Support for more trigger modes
-- Improved portal visual editor
-- Configuration profile import/export
+- Fixed window restoration failures after browser tab or window title changes.
+- Improved matching between multiple windows of the same app, including after restarting MousePortal while those windows remain open.
+
+### Automatic Capture on Lock
+
+- Fixed saved window sizes being affected by the lock-screen animation, which could cause windows to restore smaller than expected.
+- Improved automatic layout capture on screen lock, including handling incomplete window lists and preserving existing saved layouts when capture fails.
+
+### Displays and Portals
+
+- Fixed saved portal configurations not being applied correctly when displays are connected, disconnected, or rearranged—even when the MousePortal main window is closed.
+- Preserved matched display layout identities when cleaning up unused layouts.
+
+Thanks to @JaeHyeon-KAIST for contributing these display and portal fixes in [#8](https://github.com/ai-eks/MousePortal/pull/8)!
 
 ## [1.1.0] - 2026-09-02
 
